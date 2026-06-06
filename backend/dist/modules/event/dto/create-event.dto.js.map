@@ -1,0 +1,1 @@
+{"version":3,"file":"create-event.dto.js","sourceRoot":"","sources":["../../../../src/modules/event/dto/create-event.dto.ts"],"names":[],"mappings":"","sourcesContent":["export interface CreateEventDto {\r\n  coupleName: string; \r\n  date: Date;\r\n  venue: string;\r\n  address: string;\r\n}"]}

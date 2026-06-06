@@ -1,0 +1,1 @@
+{"version":3,"file":"create-rsvp.dto.js","sourceRoot":"","sources":["../../../../src/modules/rsvp/dto/create-rsvp.dto.ts"],"names":[],"mappings":"","sourcesContent":["export interface CreateRsvpDto {\r\n    eventId: string;\r\n    name: string;\r\n    phone: string;\r\n    attending: boolean;\r\n    guestCount?: number;\r\n    message?: string;\r\n  }"]}

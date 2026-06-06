@@ -1,0 +1,27 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug Backend (TS → dist)",
+      "type": "node",
+      "request": "launch",
+
+      "cwd": "${workspaceFolder}/backend",
+
+      "preLaunchTask": "tsc build",
+
+      "program": "${workspaceFolder}/backend/dist/index.js",
+
+      "outFiles": [
+        "${workspaceFolder}/backend/dist/**/*.js"
+      ],
+
+      "sourceMaps": true,
+
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"],
+
+      "envFile": "${workspaceFolder}/backend/.env"
+    }
+  ]
+}
