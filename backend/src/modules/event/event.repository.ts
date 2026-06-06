@@ -1,10 +1,18 @@
 import { Prisma } from "@prisma/client";
 import { prisma } from "../prisma";
+import { CreateEventDto } from "./dto/create-event.dto";
 
-export const createEvent = (data: Prisma.EventCreateInput) => {
-    return prisma.event.create({ data });
-  };
-export const listEvents = () => {
+export const createEvent = (data: CreateEventDto) => {
+    return prisma.event.create({
+        data: {
+          coupleName: data.coupleName,
+          date: data.date,
+          venue: data.venue,
+          address: data.address,
+        },
+    });  
+};
+export const getEvent = () => {
     return prisma.event.findMany();
   };
 export const getEventById = (id: string) => {
