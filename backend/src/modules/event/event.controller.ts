@@ -1,21 +1,30 @@
 import { Prisma } from "@prisma/client";
 import * as service from "./event.service";
 import { Request, Response } from "express";
+import { createEventSchema } from "./validation/event.validation";
+import { z } from "zod";
 
 
 export const createEvent = async (req: Request, res: Response) => {
-  try {
-    const event = await service.createEvent(req.body);
-    res.status(201).json(event);
-  } catch (error) {
-    res.status(500).json({ error: "Failed to create event" });
-  }
+    const result = createEventSchema.safeParse(req.body);
+    
+    if (!result.success) {
+        return res.status(400).json({
+          error: z.treeifyError(result.error),
+        });
+      }
+    try {
+        const event = await service.createEvent(result.data);
+        res.status(201).json(event);
+    } catch (error) {
+        res.status(500).json({ error: "Failed to create event" });
+    }
 };
 
-export const listEvents = async (req: Request, res: Response) => {
+export const getEvent = async (req: Request, res: Response) => {
 
   try {
-    const events = await service.listEvents();
+    const events = await service.getEvent();
     res.status(200).json(events);
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch events" });
