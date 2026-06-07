@@ -1,9 +1,10 @@
-GET /api/settings
-
-GET /api/gallery
-
-POST /api/rsvp
-
-GET /api/rsvp
-
-GET /api/rsvp/stats
+RSVP Endpoints
+POST /rsvp 
+GET /rsvp/event/:eventId
+GET /rsvp/:id
+DELETE /rsvp/:id
+Event Endpoints 
+POST /events - createEvent
+GET /events - getEvent
+GET /events/:id - getEventById
+DELETE /events/:id - deleteEvent

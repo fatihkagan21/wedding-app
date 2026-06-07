@@ -1,6 +1,6 @@
 import * as service from "./rsvp.service";
 import { Request, Response } from "express";
-import { createRsvpSchema } from "./validation/rsvp.validation";
+import { createRsvpSchema } from "./validation/create-rsvp.schema";
 import { AppError } from "../../shared/errors/AppError";
 import { z } from "zod";
 

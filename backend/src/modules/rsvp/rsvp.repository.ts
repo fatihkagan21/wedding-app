@@ -2,16 +2,7 @@ import { prisma } from "../prisma";
 import { CreateRsvpDto } from "./dto/create-rsvp.dto";
 
 export const createRsvp = (data: CreateRsvpDto) => {
-    return prisma.rsvp.create({
-        data: {
-          eventId: data.eventId,
-          name: data.name,
-          phone: data.phone,
-          attending: data.attending,
-          guestCount: data.guestCount,
-          message: data.message,
-        },
-    });
+    return prisma.rsvp.create({ data });
 };
 
 export const getRsvpByEvent = (eventId: string) => {
@@ -24,8 +15,4 @@ export const getRsvpById = (id: string) => {
 
 export const deleteRsvp = (id: string) => {
     return prisma.rsvp.delete({ where: { id } });
-};
-
-export const findByEventAndPhone = (eventId: string, phone: string) => {
-    return prisma.rsvp.findFirst({ where: { eventId, phone } });
 };

@@ -1,6 +1,11 @@
 export interface CreateEventDto {
-  coupleName: string; 
-  date: Date;
-  venue: string;
-  address: string;
+  title: string;
+  brideName: string;
+  groomName: string;
+  description?: string;
+  venueName: string;
+  venueAddress: string;
+  eventDate: Date;
+  heroImageUrl?: string;
+  musicUrl?: string;
 }
