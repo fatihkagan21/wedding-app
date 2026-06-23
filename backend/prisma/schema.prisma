@@ -28,7 +28,8 @@ model Event {
 
   heroImageUrl  String?
   musicUrl      String?
-
+  googleMapsUrl String?
+  
   createdAt     DateTime @default(now())
 
   rsvps         Rsvp[]
