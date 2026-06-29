@@ -35,11 +35,11 @@ var __importStar = (this && this.__importStar) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteRsvp = exports.getRsvpById = exports.getRsvpByEvent = exports.createRsvp = void 0;
 const service = __importStar(require("./rsvp.service"));
-const rsvp_validation_1 = require("./validation/rsvp.validation");
+const create_rsvp_schema_1 = require("./validation/create-rsvp.schema");
 const AppError_1 = require("../../shared/errors/AppError");
 const zod_1 = require("zod");
 const createRsvp = async (req, res) => {
-    const result = rsvp_validation_1.createRsvpSchema.safeParse(req.body);
+    const result = create_rsvp_schema_1.createRsvpSchema.safeParse(req.body);
     if (!result.success) {
         return res.status(400).json({
             error: zod_1.z.treeifyError(result.error),

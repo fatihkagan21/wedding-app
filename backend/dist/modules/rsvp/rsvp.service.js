@@ -42,9 +42,21 @@ const createRsvp = async (data) => {
     if (!event) {
         throw new AppError_1.AppError("Event not found", 404);
     }
-    const existing = await repo.findByEventAndPhone(data.eventId, data.phone);
-    if (existing) {
-        throw new AppError_1.AppError("Already RSVP'd", 409);
+    if (data.attending) {
+        if (!data.attendeeCount) {
+            throw new AppError_1.AppError("Attendee count required", 400);
+        }
+        if (!data.attendees?.length) {
+            throw new AppError_1.AppError("Attendees required", 400);
+        }
+        if (data.attendeeCount !== data.attendees.length) {
+            throw new AppError_1.AppError("Attendee count and attendees list mismatch", 400);
+        }
+    }
+    else {
+        if (data.attendeeCount || data.attendees?.length) {
+            throw new AppError_1.AppError("Attendee count and attendees should be empty when not attending", 400);
+        }
     }
     return repo.createRsvp(data);
 };

@@ -35,10 +35,10 @@ var __importStar = (this && this.__importStar) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteEvent = exports.getEventById = exports.getEvent = exports.createEvent = void 0;
 const service = __importStar(require("./event.service"));
-const event_validation_1 = require("./validation/event.validation");
+const create_event_schema_1 = require("./validation/create-event.schema");
 const zod_1 = require("zod");
 const createEvent = async (req, res) => {
-    const result = event_validation_1.createEventSchema.safeParse(req.body);
+    const result = create_event_schema_1.createEventSchema.safeParse(req.body);
     if (!result.success) {
         return res.status(400).json({
             error: zod_1.z.treeifyError(result.error),
