@@ -1,0 +1,61 @@
+<div class="event-page">
+
+  @if (loading) {
+    <div class="loading">
+      <div class="loading-spinner"></div>
+      <p>Davetiye yükleniyor...</p>
+    </div>
+  }
+
+  @if (error && !loading) {
+    <div class="error-state">
+      <div class="error-icon">✦</div>
+      <h2>Davetiye Bulunamadı</h2>
+      <p>Davetiye bilgileri yüklenemedi. Lütfen daha sonra tekrar deneyin.</p>
+    </div>
+  }
+
+  @if (event && !loading) {
+    <app-hero [event]="event"></app-hero>
+    <app-location [event]="event"></app-location>
+
+    <app-event-details [event]="event"></app-event-details>
+
+
+    <section id="rsvp">
+      <app-rsvp-form [eventId]="event.id"></app-rsvp-form>
+    </section>
+
+    <footer class="footer">
+      <div class="footer-ornament">✦</div>
+      <p class="footer-names">
+        {{ event.brideName }} &amp; {{ event.groomName }}
+      </p>
+      <p class="footer-date">
+        {{ event.eventDate | date:'dd MMMM yyyy' }}
+      </p>
+      <p class="footer-love">Sevgiyle bekliyoruz</p>
+    </footer>
+
+    <audio
+      #bgMusic
+      loop
+      preload="auto">
+      <source src="/music/wedding_wonderful_tonight.mp3" type="audio/mpeg">
+    </audio>
+
+    <button
+      class="music-button"
+      type="button"
+      [attr.aria-label]="isPlaying ? 'Müziği durdur' : 'Müziği başlat'"
+      (click)="toggleMusic()">
+      @if (!isPlaying) {
+        <span>♪</span>
+      }
+      @if (isPlaying) {
+        <span>Ⅱ</span>
+      }
+    </button>
+  }
+
+</div>

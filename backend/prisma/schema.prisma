@@ -14,26 +14,40 @@ generator client {
 }
 
 model Event {
-  id         String   @id @default(uuid())
-  coupleName String
-  date       DateTime
-  venue      String
-  address    String
-  createdAt  DateTime @default(now())
+  id            String   @id @default(uuid())
 
-  rsvps      Rsvp[]
+  title         String
+  brideName     String
+  groomName     String
+  description   String?
+
+  venueName     String
+  venueAddress  String
+
+  eventDate     DateTime
+
+  heroImageUrl  String?
+  musicUrl      String?
+  googleMapsUrl String?
+  
+  createdAt     DateTime @default(now())
+
+  rsvps         Rsvp[]
 }
 
 model Rsvp {
-  id          String   @id @default(uuid())
-  eventId     String
-  event       Event    @relation(fields: [eventId], references: [id])
+  id              String   @id @default(uuid())
 
-  name        String
-  phone       String?
-  attending   Boolean
-  guestCount  Int      @default(1)
-  message     String?
+  eventId         String
+  event           Event    @relation(fields: [eventId], references: [id])
 
-  createdAt   DateTime @default(now())
+  contactFullName String
+  attending       Boolean
+
+  attendeeCount   Int?
+  attendees       Json?
+
+  notes           String?
+
+  createdAt       DateTime @default(now())
 }

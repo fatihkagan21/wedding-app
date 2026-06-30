@@ -1,0 +1,102 @@
+<section class="rsvp">
+  <div class="rsvp-card">
+
+    @if (!submitted) {
+      <div>
+        <div class="section-divider">Katılım</div>
+        <h2>Katılım Bildirimi</h2>
+        <p class="subtitle">
+          Lütfen katılım durumunuzu bildirin. Sizleri aramızda görmekten mutluluk duyarız.
+        </p>
+
+        <form [formGroup]="form" (ngSubmit)="submit()">
+
+          <div class="field">
+            <label for="contactFullName">Ad Soyad</label>
+            <input
+              id="contactFullName"
+              formControlName="contactFullName"
+              placeholder="Adınız ve soyadınız"
+              autocomplete="name" />
+          </div>
+
+          <div class="field">
+            <span class="field-label">Katılım Durumu</span>
+            <div class="attendance-buttons">
+              <button
+                type="button"
+                [class.active]="isAttending"
+                (click)="changeAttendance(true)">
+                Katılacağım
+              </button>
+              <button
+                type="button"
+                [class.active]="!isAttending"
+                (click)="changeAttendance(false)">
+                Katılamayacağım
+              </button>
+            </div>
+          </div>
+
+          @if (isAttending) {
+            <div class="field">
+              <label for="attendeeCount">Kişi Sayısı</label>
+              <input
+                id="attendeeCount"
+                type="number"
+                min="1"
+                max="10"
+                formControlName="attendeeCount" />
+            </div>
+          }
+
+          @if (isAttending && attendees.length > 0) {
+            <div class="field">
+              <span class="field-label">Katılımcı İsimleri</span>
+              @for (control of attendees.controls; track $index) {
+                <div class="attendee-field">
+                  <input
+                    [formControl]="$any(control)"
+                    [placeholder]="'Katılımcı ' + ($index + 1) + ' adı'" />
+                </div>
+              }
+            </div>
+          }
+
+          <div class="field">
+            <label for="notes">Not (isteğe bağlı)</label>
+            <textarea
+              id="notes"
+              formControlName="notes"
+              placeholder="Özel bir not veya mesajınız...">
+            </textarea>
+          </div>
+
+          @if (errorMessage) {
+            <p class="error">{{ errorMessage }}</p>
+          }
+
+          <button
+            class="submit-btn"
+            type="submit"
+            [disabled]="submitting">
+            {{ submitting ? 'Gönderiliyor...' : 'Gönder' }}
+          </button>
+
+        </form>
+      </div>
+    }
+
+    @if (submitted) {
+      <div class="success">
+        <div class="success-icon">✦</div>
+        <h2>Teşekkür Ederiz!</h2>
+        <p>Katılım bildiriminiz başarıyla alındı. Sizleri aramızda görmekten mutluluk duyacağız.</p>
+        <button class="submit-btn" type="button" (click)="submitted = false">
+          Yeni Bildirim
+        </button>
+      </div>
+    }
+
+  </div>
+</section>

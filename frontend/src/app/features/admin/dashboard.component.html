@@ -1,0 +1,123 @@
+@if (!authenticated) {
+  <main class="admin-login">
+    <form class="login-panel" (ngSubmit)="signIn()">
+      <p class="eyebrow">Yönetim</p>
+      <h1>RSVP Paneli</h1>
+      <p class="login-copy">Katılım yanıtlarını görüntülemek için yönetici anahtarınızı girin.</p>
+
+      <label for="admin-key">Admin anahtarı</label>
+      <input
+        id="admin-key"
+        name="adminKey"
+        type="password"
+        autocomplete="current-password"
+        [(ngModel)]="adminKey">
+
+      @if (errorMessage) {
+        <p class="message error" role="alert">{{ errorMessage }}</p>
+      }
+
+      <button class="primary-button" type="submit" [disabled]="loading">
+        {{ loading ? 'Bağlanıyor...' : 'Panele gir' }}
+      </button>
+      <a routerLink="/">Davetiye sayfasına dön</a>
+    </form>
+  </main>
+} @else {
+  <main class="admin-shell">
+    <header class="admin-header">
+      <div>
+        <p class="eyebrow">Yönetim</p>
+        <h1>Katılım Yanıtları</h1>
+      </div>
+      <button class="secondary-button" type="button" (click)="signOut()">Çıkış</button>
+    </header>
+
+    <section class="toolbar" aria-label="Davetiye ve arama filtreleri">
+      <label>
+        <span>Davetiye</span>
+        <select [(ngModel)]="selectedEventId" (ngModelChange)="loadRsvps()">
+          @for (event of events; track event.id) {
+            <option [value]="event.id">{{ event.title }}</option>
+          }
+        </select>
+      </label>
+      <label class="search-field">
+        <span>Ara</span>
+        <input type="search" placeholder="İsim veya not" [(ngModel)]="searchTerm">
+      </label>
+      <button class="secondary-button refresh-button" type="button" (click)="loadRsvps()" [disabled]="loading">
+        Yenile
+      </button>
+    </section>
+
+    <section class="metrics" aria-label="Katılım özeti">
+      <article><span>Toplam yanıt</span><strong>{{ rsvps.length }}</strong></article>
+      <article><span>Katılıyor</span><strong>{{ attendingResponses }}</strong></article>
+      <article><span>Katılmıyor</span><strong>{{ declinedResponses }}</strong></article>
+      <article><span>Toplam misafir</span><strong>{{ totalGuests }}</strong></article>
+    </section>
+
+    <nav class="filter-tabs" aria-label="Katılım filtresi">
+      <button type="button" [class.active]="attendanceFilter === 'all'" (click)="attendanceFilter = 'all'">Tümü</button>
+      <button type="button" [class.active]="attendanceFilter === 'attending'" (click)="attendanceFilter = 'attending'">Katılıyor</button>
+      <button type="button" [class.active]="attendanceFilter === 'declined'" (click)="attendanceFilter = 'declined'">Katılmıyor</button>
+    </nav>
+
+    @if (errorMessage) {
+      <p class="message error" role="alert">{{ errorMessage }}</p>
+    }
+
+    <section class="response-list" aria-live="polite">
+      @if (loading) {
+        <p class="empty-state">Yanıtlar yükleniyor...</p>
+      } @else if (!filteredRsvps.length) {
+        <p class="empty-state">Bu filtreye uygun katılım yanıtı yok.</p>
+      } @else {
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>İletişim</th>
+                <th>Durum</th>
+                <th>Misafirler</th>
+                <th>Not</th>
+                <th>Tarih</th>
+                <th><span class="sr-only">İşlem</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (rsvp of filteredRsvps; track rsvp.id) {
+                <tr>
+                  <td data-label="İletişim"><strong>{{ rsvp.contactFullName }}</strong></td>
+                  <td data-label="Durum">
+                    <span class="status" [class.declined]="!rsvp.attending">
+                      {{ rsvp.attending ? 'Katılıyor' : 'Katılmıyor' }}
+                    </span>
+                  </td>
+                  <td data-label="Misafirler">
+                    @if (rsvp.attending) {
+                      <span>{{ rsvp.attendeeCount || 0 }} kişi</span>
+                      @if (rsvp.attendees?.length) {
+                        <small>{{ rsvp.attendees?.join(', ') }}</small>
+                      }
+                    } @else {
+                      <span>-</span>
+                    }
+                  </td>
+                  <td data-label="Not">{{ rsvp.notes || '-' }}</td>
+                  <td data-label="Tarih">{{ rsvp.createdAt | date:'dd.MM.yyyy HH:mm' }}</td>
+                  <td class="actions">
+                    <button type="button" class="delete-button" (click)="deleteRsvp(rsvp)" [disabled]="deletingId === rsvp.id">
+                      {{ deletingId === rsvp.id ? 'Siliniyor' : 'Sil' }}
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    </section>
+  </main>
+}

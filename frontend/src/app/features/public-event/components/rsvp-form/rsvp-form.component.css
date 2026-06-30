@@ -1,0 +1,178 @@
+.rsvp {
+  padding: var(--section-padding);
+  background: linear-gradient(
+    180deg,
+    var(--color-blush-light) 0%,
+    var(--color-cream) 100%
+  );
+  min-height: 100vh;
+  height: 100%;
+  overflow-y: auto;
+  display: flex;
+  align-items: center;
+}
+
+.rsvp-card {
+  max-width: 560px;
+  width: 100%;
+  margin: 0 auto;
+  background: var(--color-white);
+  padding: 48px 40px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--color-blush);
+}
+
+.rsvp-card h2 {
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 500;
+  margin: 0 0 8px;
+}
+
+.subtitle {
+  text-align: center;
+  color: var(--color-text-muted);
+  margin: 0 0 36px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.field {
+  margin-bottom: 24px;
+}
+
+label,
+.field-label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--color-blush);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--color-text);
+  background: var(--color-cream);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--color-lilac);
+  box-shadow: 0 0 0 3px rgba(183, 138, 195, 0.18);
+  background: var(--color-white);
+}
+
+textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.attendance-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.attendance-buttons button {
+  flex: 1;
+  padding: 14px 16px;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--color-blush);
+  background: var(--color-cream);
+  color: var(--color-text-muted);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.attendance-buttons button:hover {
+  border-color: var(--color-lilac);
+}
+
+.attendance-buttons button.active {
+  background: var(--color-lilac-deep);
+  color: var(--color-white);
+  border-color: var(--color-lilac-deep);
+}
+
+.attendee-field + .attendee-field {
+  margin-top: 10px;
+}
+
+.error {
+  color: #c0392b;
+  font-size: 0.9rem;
+  text-align: center;
+  margin: 0 0 16px;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-radius: var(--radius-pill);
+  background: var(--color-lilac-deep);
+  color: var(--color-white);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.submit-btn:hover:not(:disabled) {
+  background: #684477;
+  transform: translateY(-1px);
+}
+
+.submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.success {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.success-icon {
+  font-size: 2.5rem;
+  color: var(--color-lilac-deep);
+  margin-bottom: 16px;
+}
+
+.success h2 {
+  margin-bottom: 12px;
+}
+
+.success p {
+  color: var(--color-text-muted);
+  line-height: 1.7;
+  margin: 0 0 28px;
+}
+
+@media (max-width: 600px) {
+  .rsvp-card {
+    padding: 36px 24px;
+  }
+
+  .attendance-buttons {
+    flex-direction: column;
+  }
+}

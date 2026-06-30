@@ -1,0 +1,112 @@
+.location {
+  padding: var(--section-padding);
+  background: var(--color-cream-dark);
+  min-height: 100vh;
+  height: 100%;
+  overflow-y: auto;
+  display: flex;
+  align-items: center;
+}
+
+.location-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.location-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 32px;
+  align-items: stretch;
+}
+
+.venue-card {
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  padding: 40px 32px;
+  box-shadow: var(--shadow-soft);
+  border: 1px solid var(--color-blush);
+  display: flex;
+  flex-direction: column;
+}
+
+.venue-icon {
+  font-size: 2rem;
+  margin-bottom: 16px;
+  color: var(--color-lilac-deep);
+}
+
+.venue-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  margin: 0 0 12px;
+  color: var(--color-text);
+}
+
+.venue-address {
+  color: var(--color-text-muted);
+  line-height: 1.7;
+  margin: 0 0 28px;
+  flex-grow: 1;
+}
+
+.venue-date {
+  padding: 16px 20px;
+  background: linear-gradient(135deg, var(--color-blush-light), var(--color-lilac-soft));
+  border-radius: var(--radius-sm);
+  margin-bottom: 24px;
+}
+
+.venue-date-label {
+  display: block;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-bottom: 4px;
+}
+
+.venue-date-value {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  color: var(--color-text);
+}
+
+.map-btn {
+  display: block;
+  text-align: center;
+  padding: 14px 24px;
+  background: var(--color-lilac-deep);
+  color: var(--color-white);
+  text-decoration: none;
+  border-radius: var(--radius-pill);
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.map-btn:hover {
+  background: #684477;
+  color: var(--color-white);
+  transform: translateY(-2px);
+}
+
+.map-wrapper {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  min-height: 320px;
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--color-blush);
+  background: var(--color-lilac-soft);
+}
+
+@media (max-width: 768px) {
+  .location-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .map-wrapper {
+    min-height: 260px;
+  }
+}

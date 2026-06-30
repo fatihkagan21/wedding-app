@@ -35,10 +35,11 @@ var __importStar = (this && this.__importStar) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const controller = __importStar(require("./rsvp.controller"));
+const admin_auth_middleware_1 = require("../../shared/middleware/admin-auth.middleware");
 const router = (0, express_1.Router)();
 router.post("/", controller.createRsvp);
-router.get("/event/:eventId", controller.getRsvpByEvent);
-router.get("/:id", controller.getRsvpById);
-router.delete("/:id", controller.deleteRsvp);
+router.get("/event/:eventId", admin_auth_middleware_1.requireAdmin, controller.getRsvpByEvent);
+router.get("/:id", admin_auth_middleware_1.requireAdmin, controller.getRsvpById);
+router.delete("/:id", admin_auth_middleware_1.requireAdmin, controller.deleteRsvp);
 exports.default = router;
 //# sourceMappingURL=rsvp.routes.js.map

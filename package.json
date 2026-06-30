@@ -1,8 +1,0 @@
-{
-  "devDependencies": {
-    "ts-node": "^10.9.2"
-  },
-  "dependencies": {
-    "zod": "^4.4.3"
-  }
-}

@@ -3,14 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteEvent = exports.getEventById = exports.getEvent = exports.createEvent = void 0;
 const prisma_1 = require("../prisma");
 const createEvent = (data) => {
-    return prisma_1.prisma.event.create({
-        data: {
-            coupleName: data.coupleName,
-            date: data.date,
-            venue: data.venue,
-            address: data.address,
-        },
-    });
+    return prisma_1.prisma.event.create({ data });
 };
 exports.createEvent = createEvent;
 const getEvent = () => {

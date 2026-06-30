@@ -1,7 +1,7 @@
 import { Prisma } from "@prisma/client";
 import * as service from "./event.service";
 import { Request, Response } from "express";
-import { createEventSchema } from "./validation/event.validation";
+import { createEventSchema } from "./validation/create-event.schema";
 import { z } from "zod";
 
 

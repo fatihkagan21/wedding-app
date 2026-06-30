@@ -1,0 +1,108 @@
+<section class="hero" [ngStyle]="backgroundStyle">
+
+  <div class="overlay"></div>
+
+  <div class="hero-content">
+
+    <div class="title-area">
+
+      <p class="welcome">
+        Düğünümüze hoş geldiniz
+      </p>
+
+      <h1>
+        {{ event.brideName }}
+        <span>&amp;</span>
+        {{ event.groomName }}
+      </h1>
+
+      <p class="event-title">{{ event.title }}</p>
+
+    </div>
+
+    <div class="countdown">
+      <div class="countdown-item">
+        <span class="countdown-value">{{ countdown.days }}</span>
+        <span class="countdown-label">Gün</span>
+      </div>
+      <span class="countdown-sep">:</span>
+      <div class="countdown-item">
+        <span class="countdown-value">{{ countdown.hours }}</span>
+        <span class="countdown-label">Saat</span>
+      </div>
+      <span class="countdown-sep">:</span>
+      <div class="countdown-item">
+        <span class="countdown-value">{{ countdown.minutes }}</span>
+        <span class="countdown-label">Dakika</span>
+      </div>
+      <span class="countdown-sep">:</span>
+      <div class="countdown-item">
+        <span class="countdown-value">{{ countdown.seconds }}</span>
+        <span class="countdown-label">Saniye</span>
+      </div>
+    </div>
+
+    <div class="event-card">
+
+      <div class="info">
+
+        <div class="item">
+          <span class="icon" aria-hidden="true">◷</span>
+          <div>
+            <span class="item-label">Tarih</span>
+            <strong>
+              {{ event.eventDate | date:'dd MMMM yyyy' }}
+            </strong>
+          </div>
+        </div>
+
+        <div class="item">
+          <span class="icon" aria-hidden="true">⌁</span>
+          <div>
+            <span class="item-label">Saat</span>
+            <strong>
+              {{ event.eventDate | date:'HH:mm' }}
+            </strong>
+          </div>
+        </div>
+
+        <div class="item">
+          <span class="icon" aria-hidden="true">⌖</span>
+          <div>
+            <span class="item-label">Mekan</span>
+            <strong>
+              {{ event.venueName }}
+            </strong>
+            <p>
+              {{ event.venueAddress }}
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="actions">
+
+      @if (event.googleMapsUrl) {
+        <a
+          class="secondary-btn"
+          [href]="event.googleMapsUrl"
+          target="_blank"
+          rel="noopener noreferrer">
+          Haritada Gör
+        </a>
+      }
+
+      <button
+        class="primary-btn"
+        (click)="scrollToRsvp()">
+        Katılım Bildir
+      </button>
+
+    </div>
+
+  </div>
+
+</section>

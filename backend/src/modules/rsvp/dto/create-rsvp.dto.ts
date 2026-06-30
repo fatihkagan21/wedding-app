@@ -1,8 +1,8 @@
 export interface CreateRsvpDto {
-    eventId: string;
-    name: string;
-    phone: string;
-    attending: boolean;
-    guestCount?: number;
-    message?: string;
-  }
+  eventId: string;
+  contactFullName: string;
+  attending: boolean;
+  attendeeCount?: number;
+  attendees?: string[];
+  notes?: string;
+}
