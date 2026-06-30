@@ -41,7 +41,7 @@ docker compose --env-file .env.production -f docker-compose.prod.yml config
 docker compose --env-file .env.production -f docker-compose.prod.yml up -d --build
 ```
 
-`migrate` servisi veritabanı migration'larını bir kez uygular. Başarılı olunca backend, ardından frontend açılır. PostgreSQL ve backend doğrudan internete port açmaz; dışarıya yalnızca Nginx çıkar.
+`migrate` servisi veritabanı migration'larını bir kez uygular. Başarılı olunca backend, ardından frontend açılır. PostgreSQL ve backend doğrudan internete port açmaz; dışarıya yalnızca Nginx çıkar. Render başlangıç komutu migration sonrasında sabit davetiye kaydını yalnızca eksikse oluşturur; mevcut davetiye verisini ezmez.
 
 5. Durumu ve logları kontrol edin:
 
@@ -67,10 +67,11 @@ Repo kökündeki `render.yaml`, frontend, backend ve PostgreSQL'i birlikte tanı
 1. Projeyi GitHub veya GitLab'e gönderin.
 2. Render hesabında **New > Blueprint** seçin.
 3. Repoyu bağlayıp kökteki `render.yaml` dosyasını seçin.
-4. Oluşturulacak `wedding-web`, `wedding-api` ve `wedding-db` kaynaklarını onaylayın.
-5. Deploy bitince `wedding-web` servisinin verdiği adresten uygulamayı açın.
-6. `wedding-api` servisindeki `ADMIN_API_KEY` değerini Render panelinden alın; `/admin` ekranına bu anahtarla girin.
-7. Domain kullanacaksanız `wedding-web` servisine Custom Domain olarak ekleyin. API private network üzerinden çağrıldığı için ayrıca API domain'i tanımlamanız gerekmez.
+4. İstendiğinde `ADMIN_API_KEY` için uzun ve rastgele bir değer girin.
+5. Oluşturulacak `wedding-web`, `wedding-api` ve `wedding-db` kaynaklarını onaylayın.
+6. Deploy bitince `wedding-web` servisinin verdiği adresten uygulamayı açın.
+7. `/admin` ekranına 4. adımda belirlediğiniz anahtarla girin.
+8. Domain kullanacaksanız `wedding-web` servisine Custom Domain olarak ekleyin. API Nginx üzerinden çağrıldığı için ayrıca API domain'i tanımlamanız gerekmez.
 
 Blueprint başlangıç kolaylığı için free plan tanımlar. Gerçek davetiye yayınında uyku/gecikme istemiyorsanız servis ve veritabanı planlarını Render panelinden production seviyesine yükseltin.
 
