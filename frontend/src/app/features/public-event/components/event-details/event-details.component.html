@@ -1,0 +1,63 @@
+<section class="details">
+  <div class="details-inner">
+
+    <div class="section-divider">Hikayemiz</div>
+    <h2 class="section-title">Birlikte Kutluyoruz</h2>
+    <p class="section-subtitle">
+      Sevgimizi paylaşmak ve bu özel günü sizlerle birlikte yaşamak için sabırsızlanıyoruz.
+    </p>
+
+    @if (event.description) {
+      <div class="story-card">
+        <p class="story-text">{{ event.description }}</p>
+      </div>
+    } @else {
+      <div class="story-card">
+        <p class="story-text">
+          Hayatımızın en güzel gününde yanımızda olmanız bizim için büyük bir mutluluk.
+          Sevgi, neşe ve güzel anılarla dolu bir gün geçirmek için sizleri bekliyoruz.
+        </p>
+      </div>
+    }
+
+    <div class="program">
+      <h3 class="program-title">Günün Akışı</h3>
+
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-time">{{ event.eventDate | date:'HH:mm' }}</div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <strong>Nikah &amp; Tören</strong>
+            <p>Düğün törenimiz başlıyor. Sizleri aramızda görmekten mutluluk duyarız.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-time">-</div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <strong>Kokteyl</strong>
+            <p>Tören sonrası hafif ikramlar ve sohbet eşliğinde kutlamaya devam.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-time">-</div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <strong>Yemek &amp; Dans</strong>
+            <p>Lezzetli yemekler, müzik ve dansla gece boyunca birlikte eğleniyoruz.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="couple-names">
+      <span>{{ event.brideName }}</span>
+      <span class="ampersand">&amp;</span>
+      <span>{{ event.groomName }}</span>
+    </div>
+
+  </div>
+</section>

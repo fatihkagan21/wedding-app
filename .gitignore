@@ -1,1 +1,14 @@
 .env.production
+
+# Dependency and build outputs
+node_modules/
+dist/
+.angular/
+coverage/
+*.log
+
+# Local editor and operating-system files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
