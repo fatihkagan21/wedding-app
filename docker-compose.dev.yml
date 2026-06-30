@@ -1,6 +1,6 @@
 services:
   postgres:
-    image: postgres:17
+    image: postgres:17-alpine
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -8,7 +8,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data_dev:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -d wedding_db"]
       interval: 5s
@@ -27,7 +27,7 @@ services:
       - "3000:3000"
     volumes:
       - ./backend:/app
-      - backend_node_modules:/app/node_modules
+      - backend_node_modules_dev:/app/node_modules
     depends_on:
       postgres:
         condition: service_healthy
@@ -43,12 +43,26 @@ services:
       - "4200:4200"
     volumes:
       - ./frontend:/app
-      - frontend_node_modules:/app/node_modules
+      - frontend_node_modules_dev:/app/node_modules
     depends_on:
       - backend
     command: npm start -- --host 0.0.0.0 --poll 2000
 
+  prisma-studio:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    profiles: ["tools"]
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/wedding_db
+    ports:
+      - "5555:5555"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: npx prisma studio --hostname 0.0.0.0 --port 5555
+
 volumes:
-  postgres_data:
-  backend_node_modules:
-  frontend_node_modules:
+  postgres_data_dev:
+  backend_node_modules_dev:
+  frontend_node_modules_dev:
