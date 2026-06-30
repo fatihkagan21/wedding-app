@@ -9,7 +9,7 @@ RUN sed -i "s|apiUrl: '/api'|apiUrl: '${API_URL}'|" src/environments/environment
 RUN npm run build -- --configuration=production
 
 FROM nginx:1.27-alpine
-ENV NGINX_ENVSUBST_FILTER="PORT|BACKEND_HOST|BACKEND_PORT"
+ENV NGINX_ENVSUBST_FILTER="PORT|BACKEND_SCHEME|BACKEND_HOST|BACKEND_PORT"
 COPY nginx.conf.template /etc/nginx/templates/default.conf.template
 COPY --from=build /app/dist/frontend/browser /usr/share/nginx/html
 
