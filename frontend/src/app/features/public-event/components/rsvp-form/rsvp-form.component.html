@@ -1,6 +1,5 @@
 <section class="rsvp">
   <div class="rsvp-card">
-
     @if (!submitted) {
       <div>
         <div class="section-divider">Katılım</div>
@@ -10,28 +9,34 @@
         </p>
 
         <form [formGroup]="form" (ngSubmit)="submit()">
-
           <div class="field">
             <label for="contactFullName">Ad Soyad</label>
             <input
               id="contactFullName"
               formControlName="contactFullName"
               placeholder="Adınız ve soyadınız"
-              autocomplete="name" />
+              autocomplete="name"
+              [attr.aria-invalid]="form.controls.contactFullName.invalid && form.controls.contactFullName.touched"
+              aria-describedby="contactFullNameError" />
+            @if (form.controls.contactFullName.invalid && form.controls.contactFullName.touched) {
+              <p id="contactFullNameError" class="field-error">Adınızı ve soyadınızı girin.</p>
+            }
           </div>
 
           <div class="field">
             <span class="field-label">Katılım Durumu</span>
-            <div class="attendance-buttons">
+            <div class="attendance-buttons" role="radiogroup" aria-label="Katılım durumu">
               <button
                 type="button"
                 [class.active]="isAttending"
+                [attr.aria-pressed]="isAttending"
                 (click)="changeAttendance(true)">
                 Katılacağım
               </button>
               <button
                 type="button"
                 [class.active]="!isAttending"
+                [attr.aria-pressed]="!isAttending"
                 (click)="changeAttendance(false)">
                 Katılamayacağım
               </button>
@@ -40,24 +45,43 @@
 
           @if (isAttending) {
             <div class="field">
-              <label for="attendeeCount">Kişi Sayısı</label>
+              <label for="attendeeCount">Toplam Kişi Sayısı (siz dahil)</label>
               <input
                 id="attendeeCount"
                 type="number"
                 min="1"
                 max="10"
-                formControlName="attendeeCount" />
+                inputmode="numeric"
+                formControlName="attendeeCount"
+                (focus)="selectAttendeeCount($event)"
+                (click)="selectAttendeeCount($event)"
+                (blur)="normalizeAttendeeCount()"
+                [attr.aria-invalid]="form.controls.attendeeCount.invalid && form.controls.attendeeCount.touched"
+                aria-describedby="attendeeCountError" />
+              @if (form.controls.attendeeCount.invalid && form.controls.attendeeCount.touched) {
+                <p id="attendeeCountError" class="field-error">Kişi sayısı 1 ile 10 arasında olmalıdır.</p>
+              }
             </div>
           }
 
           @if (isAttending && attendees.length > 0) {
             <div class="field">
-              <span class="field-label">Katılımcı İsimleri</span>
+              <span class="field-label">Diğer Katılımcılar</span>
               @for (control of attendees.controls; track $index) {
                 <div class="attendee-field">
+                  <label [for]="'attendee-' + $index">{{ $index + 2 }}. Kişinin Adı Soyadı</label>
                   <input
+                    [id]="'attendee-' + $index"
                     [formControl]="$any(control)"
-                    [placeholder]="'Katılımcı ' + ($index + 1) + ' adı'" />
+                    placeholder="Adı ve soyadı"
+                    autocomplete="off"
+                    [attr.aria-invalid]="control.invalid && control.touched"
+                    [attr.aria-describedby]="'attendee-error-' + $index" />
+                  @if (control.invalid && control.touched) {
+                    <p [id]="'attendee-error-' + $index" class="field-error">
+                      Bu katılımcının adını ve soyadını girin.
+                    </p>
+                  }
                 </div>
               }
             </div>
@@ -73,16 +97,21 @@
           </div>
 
           @if (errorMessage) {
-            <p class="error">{{ errorMessage }}</p>
+            <p class="form-message error" role="alert">{{ errorMessage }}</p>
           }
 
-          <button
-            class="submit-btn"
-            type="submit"
-            [disabled]="submitting">
-            {{ submitting ? 'Gönderiliyor...' : 'Gönder' }}
-          </button>
+          @if (validationMessage) {
+            <p class="form-message validation-message" role="alert">{{ validationMessage }}</p>
+          }
 
+          <div class="form-actions">
+            <button
+              class="submit-btn"
+              type="submit"
+              [disabled]="submitting">
+              {{ submitting ? 'Gönderiliyor...' : 'Katılım Bildirimini Gönder' }}
+            </button>
+          </div>
         </form>
       </div>
     }
@@ -97,6 +126,5 @@
         </button>
       </div>
     }
-
   </div>
 </section>
