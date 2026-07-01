@@ -13,9 +13,9 @@ services:
       - key: NODE_ENV
         value: production
       - key: DATABASE_URL
-        fromDatabase:
-          name: wedding-db
-          property: connectionString
+        sync: false
+      - key: DIRECT_URL
+        sync: false
       - key: ADMIN_API_KEY
         sync: false
 
@@ -28,6 +28,8 @@ services:
     dockerContext: ./frontend
     healthCheckPath: /health
     autoDeployTrigger: commit
+    domains:
+      - ozgefatihdugun.tr
     envVars:
       - key: BACKEND_SCHEME
         value: https
@@ -38,11 +40,3 @@ services:
           envVarKey: RENDER_EXTERNAL_HOSTNAME
       - key: BACKEND_PORT
         value: 443
-
-databases:
-  - name: wedding-db
-    plan: free
-    region: frankfurt
-    databaseName: wedding_db
-    user: wedding
-    ipAllowList: []

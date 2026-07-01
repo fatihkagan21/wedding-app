@@ -1,5 +1,5 @@
-import { prisma } from "../prisma";
-import { CreateEventDto } from "./dto/create-event.dto";
+import { prisma } from "../prisma.js";
+import { CreateEventDto } from "./dto/create-event.dto.js";
 
 export const createEvent = (data: CreateEventDto) => {
   return prisma.event.create({ data });

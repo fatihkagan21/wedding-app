@@ -1,6 +1,6 @@
 import express from "express";
-import eventRoutes from "./modules/event/event.routes";
-import rsvpRoutes from "./modules/rsvp/rsvp.routes";
+import eventRoutes from "./modules/event/event.routes.js";
+import rsvpRoutes from "./modules/rsvp/rsvp.routes.js";
 import cors from "cors";
 
 const app = express();

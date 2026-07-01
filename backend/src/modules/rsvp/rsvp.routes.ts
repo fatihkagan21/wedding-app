@@ -1,6 +1,6 @@
 import { Router } from "express";
-import * as controller from "./rsvp.controller";
-import { requireAdmin } from "../../shared/middleware/admin-auth.middleware";
+import * as controller from "./rsvp.controller.js";
+import { requireAdmin } from "../../shared/middleware/admin-auth.middleware.js";
 
 const router = Router();
 

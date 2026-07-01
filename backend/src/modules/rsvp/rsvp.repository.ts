@@ -1,5 +1,5 @@
-import { prisma } from "../prisma";
-import { CreateRsvpDto } from "./dto/create-rsvp.dto";
+import { prisma } from "../prisma.js";
+import { CreateRsvpDto } from "./dto/create-rsvp.dto.js";
 
 export const createRsvp = (data: CreateRsvpDto) => {
     return prisma.rsvp.create({ data });

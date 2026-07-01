@@ -1,9 +1,12 @@
+:host {
+  display: block;
+}
+
 .location {
   padding: var(--section-padding);
   background: var(--color-cream-dark);
   min-height: 100vh;
-  height: 100%;
-  overflow-y: auto;
+  min-height: 100dvh;
   display: flex;
   align-items: center;
 }
@@ -101,12 +104,41 @@
   background: var(--color-lilac-soft);
 }
 
+.map-wrapper iframe {
+  display: block;
+  pointer-events: none;
+}
+
 @media (max-width: 768px) {
+  .location {
+    align-items: flex-start;
+  }
+
   .location-grid {
     grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .venue-card {
+    padding: 30px 24px;
   }
 
   .map-wrapper {
-    min-height: 260px;
+    min-height: 240px;
+    aspect-ratio: 4 / 3;
+  }
+}
+
+@media (max-width: 380px) {
+  .venue-card {
+    padding: 26px 20px;
+  }
+
+  .venue-card h3 {
+    font-size: 1.55rem;
+  }
+
+  .map-wrapper {
+    min-height: 220px;
   }
 }
