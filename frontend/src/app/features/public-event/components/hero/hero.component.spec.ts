@@ -14,6 +14,16 @@ describe('HeroComponent', () => {
 
     fixture = TestBed.createComponent(HeroComponent);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('event', {
+      id: 'event-1',
+      title: 'Özge & Fatih Kağan Düğünü',
+      brideName: 'Özge',
+      groomName: 'Fatih Kağan',
+      venueName: 'Yaka Davet Çiçekliköy',
+      venueAddress: 'İzmir, Türkiye',
+      eventDate: '2026-09-05T17:00:00.000Z',
+      createdAt: '2026-01-01T00:00:00.000Z'
+    });
     fixture.detectChanges();
   });
 
