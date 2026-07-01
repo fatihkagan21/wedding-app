@@ -1,3 +1,7 @@
+:host {
+  display: block;
+}
+
 .rsvp {
   padding: var(--section-padding);
   background: linear-gradient(
@@ -6,8 +10,7 @@
     var(--color-cream) 100%
   );
   min-height: 100vh;
-  height: 100%;
-  overflow-y: auto;
+  min-height: 100dvh;
   display: flex;
   align-items: center;
 }
@@ -196,12 +199,34 @@ textarea {
 }
 
 @media (max-width: 600px) {
+  .rsvp {
+    align-items: flex-start;
+  }
+
   .rsvp-card {
-    padding: 36px 24px;
+    padding: 34px 22px;
   }
 
   .attendance-buttons button {
     padding-inline: 8px;
     font-size: 0.88rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .rsvp-card {
+    padding: 30px 18px;
+  }
+
+  .rsvp-card h2 {
+    font-size: 1.75rem;
+  }
+
+  .subtitle {
+    margin-bottom: 28px;
+  }
+
+  .attendance-buttons {
+    grid-template-columns: 1fr;
   }
 }
