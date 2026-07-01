@@ -28,6 +28,8 @@ services:
     dockerContext: ./frontend
     healthCheckPath: /health
     autoDeployTrigger: commit
+    domains:
+      - ozgefatihdugun.tr
     envVars:
       - key: BACKEND_SCHEME
         value: https
