@@ -1,7 +1,7 @@
-import { CreateRsvpDto } from "./dto/create-rsvp.dto";
-import * as eventRepo from "../event/event.repository";
-import * as repo from "./rsvp.repository";
-import { AppError } from "../../shared/errors/AppError";
+import { CreateRsvpDto } from "./dto/create-rsvp.dto.js";
+import * as eventRepo from "../event/event.repository.js";
+import * as repo from "./rsvp.repository.js";
+import { AppError } from "../../shared/errors/AppError.js";
 
 
 export const createRsvp = async (data: CreateRsvpDto) => {
