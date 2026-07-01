@@ -1,6 +1,8 @@
 import { Component, Input, inject, OnInit } from '@angular/core';
 import {
+  FormArray,
   FormBuilder,
+  FormControl,
   ReactiveFormsModule,
   Validators
 } from '@angular/forms';
@@ -11,9 +13,7 @@ import { CreateRsvpPayload } from '../../../../models/rsvp.model';
 @Component({
   selector: 'app-rsvp-form',
   standalone: true,
-  imports: [
-    ReactiveFormsModule
-  ],
+  imports: [ReactiveFormsModule],
   templateUrl: './rsvp-form.component.html',
   styleUrl: './rsvp-form.component.css'
 })
@@ -27,16 +27,22 @@ export class RsvpFormComponent implements OnInit {
   submitted = false;
   submitting = false;
   errorMessage = '';
+  validationMessage = '';
+
+  private readonly nameValidators = [
+    Validators.required,
+    Validators.pattern(/\S/)
+  ];
 
   form = this.fb.group({
-    contactFullName: ['', Validators.required],
+    contactFullName: ['', this.nameValidators],
     attending: [true, Validators.required],
-    attendeeCount: [1],
-    attendees: this.fb.array([]),
+    attendeeCount: [1, [Validators.required, Validators.min(1), Validators.max(10)]],
+    attendees: this.fb.array<FormControl<string | null>>([]),
     notes: ['']
   });
 
-  get attendees() {
+  get attendees(): FormArray<FormControl<string | null>> {
     return this.form.controls.attendees;
   }
 
@@ -45,72 +51,80 @@ export class RsvpFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.updateAttendeeInputs(1);
+    this.form.controls.attendeeCount.valueChanges.subscribe(value => {
+      const count = Number(value);
 
-    // Keep attendee count within the supported guest limit.
-    this.form.get('attendeeCount')?.valueChanges.subscribe(value => {
-      let count = Number(value);
-
-      if (isNaN(count)) count = 1;
-      count = Math.min(Math.max(count, 1), 10);
-
-      if (count !== value) {
-        this.form.patchValue(
-          { attendeeCount: count },
-          { emitEvent: false }
-        );
-      }
-
-      if (this.isAttending) {
+      if (this.isAttending && Number.isInteger(count) && count >= 1 && count <= 10) {
         this.updateAttendeeInputs(count);
       }
     });
-
   }
 
   changeAttendance(value: boolean): void {
     this.form.patchValue({ attending: value });
 
     if (value) {
-      const count = this.form.value.attendeeCount ?? 1;
-      this.form.patchValue({ attendeeCount: count || 1 });
-      this.updateAttendeeInputs(count || 1);
+      this.form.controls.attendeeCount.enable({ emitEvent: false });
+      const count = Math.max(this.form.controls.attendeeCount.value ?? 1, 1);
+      this.form.controls.attendeeCount.setValue(count);
+      this.updateAttendeeInputs(count);
     } else {
       this.attendees.clear();
-      this.form.patchValue({ attendeeCount: 0 });
+      this.form.controls.attendeeCount.setValue(0, { emitEvent: false });
+      this.form.controls.attendeeCount.disable({ emitEvent: false });
     }
   }
 
   updateAttendeeInputs(count: number): void {
-    this.attendees.clear();
+    const additionalAttendeeCount = Math.max(count - 1, 0);
 
-    for (let i = 0; i < count; i++) {
-      this.attendees.push(
-        this.fb.control('', Validators.required)
-      );
+    while (this.attendees.length < additionalAttendeeCount) {
+      this.attendees.push(this.fb.control('', this.nameValidators));
     }
+
+    while (this.attendees.length > additionalAttendeeCount) {
+      this.attendees.removeAt(this.attendees.length - 1);
+    }
+  }
+
+  selectAttendeeCount(event: Event): void {
+    (event.target as HTMLInputElement).select();
+  }
+
+  normalizeAttendeeCount(): void {
+    if (!this.isAttending) return;
+
+    const currentValue = Number(this.form.controls.attendeeCount.value);
+    const normalizedValue = Number.isFinite(currentValue)
+      ? Math.min(Math.max(Math.round(currentValue), 1), 10)
+      : 1;
+
+    this.form.controls.attendeeCount.setValue(normalizedValue);
   }
 
   submit(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
+      this.validationMessage = 'Lütfen işaretli alanları doldurun.';
       return;
     }
 
     this.submitting = true;
     this.errorMessage = '';
+    this.validationMessage = '';
 
     const formValue = this.form.value;
-
     const attending = formValue.attending === true;
     const attendeeCount = attending ? Number(formValue.attendeeCount ?? 1) : 0;
-    const attendees = attending
-      ? (formValue.attendees ?? []).filter((name): name is string => typeof name === 'string')
-      : [];
+    const contactFullName = formValue.contactFullName!.trim();
+    const additionalAttendees = (formValue.attendees ?? [])
+      .filter((name): name is string => typeof name === 'string')
+      .map(name => name.trim());
+    const attendees = attending ? [contactFullName, ...additionalAttendees] : [];
 
     const payload: CreateRsvpPayload = {
       eventId: this.eventId,
-      contactFullName: formValue.contactFullName!,
+      contactFullName,
       attending,
       attendeeCount,
       attendees,
@@ -121,8 +135,13 @@ export class RsvpFormComponent implements OnInit {
       next: () => {
         this.submitted = true;
         this.submitting = false;
-        this.form.reset();
-        this.form.patchValue({ attending: true, attendeeCount: 1 });
+        this.form.reset({
+          contactFullName: '',
+          attending: true,
+          attendeeCount: 1,
+          notes: ''
+        });
+        this.form.controls.attendeeCount.enable({ emitEvent: false });
         this.updateAttendeeInputs(1);
       },
       error: (error) => {
