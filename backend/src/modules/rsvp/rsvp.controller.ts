@@ -1,7 +1,7 @@
-import * as service from "./rsvp.service";
+import * as service from "./rsvp.service.js";
 import { Request, Response } from "express";
-import { createRsvpSchema } from "./validation/create-rsvp.schema";
-import { AppError } from "../../shared/errors/AppError";
+import { createRsvpSchema } from "./validation/create-rsvp.schema.js";
+import { AppError } from "../../shared/errors/AppError.js";
 import { z } from "zod";
 
 export const createRsvp = async (req: Request, res: Response) => {

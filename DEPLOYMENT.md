@@ -62,18 +62,20 @@ Docker, tek başına barındırma hizmeti değildir; container'ı çalıştırac
 
 ### Render ile önerilen akış
 
-Repo kökündeki `render.yaml`, frontend, backend ve PostgreSQL'i birlikte tanımlar.
+Repo kökündeki `render.yaml`, frontend ve backend servislerini tanımlar. PostgreSQL Neon tarafından sağlanır.
 
 1. Projeyi GitHub veya GitLab'e gönderin.
 2. Render hesabında **New > Blueprint** seçin.
 3. Repoyu bağlayıp kökteki `render.yaml` dosyasını seçin.
-4. İstendiğinde `ADMIN_API_KEY` için uzun ve rastgele bir değer girin.
-5. Oluşturulacak `wedding-web`, `wedding-api` ve `wedding-db` kaynaklarını onaylayın.
-6. Deploy bitince `wedding-web` servisinin verdiği adresten uygulamayı açın.
-7. `/admin` ekranına 4. adımda belirlediğiniz anahtarla girin.
-8. Domain kullanacaksanız `wedding-web` servisine Custom Domain olarak ekleyin. API Nginx üzerinden çağrıldığı için ayrıca API domain'i tanımlamanız gerekmez.
+4. Neon panelinden pooled ve direct connection string değerlerini alın.
+5. İstendiğinde `DATABASE_URL` alanına Neon pooled, `DIRECT_URL` alanına Neon direct connection string değerini girin.
+6. `ADMIN_API_KEY` için uzun ve rastgele bir değer girin.
+7. Oluşturulacak `wedding-web` ve `wedding-api` kaynaklarını onaylayın.
+8. Deploy bitince `wedding-web` servisinin verdiği adresten uygulamayı açın.
+9. `/admin` ekranına 6. adımda belirlediğiniz anahtarla girin.
+10. Domain kullanacaksanız `wedding-web` servisine Custom Domain olarak ekleyin. API Nginx üzerinden çağrıldığı için ayrıca API domain'i tanımlamanız gerekmez.
 
-Blueprint başlangıç kolaylığı için free plan tanımlar. Gerçek davetiye yayınında uyku/gecikme istemiyorsanız servis ve veritabanı planlarını Render panelinden production seviyesine yükseltin.
+Blueprint web servislerinde başlangıç kolaylığı için free plan tanımlar. Backend uyku/gecikmesi istemiyorsanız `wedding-api` servisini Render panelinden ücretli instance'a yükseltin. Neon bağlantıları yalnızca Render Environment/Secrets alanında tutulmalıdır.
 
 Servisleri ayrı yayınlarken frontend image'ını gerçek API adresiyle oluşturun:
 

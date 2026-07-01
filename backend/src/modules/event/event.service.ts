@@ -1,6 +1,5 @@
-import { Prisma } from "@prisma/client";
-import * as repo from "./event.repository";
-import { CreateEventDto } from "./dto/create-event.dto";
+import * as repo from "./event.repository.js";
+import { CreateEventDto } from "./dto/create-event.dto.js";
 
 export const createEvent = async (data: CreateEventDto) => {
   return repo.createEvent(data);

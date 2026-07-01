@@ -4,7 +4,7 @@ import {
   getEvent,
   getEventById,
   deleteEvent,
-} from "./event.controller";
+} from "./event.controller.js";
 
 const router = Router();
 
