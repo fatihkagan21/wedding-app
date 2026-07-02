@@ -16,7 +16,14 @@
   }
 
   @if (event && !loading) {
-    <nav class="section-nav" aria-label="Davetiye bölümleri">
+    <nav
+      class="section-nav"
+      [class.dragging]="sectionDragActive"
+      aria-label="Davetiye bölümleri"
+      (pointerdown)="startSectionDrag($event)"
+      (pointermove)="moveSectionDrag($event)"
+      (pointerup)="finishSectionDrag($event)"
+      (pointercancel)="cancelSectionDrag($event)">
       @for (section of sections; track section.id) {
         <button
           type="button"
@@ -24,16 +31,14 @@
           [attr.aria-current]="activeSection === section.id ? 'true' : null"
           [attr.aria-label]="section.label"
           [attr.data-label]="section.label"
-          (click)="scrollToSection(section.id)">
+          [attr.data-section-id]="section.id"
+          (click)="selectSection(section.id)">
         </button>
       }
     </nav>
 
     <app-hero [event]="event"></app-hero>
     <app-location [event]="event"></app-location>
-
-    <app-event-details [event]="event"></app-event-details>
-
 
     <section id="rsvp">
       <app-rsvp-form [eventId]="event.id"></app-rsvp-form>

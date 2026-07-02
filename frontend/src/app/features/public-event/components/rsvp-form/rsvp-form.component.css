@@ -204,14 +204,40 @@ textarea {
 
 @media (max-width: 600px) {
   .rsvp {
-    align-items: flex-start;
+    min-height: 100svh;
+    padding: 14px;
+    align-items: center;
   }
 
   .rsvp-card {
-    padding: 34px 22px;
+    padding: 20px 18px;
+  }
+
+  .rsvp-card h2 {
+    font-size: 1.65rem;
+  }
+
+  .subtitle {
+    margin-bottom: 16px;
+    line-height: 1.4;
+  }
+
+  .field {
+    margin-bottom: 14px;
+  }
+
+  input,
+  textarea,
+  select {
+    padding: 10px 12px;
+  }
+
+  textarea {
+    min-height: 64px;
   }
 
   .attendance-buttons button {
+    min-height: 42px;
     padding-inline: 8px;
     font-size: 0.88rem;
   }
@@ -219,7 +245,7 @@ textarea {
 
 @media (max-width: 380px) {
   .rsvp-card {
-    padding: 30px 18px;
+    padding: 18px 14px;
   }
 
   .rsvp-card h2 {

@@ -4,7 +4,6 @@ import { EventService } from '../../../../core/services/event.service';
 import { Event } from '../../../../models/event.model';
 
 import { HeroComponent } from '../../components/hero/hero.component';
-import { EventDetailsComponent } from '../../components/event-details/event-details.component';
 import { LocationComponent } from '../../components/location/location.component';
 import { RsvpFormComponent } from '../../components/rsvp-form/rsvp-form.component';
 
@@ -14,7 +13,6 @@ import { RsvpFormComponent } from '../../components/rsvp-form/rsvp-form.componen
   imports: [
     CommonModule,
     HeroComponent,
-    EventDetailsComponent,
     LocationComponent,
     RsvpFormComponent
   ],
@@ -35,15 +33,18 @@ export class EventPageComponent implements OnInit, OnDestroy {
 
   isPlaying = false;
   activeSection = 'hero';
+  sectionDragActive = false;
   readonly sections = [
     { id: 'hero', label: 'Davet' },
     { id: 'location', label: 'Konum' },
-    { id: 'details', label: 'Günün Akışı' },
     { id: 'rsvp', label: 'Katılım' }
   ];
 
   private readonly musicVolume = 0.25;
   private sectionObserver?: IntersectionObserver;
+  private sectionDragMoved = false;
+  private sectionDragStartY = 0;
+  private suppressSectionClick = false;
 
   // Şimdilik manuel.
   private eventId = '991c4c5b-bb31-43d8-bcea-ab4bbf2c636a';
@@ -61,6 +62,71 @@ export class EventPageComponent implements OnInit, OnDestroy {
   scrollToSection(sectionId: string): void {
     this.activeSection = sectionId;
     document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  selectSection(sectionId: string): void {
+    if (this.suppressSectionClick) {
+      this.suppressSectionClick = false;
+      return;
+    }
+    this.scrollToSection(sectionId);
+  }
+
+  startSectionDrag(event: PointerEvent): void {
+    if (event.pointerType === 'mouse' && event.button !== 0) return;
+
+    this.sectionDragActive = true;
+    this.sectionDragMoved = false;
+    this.sectionDragStartY = event.clientY;
+    (event.currentTarget as HTMLElement).setPointerCapture(event.pointerId);
+  }
+
+  moveSectionDrag(event: PointerEvent): void {
+    if (!this.sectionDragActive) return;
+
+    if (Math.abs(event.clientY - this.sectionDragStartY) > 4) {
+      this.sectionDragMoved = true;
+    }
+
+    const nav = event.currentTarget as HTMLElement;
+    const buttons = Array.from(nav.querySelectorAll<HTMLButtonElement>('button[data-section-id]'));
+    const nearestButton = buttons.reduce<HTMLButtonElement | undefined>((nearest, button) => {
+      if (!nearest) return button;
+
+      const buttonCenter = button.getBoundingClientRect().top + button.offsetHeight / 2;
+      const nearestCenter = nearest.getBoundingClientRect().top + nearest.offsetHeight / 2;
+      return Math.abs(event.clientY - buttonCenter) < Math.abs(event.clientY - nearestCenter)
+        ? button
+        : nearest;
+    }, undefined);
+    const sectionId = nearestButton?.dataset['sectionId'];
+
+    if (sectionId && sectionId !== this.activeSection) {
+      this.activeSection = sectionId;
+      navigator.vibrate?.(8);
+      this.cdr.detectChanges();
+    }
+  }
+
+  finishSectionDrag(event: PointerEvent): void {
+    if (!this.sectionDragActive) return;
+
+    const nav = event.currentTarget as HTMLElement;
+    if (nav.hasPointerCapture(event.pointerId)) nav.releasePointerCapture(event.pointerId);
+
+    this.sectionDragActive = false;
+    this.suppressSectionClick = this.sectionDragMoved;
+    if (this.sectionDragMoved) this.scrollToSection(this.activeSection);
+    setTimeout(() => {
+      this.suppressSectionClick = false;
+    });
+  }
+
+  cancelSectionDrag(event: PointerEvent): void {
+    const nav = event.currentTarget as HTMLElement;
+    if (nav.hasPointerCapture(event.pointerId)) nav.releasePointerCapture(event.pointerId);
+    this.sectionDragActive = false;
+    this.sectionDragMoved = false;
   }
 
   playMusic(): void {

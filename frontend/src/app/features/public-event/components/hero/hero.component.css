@@ -266,6 +266,7 @@ h1 span:not(.ampersand) {
 
 @media (max-width: 600px) {
   .hero {
+    height: 100svh;
     min-height: 100svh;
     padding: 8px;
     align-items: flex-start;
@@ -273,8 +274,9 @@ h1 span:not(.ampersand) {
 
   .invitation {
     width: 100%;
+    height: calc(100svh - 16px);
     min-height: calc(100svh - 16px);
-    padding: 24px 16px 12px;
+    padding: 14px 16px 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -282,13 +284,13 @@ h1 span:not(.ampersand) {
   }
 
   h1 {
-    font-size: clamp(2.2rem, 11vw, 3rem);
+    font-size: clamp(2rem, 10vw, 2.7rem);
     gap: 0 7px;
   }
 
   .families {
     width: 100%;
-    margin-top: 22px;
+    margin-top: 14px;
     gap: 12px;
   }
 
@@ -303,23 +305,31 @@ h1 span:not(.ampersand) {
   }
 
   .union-mark {
-    margin-block: 18px 12px;
+    margin-block: 10px 8px;
   }
 
   .invitation-note {
-    margin-bottom: 14px;
-    font-size: 0.96rem;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
   }
 
   .qr-link {
-    margin-top: 14px;
+    margin-top: 8px;
+  }
+
+  .qr-link img {
+    width: 72px;
+  }
+
+  .scroll-cue {
+    margin-top: 3px;
   }
 }
 
 @media (max-width: 380px), (max-height: 720px) {
   .invitation {
     justify-content: flex-start;
-    padding-top: 18px;
+    padding-top: 10px;
   }
 
   .date-emblem {
@@ -329,7 +339,7 @@ h1 span:not(.ampersand) {
   }
 
   .families {
-    margin-top: 18px;
+    margin-top: 10px;
   }
 
   .union-mark {
@@ -337,7 +347,11 @@ h1 span:not(.ampersand) {
   }
 
   .qr-link img {
-    width: 72px;
+    width: 62px;
+  }
+
+  .qr-caption {
+    display: none;
   }
 
 }

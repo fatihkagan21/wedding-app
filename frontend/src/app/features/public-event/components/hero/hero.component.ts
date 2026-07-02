@@ -66,13 +66,15 @@ import { Event } from '../../../../models/event.model';
       color: var(--color-lilac-deep);
     }
     @media (max-width: 600px) {
+      .event-facts { padding-block: 9px; }
       .event-fact { padding-inline: 10px; }
       .event-fact strong { font-size: .9rem; }
-      .hero-actions { gap: 8px; }
+      .hero-actions { margin-top: 8px; gap: 8px; }
       .hero-action {
         min-width: 0;
+        min-height: 38px;
         flex: 1;
-        padding-inline: 12px;
+        padding: 8px 10px;
       }
     }
   `]
