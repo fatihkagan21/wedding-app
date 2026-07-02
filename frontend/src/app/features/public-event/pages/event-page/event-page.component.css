@@ -45,7 +45,12 @@
   box-shadow: 0 4px 14px rgba(45, 36, 48, 0.12);
   backdrop-filter: blur(8px);
   transform: translateY(-50%);
+  touch-action: none;
+  user-select: none;
+  cursor: grab;
 }
+
+.section-nav.dragging { cursor: grabbing; }
 
 .section-nav button {
   position: relative;
@@ -99,7 +104,6 @@
 }
 
 .event-page > app-hero,
-.event-page > app-event-details,
 .event-page > app-location,
 .event-page > #rsvp,
 .loading,
@@ -241,15 +245,18 @@
 
 @media (max-width: 768px) {
   .event-page {
-    scroll-snap-type: y proximity;
+    scroll-snap-type: y mandatory;
     scrollbar-gutter: auto;
   }
 
   .event-page > app-hero,
-  .event-page > app-event-details,
   .event-page > app-location,
-  .event-page > #rsvp,
   .footer {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  .event-page > #rsvp {
     scroll-snap-align: start;
     scroll-snap-stop: normal;
   }

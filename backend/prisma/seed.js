@@ -14,8 +14,8 @@ async function main() {
   await prisma.event.upsert({
     where: { id: '991c4c5b-bb31-43d8-bcea-ab4bbf2c636a' },
     update: {
-      venueAddress: 'Çiçekli, Çamlık Cd., 35040 Bornova/İzmir',
-      googleMapsUrl: 'https://www.google.com/maps/place//data=!4m2!3m1!1s0x14b97b1b1ec92c11:0x7dc08fb719adc0d?sa=X&ved=1t:8290&ictx=111'
+      venueAddress: 'Çiçekli, Çamlık Cd. No:41, 35040 Bornova/İzmir',
+      googleMapsUrl: 'https://maps.app.goo.gl/9UmBhdVZrw6RhZef6'
     },
     create: {
       id: '991c4c5b-bb31-43d8-bcea-ab4bbf2c636a',
@@ -24,11 +24,11 @@ async function main() {
       groomName: 'Fatih Kağan',
       description: 'Hayatımızın en güzel gününde yanımızda olmanız bizim için büyük bir mutluluk. Sevgi, neşe ve güzel anılarla dolu bir gün geçirmek için sizleri bekliyoruz.',
       venueName: 'Yaka Davet Çiçekliköy',
-      venueAddress: 'Çiçekli, Çamlık Cd., 35040 Bornova/İzmir',
+      venueAddress: 'Çiçekli, Çamlık Cd. No:41, 35040 Bornova/İzmir',
       eventDate: new Date('2026-09-05T17:00:00.000Z'),
       heroImageUrl: 'https://example.com/image.jpg',
       musicUrl: 'https://example.com/music.mp3',
-      googleMapsUrl: 'https://www.google.com/maps/place//data=!4m2!3m1!1s0x14b97b1b1ec92c11:0x7dc08fb719adc0d?sa=X&ved=1t:8290&ictx=111'
+      googleMapsUrl: 'https://maps.app.goo.gl/9UmBhdVZrw6RhZef6'
     }
   });
 }
