@@ -119,6 +119,16 @@
   background: var(--color-cream);
 }
 
+.page-section {
+  opacity: 0.32;
+  transition: opacity 0.42s ease;
+  will-change: opacity;
+}
+
+.page-section.section-active {
+  opacity: 1;
+}
+
 .loading {
   position: fixed;
   inset: 0;
@@ -298,6 +308,11 @@
 
 @media (prefers-reduced-motion: reduce) {
   .loading { transition: none; }
+
+  .page-section {
+    opacity: 1;
+    transition: none;
+  }
 
   .event-page {
     scroll-behavior: auto;
