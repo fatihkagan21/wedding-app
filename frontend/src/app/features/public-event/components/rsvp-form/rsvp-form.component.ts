@@ -143,6 +143,10 @@ export class RsvpFormComponent implements OnInit {
         });
         this.form.controls.attendeeCount.enable({ emitEvent: false });
         this.updateAttendeeInputs(1);
+        setTimeout(() => {
+          const successMessage = document.querySelector<HTMLElement>('#rsvp-success');
+          successMessage?.focus();
+        });
       },
       error: (error) => {
         console.error('RSVP submit failed', error);

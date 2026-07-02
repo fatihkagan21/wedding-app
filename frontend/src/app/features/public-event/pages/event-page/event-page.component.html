@@ -1,4 +1,4 @@
-<div class="event-page">
+<div #eventPage class="event-page">
 
   @if (loading) {
     <div class="loading">
@@ -16,6 +16,19 @@
   }
 
   @if (event && !loading) {
+    <nav class="section-nav" aria-label="Davetiye bölümleri">
+      @for (section of sections; track section.id) {
+        <button
+          type="button"
+          [class.active]="activeSection === section.id"
+          [attr.aria-current]="activeSection === section.id ? 'true' : null"
+          [attr.aria-label]="section.label"
+          [attr.data-label]="section.label"
+          (click)="scrollToSection(section.id)">
+        </button>
+      }
+    </nav>
+
     <app-hero [event]="event"></app-hero>
     <app-location [event]="event"></app-location>
 

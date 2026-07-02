@@ -32,6 +32,72 @@
   border-radius: var(--radius-pill);
 }
 
+.section-nav {
+  position: fixed;
+  top: 50%;
+  right: 10px;
+  z-index: 9000;
+  padding: 5px 3px;
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 253, 251, 0.78);
+  box-shadow: 0 4px 14px rgba(45, 36, 48, 0.12);
+  backdrop-filter: blur(8px);
+  transform: translateY(-50%);
+}
+
+.section-nav button {
+  position: relative;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.section-nav button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  border-radius: var(--radius-pill);
+  background: var(--color-lilac);
+  transform: translate(-50%, -50%);
+  transition: height 0.2s ease, background 0.2s ease;
+}
+
+.section-nav button.active::before {
+  width: 6px;
+  height: 16px;
+  background: var(--color-lilac-deep);
+}
+
+.section-nav button::after {
+  content: attr(data-label);
+  position: absolute;
+  top: 50%;
+  right: 30px;
+  padding: 5px 8px;
+  border-radius: 4px;
+  background: rgba(45, 36, 48, 0.9);
+  color: var(--color-white);
+  font-size: 0.68rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-50%);
+  transition: opacity 0.15s ease;
+}
+
+.section-nav button:hover::after,
+.section-nav button:focus-visible::after {
+  opacity: 1;
+}
+
 .event-page > app-hero,
 .event-page > app-event-details,
 .event-page > app-location,
@@ -175,7 +241,7 @@
 
 @media (max-width: 768px) {
   .event-page {
-    scroll-snap-type: y mandatory;
+    scroll-snap-type: y proximity;
     scrollbar-gutter: auto;
   }
 
@@ -185,7 +251,7 @@
   .event-page > #rsvp,
   .footer {
     scroll-snap-align: start;
-    scroll-snap-stop: always;
+    scroll-snap-stop: normal;
   }
 
   .footer {
@@ -200,6 +266,15 @@
     width: 48px;
     height: 48px;
     font-size: 20px;
+  }
+
+  .section-nav {
+    right: 3px;
+    padding-inline: 1px;
+  }
+
+  .section-nav button::after {
+    display: none;
   }
 }
 

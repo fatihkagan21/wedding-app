@@ -48,10 +48,13 @@
 }
 
 .venue-address {
+  display: block;
   color: var(--color-text-muted);
   line-height: 1.7;
   margin: 0 0 28px;
   flex-grow: 1;
+  text-decoration-color: var(--color-lilac);
+  text-underline-offset: 3px;
 }
 
 .venue-date {
@@ -96,6 +99,7 @@
 }
 
 .map-wrapper {
+  position: relative;
   border-radius: var(--radius-lg);
   overflow: hidden;
   min-height: 320px;
@@ -106,8 +110,11 @@
 
 .map-wrapper iframe {
   display: block;
-  pointer-events: none;
+  pointer-events: auto;
+  touch-action: auto;
 }
+
+
 
 @media (max-width: 768px) {
   .location {

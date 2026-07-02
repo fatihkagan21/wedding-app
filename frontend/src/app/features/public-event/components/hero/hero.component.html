@@ -1,14 +1,15 @@
-<section class="hero" [ngStyle]="backgroundStyle">
+<section id="hero" class="hero" [ngStyle]="backgroundStyle">
   <div class="overlay"></div>
 
   <article class="invitation" aria-labelledby="coupleNames">
     <div class="date-emblem" aria-label="Düğün tarihi">
-      <span class="date-month">{{ event.eventDate | date:'MMMM' }}</span>
-      <strong class="date-day">{{ event.eventDate | date:'dd' }}</strong>
-      <span class="date-meta">{{ event.eventDate | date:'yyyy' }} · {{ event.eventDate | date:'EEEE' }}</span>
+      <span class="date-primary">
+        <strong>{{ event.eventDate | date:'dd' }}</strong>
+        <span>{{ event.eventDate | date:'MMMM' }}</span>
+        <span>{{ event.eventDate | date:'yyyy' }}</span>
+      </span>
+      <span class="date-weekday">{{ event.eventDate | date:'EEEE' }}</span>
     </div>
-
-    <p class="invitation-kicker">Bir ömür için ilk adım</p>
 
     <h1 id="coupleNames">
       <span>{{ event.brideName }}</span>
@@ -27,22 +28,31 @@
       </div>
     </div>
 
-    <div class="ornament" aria-hidden="true">
-      <span></span><b>✦</b><span></span>
+    <div class="union-mark" aria-hidden="true">
+      <span></span><span></span>
     </div>
 
     <p class="invitation-note">
-      Yeni hayatımıza adım atarken, sevincimizi sizinle paylaşmak en güzel hatıramız olacak.
+      Sevincimize ortak olmanız dileğiyle.
     </p>
+
+    <div class="countdown" aria-label="Düğüne kalan süre">
+      @for (part of countdownParts; track part.label) {
+        <span class="countdown-part">
+          <strong>{{ part.value }}</strong>
+          <small>{{ part.label }}</small>
+        </span>
+      }
+    </div>
 
     <div class="event-facts" aria-label="Düğün bilgileri">
       <div class="event-fact">
-        <span class="fact-label">Tarih &amp; Saat</span>
+        <span class="fact-label">Nikâh</span>
         <strong>{{ event.eventDate | date:'d MMMM yyyy' }}</strong>
-        <span>{{ event.eventDate | date:'HH:mm' }}</span>
+        <span>19:30</span>
       </div>
       <div class="event-fact">
-        <span class="fact-label">Buluşma Noktası</span>
+        <span class="fact-label">Mekân</span>
         <strong>{{ event.venueName }}</strong>
         <span>{{ event.venueAddress }}</span>
       </div>
@@ -54,14 +64,33 @@
       aria-label="Düğün davetiyesi sitesini aç">
       <img [src]="qrCodeUrl" alt="ozgefatihdugun.tr QR kodu" />
     </a>
-    <p class="qr-caption">Davetiyeyi paylaşmak için okutabilirsiniz</p>
+    <p class="qr-caption">Davetiyeyi paylaşın</p>
+
+    <div class="hero-actions">
+      @if (event.googleMapsUrl) {
+        <a
+          class="hero-action hero-action-secondary"
+          [href]="event.googleMapsUrl"
+          target="_blank"
+          rel="noopener noreferrer">
+          Haritada Aç
+        </a>
+      }
+      <button
+        class="hero-action hero-action-primary"
+        type="button"
+        (click)="scrollToRsvp()">
+        Katılım Durumu Bildir
+      </button>
+    </div>
 
     <button
-      class="next-section"
+      class="scroll-cue"
       type="button"
       aria-label="Konum bölümüne geç"
       (click)="scrollToNextSection()">
-      ↓
+      <span>Aşağı kaydırın</span>
+      <b aria-hidden="true">↓</b>
     </button>
   </article>
 </section>

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { DatePipe, NgStyle } from '@angular/common';
 
 import { Event } from '../../../../models/event.model';
@@ -35,13 +35,49 @@ import { Event } from '../../../../models/event.model';
       text-transform: uppercase;
       color: var(--color-lilac-deep);
     }
+    .hero-actions {
+      margin-top: 12px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+    .hero-action {
+      min-width: 132px;
+      min-height: 42px;
+      padding: 10px 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--color-lilac-deep);
+      border-radius: 6px;
+      font: 600 .78rem/1 var(--font-body);
+      letter-spacing: .06em;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background .2s ease, color .2s ease, transform .2s ease;
+    }
+    .hero-action:hover { transform: translateY(-1px); }
+    .hero-action-primary {
+      background: var(--color-lilac-deep);
+      color: #fff;
+    }
+    .hero-action-secondary {
+      background: transparent;
+      color: var(--color-lilac-deep);
+    }
     @media (max-width: 600px) {
       .event-fact { padding-inline: 10px; }
       .event-fact strong { font-size: .9rem; }
+      .hero-actions { gap: 8px; }
+      .hero-action {
+        min-width: 0;
+        flex: 1;
+        padding-inline: 12px;
+      }
     }
   `]
 })
-export class HeroComponent {
+export class HeroComponent implements OnInit, OnDestroy {
 
   @Input() event!: Event;
 
@@ -49,6 +85,34 @@ export class HeroComponent {
   readonly qrCodeUrl = '/images/invitation-qr.png';
   readonly brideParents = 'Sema & Semih';
   readonly groomParents = 'Hatice Hülya & Yusuf';
+  now = Date.now();
+
+  private countdownTimer?: ReturnType<typeof setInterval>;
+
+  ngOnInit(): void {
+    this.countdownTimer = setInterval(() => {
+      this.now = Date.now();
+    }, 1000);
+  }
+
+  ngOnDestroy(): void {
+    if (this.countdownTimer) clearInterval(this.countdownTimer);
+  }
+
+  get countdownParts(): { value: string; label: string }[] {
+    const difference = Math.max(new Date(this.event.eventDate).getTime() - this.now, 0);
+    const days = Math.floor(difference / 86_400_000);
+    const hours = Math.floor((difference / 3_600_000) % 24);
+    const minutes = Math.floor((difference / 60_000) % 60);
+    const seconds = Math.floor((difference / 1000) % 60);
+
+    return [
+      { value: String(days), label: 'Gün' },
+      { value: String(hours).padStart(2, '0'), label: 'Saat' },
+      { value: String(minutes).padStart(2, '0'), label: 'Dk' },
+      { value: String(seconds).padStart(2, '0'), label: 'Sn' }
+    ];
+  }
 
   get backgroundStyle(): Record<string, string> {
     const fallbackImage = 'https://images.unsplash.com/photo-1519741497674-611481863552?w=1920&q=80';
@@ -61,7 +125,11 @@ export class HeroComponent {
     };
   }
 
+  scrollToRsvp(): void {
+    document.querySelector('#rsvp')?.scrollIntoView({ behavior: 'smooth' });
+  }
+
   scrollToNextSection(): void {
-    document.querySelector('app-location')?.scrollIntoView({ behavior: 'smooth' });
+    document.querySelector('#location')?.scrollIntoView({ behavior: 'smooth' });
   }
 }
