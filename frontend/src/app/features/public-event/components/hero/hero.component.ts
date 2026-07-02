@@ -11,11 +11,11 @@ import { Event } from '../../../../models/event.model';
   styleUrl: './hero.component.css',
   styles: [`
     .event-facts {
-      max-width: 470px;
+      max-width: 560px;
       margin: 0 auto;
       padding-block: 14px;
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       border-block: 1px solid var(--color-blush);
     }
     .event-fact {
@@ -26,11 +26,19 @@ import { Event } from '../../../../models/event.model';
       gap: 2px;
     }
     .event-fact + .event-fact { border-left: 1px solid var(--color-blush); }
-    .event-fact strong { font: 600 1rem/1.3 var(--font-display); }
+    .event-fact strong {
+      font: 600 1.08rem/1.3 var(--font-display);
+      overflow-wrap: anywhere;
+    }
     .event-fact > span:last-child { font-size: .75rem; color: var(--color-text-muted); }
+    .event-fact .fact-time {
+      font-size: .9rem;
+      font-weight: 600;
+      color: var(--color-lilac-deep);
+    }
     .fact-label {
       margin-bottom: 3px;
-      font-size: .63rem;
+      font-size: .66rem;
       letter-spacing: .12em;
       text-transform: uppercase;
       color: var(--color-lilac-deep);
@@ -67,8 +75,9 @@ import { Event } from '../../../../models/event.model';
     }
     @media (max-width: 600px) {
       .event-facts { padding-block: 9px; }
-      .event-fact { padding-inline: 10px; }
-      .event-fact strong { font-size: .9rem; }
+      .event-fact { padding-inline: 6px; }
+      .event-fact strong { font-size: .94rem; }
+      .event-fact .fact-time { font-size: .84rem; }
       .hero-actions { margin-top: 8px; gap: 8px; }
       .hero-action {
         min-width: 0;

@@ -23,6 +23,7 @@ export class EventPageComponent implements OnInit, OnDestroy {
 
   event: Event | null = null;
   loading = true;
+  loadingFading = false;
   error = false;
 
   @ViewChild('bgMusic')
@@ -164,10 +165,15 @@ export class EventPageComponent implements OnInit, OnDestroy {
     this.eventService.getEventById(this.eventId).subscribe({
       next: (response) => {
         this.event = response as Event;
-        this.loading = false;
+        this.loadingFading = true;
         this.cdr.detectChanges();
-        setTimeout(() => this.playMusic(), 100);
-        setTimeout(() => this.observeSections());
+        setTimeout(() => {
+          this.loading = false;
+          this.loadingFading = false;
+          this.cdr.detectChanges();
+          setTimeout(() => this.playMusic(), 100);
+          this.observeSections();
+        }, 320);
       },
       error: (err) => {
         console.error('Event loading failed', err);
