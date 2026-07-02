@@ -2,13 +2,13 @@
   <div class="overlay"></div>
 
   <article class="invitation" aria-labelledby="coupleNames">
-    <div class="date-stack" aria-label="Düğün tarihi">
-      <span>{{ event.eventDate | date:'dd' }}</span>
-      <span>{{ event.eventDate | date:'MM' }}</span>
-      <span>{{ event.eventDate | date:'yy' }}</span>
+    <div class="date-emblem" aria-label="Düğün tarihi">
+      <span class="date-month">{{ event.eventDate | date:'MMMM' }}</span>
+      <strong class="date-day">{{ event.eventDate | date:'dd' }}</strong>
+      <span class="date-meta">{{ event.eventDate | date:'yyyy' }} · {{ event.eventDate | date:'EEEE' }}</span>
     </div>
 
-    <p class="invitation-kicker">Düğünümüze davetlisiniz</p>
+    <p class="invitation-kicker">Bir ömür için ilk adım</p>
 
     <h1 id="coupleNames">
       <span>{{ event.brideName }}</span>
@@ -32,18 +32,20 @@
     </div>
 
     <p class="invitation-note">
-      Bu özel günümüzde sizleri de aramızda görmekten mutluluk duyarız.
+      Yeni hayatımıza adım atarken, sevincimizi sizinle paylaşmak en güzel hatıramız olacak.
     </p>
 
-    <div class="event-summary">
-      <p>
-        <strong>Düğün</strong>
-        <span>{{ event.eventDate | date:'dd MMMM yyyy' }}</span>
-        <span>{{ event.eventDate | date:'EEEE' }}</span>
+    <div class="event-facts" aria-label="Düğün bilgileri">
+      <div class="event-fact">
+        <span class="fact-label">Tarih &amp; Saat</span>
+        <strong>{{ event.eventDate | date:'d MMMM yyyy' }}</strong>
         <span>{{ event.eventDate | date:'HH:mm' }}</span>
-      </p>
-      <p class="venue-name">{{ event.venueName }}</p>
-      <p class="venue-address">{{ event.venueAddress }}</p>
+      </div>
+      <div class="event-fact">
+        <span class="fact-label">Buluşma Noktası</span>
+        <strong>{{ event.venueName }}</strong>
+        <span>{{ event.venueAddress }}</span>
+      </div>
     </div>
 
     <a
