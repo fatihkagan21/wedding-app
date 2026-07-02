@@ -31,7 +31,7 @@ export class LocationComponent implements OnChanges {
     );
 
     this.mapEmbedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-      `https://maps.google.com/maps?q=${query}&output=embed`
+      `https://maps.google.com/maps?q=${query}&z=17&output=embed`
     );
     this.mapsLinkUrl = this.event.googleMapsUrl || `https://maps.google.com/maps?q=${query}`;
   }

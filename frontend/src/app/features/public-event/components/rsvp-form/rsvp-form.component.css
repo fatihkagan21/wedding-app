@@ -182,6 +182,10 @@ textarea {
   padding: 20px 0;
 }
 
+.success:focus {
+  outline: none;
+}
+
 .success-icon {
   font-size: 2.5rem;
   color: var(--color-lilac-deep);

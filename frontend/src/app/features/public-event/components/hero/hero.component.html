@@ -1,17 +1,15 @@
-<section class="hero" [ngStyle]="backgroundStyle">
+<section id="hero" class="hero" [ngStyle]="backgroundStyle">
   <div class="overlay"></div>
 
   <article class="invitation" aria-labelledby="coupleNames">
     <div class="date-emblem" aria-label="Düğün tarihi">
-      <span class="date-month">{{ event.eventDate | date:'MMMM' }}</span>
-      <strong class="date-day">{{ event.eventDate | date:'dd' }}</strong>
-      <span class="date-meta">
+      <span class="date-primary">
+        <strong>{{ event.eventDate | date:'dd' }}</strong>
+        <span>{{ event.eventDate | date:'MMMM' }}</span>
         <span>{{ event.eventDate | date:'yyyy' }}</span>
-        <span>{{ event.eventDate | date:'EEEE' }}</span>
       </span>
+      <span class="date-weekday">{{ event.eventDate | date:'EEEE' }}</span>
     </div>
-
-    <p class="invitation-kicker">Bir ömür için ilk adım</p>
 
     <h1 id="coupleNames">
       <span>{{ event.brideName }}</span>
@@ -37,6 +35,15 @@
     <p class="invitation-note">
       Sevincimize ortak olmanız dileğiyle.
     </p>
+
+    <div class="countdown" aria-label="Düğüne kalan süre">
+      @for (part of countdownParts; track part.label) {
+        <span class="countdown-part">
+          <strong>{{ part.value }}</strong>
+          <small>{{ part.label }}</small>
+        </span>
+      }
+    </div>
 
     <div class="event-facts" aria-label="Düğün bilgileri">
       <div class="event-fact">
@@ -76,5 +83,14 @@
         Katılım Bildir
       </button>
     </div>
+
+    <button
+      class="scroll-cue"
+      type="button"
+      aria-label="Konum bölümüne geç"
+      (click)="scrollToNextSection()">
+      <span>Aşağı kaydırın</span>
+      <b aria-hidden="true">↓</b>
+    </button>
   </article>
 </section>

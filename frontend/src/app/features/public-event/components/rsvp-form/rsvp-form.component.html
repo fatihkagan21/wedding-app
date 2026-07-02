@@ -117,12 +117,17 @@
     }
 
     @if (submitted) {
-      <div class="success">
+      <div
+        id="rsvp-success"
+        class="success"
+        role="status"
+        aria-live="polite"
+        tabindex="-1">
         <div class="success-icon">✦</div>
-        <h2>Teşekkür Ederiz!</h2>
-        <p>Katılım bildiriminiz başarıyla alındı. Sizleri aramızda görmekten mutluluk duyacağız.</p>
+        <h2>Katılımınız alındı, teşekkürler!</h2>
+        <p>Yanıtınız bize ulaştı. Bu güzel günü sizinle paylaşmayı sabırsızlıkla bekliyoruz.</p>
         <button class="submit-btn" type="button" (click)="submitted = false">
-          Yeni Bildirim
+          Başka Bir Bildirim Gönder
         </button>
       </div>
     }

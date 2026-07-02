@@ -36,7 +36,8 @@
 }
 
 .date-emblem {
-  width: 118px;
+  width: fit-content;
+  min-width: 220px;
   margin: 0 auto;
   padding: 9px 12px 10px;
   display: flex;
@@ -48,38 +49,31 @@
   text-align: center;
 }
 
-.date-month {
+.date-primary {
   width: 100%;
-  font-size: 0.68rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
-
-.date-day {
-  width: 100%;
-  font-family: var(--font-display);
-  font-size: clamp(2.35rem, 5vh, 3rem);
-  font-weight: 500;
-  line-height: 0.95;
-}
-
-.date-meta {
-  width: 100%;
-  margin-top: 3px;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: 0.62rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  align-items: baseline;
+  justify-content: center;
+  gap: 6px;
+  line-height: 1;
 }
 
-.invitation-kicker {
-  margin: 22px 0 12px;
+.date-primary strong {
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 4vh, 2.45rem);
+  font-weight: 500;
+}
+
+.date-primary span {
   font-size: 0.78rem;
-  letter-spacing: 0.16em;
+  text-transform: capitalize;
+}
+
+.date-weekday {
+  margin-top: 5px;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--color-text-muted);
 }
 
 h1 {
@@ -163,38 +157,39 @@ h1 span:not(.ampersand) {
   color: var(--color-text-muted);
 }
 
-.event-summary p {
-  margin: 0;
+.countdown {
+  width: min(100%, 300px);
+  margin: 0 auto 14px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-block: 1px solid var(--color-blush);
 }
 
-.event-summary > p:first-child {
+.countdown-part {
+  min-width: 0;
+  padding: 8px 4px;
   display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 4px 8px;
-  font-size: 0.85rem;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
 }
 
-.event-summary > p:first-child span::before {
-  content: '|';
-  margin-right: 8px;
-  color: var(--color-lilac);
+.countdown-part + .countdown-part {
+  border-left: 1px solid var(--color-blush-light);
 }
 
-.event-summary strong {
+.countdown-part strong {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1;
   color: var(--color-lilac-deep);
 }
 
-.venue-name {
-  margin-top: 8px !important;
-  font-family: var(--font-display);
-  font-size: 1.15rem;
-  font-weight: 600;
-}
-
-.venue-address {
-  margin-top: 2px !important;
-  font-size: 0.82rem;
+.countdown-part small {
+  font-size: 0.55rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   color: var(--color-text-muted);
 }
 
@@ -219,6 +214,37 @@ h1 span:not(.ampersand) {
   color: var(--color-text-muted);
 }
 
+.scroll-cue {
+  margin: 8px auto 0;
+  padding: 2px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  border: 0;
+  background: transparent;
+  color: var(--color-text-muted);
+  font-family: var(--font-body);
+  cursor: pointer;
+}
+
+.scroll-cue span {
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+}
+
+.scroll-cue b {
+  color: var(--color-lilac-deep);
+  font-size: 1rem;
+  line-height: 1;
+  animation: cue-bounce 1.8s ease-in-out infinite;
+}
+
+@keyframes cue-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(3px); }
+}
+
 @media (max-width: 600px) {
   .hero {
     min-height: 100svh;
@@ -234,10 +260,6 @@ h1 span:not(.ampersand) {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-  }
-
-  .invitation-kicker {
-    margin-top: 18px;
   }
 
   h1 {
@@ -269,15 +291,6 @@ h1 span:not(.ampersand) {
     font-size: 0.96rem;
   }
 
-  .event-summary > p:first-child {
-    gap: 2px 6px;
-    font-size: 0.75rem;
-  }
-
-  .event-summary > p:first-child span::before {
-    margin-right: 6px;
-  }
-
   .qr-link {
     margin-top: 14px;
   }
@@ -290,16 +303,8 @@ h1 span:not(.ampersand) {
   }
 
   .date-emblem {
-    width: 104px;
+    min-width: 200px;
     padding-block: 6px;
-  }
-
-  .date-day {
-    font-size: 2.1rem;
-  }
-
-  .invitation-kicker {
-    margin-block: 14px 8px;
   }
 
   .families {
@@ -311,7 +316,11 @@ h1 span:not(.ampersand) {
   }
 
   .qr-link img {
-    width: 82px;
+    width: 72px;
   }
 
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-cue b { animation: none; }
 }

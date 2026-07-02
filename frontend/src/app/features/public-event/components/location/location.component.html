@@ -1,5 +1,5 @@
 @if (event) {
-  <section class="location">
+  <section id="location" class="location">
     <div class="location-inner">
 
     <div class="section-divider">Konum</div>
@@ -43,6 +43,7 @@
             referrerpolicy="no-referrer-when-downgrade"
             title="Mekan haritası">
           </iframe>
+          <span class="map-focus-label" aria-hidden="true">{{ event.venueName }}</span>
         }
       </div>
     </div>

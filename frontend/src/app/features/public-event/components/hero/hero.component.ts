@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { DatePipe, NgStyle } from '@angular/common';
 
 import { Event } from '../../../../models/event.model';
@@ -77,7 +77,7 @@ import { Event } from '../../../../models/event.model';
     }
   `]
 })
-export class HeroComponent {
+export class HeroComponent implements OnInit, OnDestroy {
 
   @Input() event!: Event;
 
@@ -85,6 +85,34 @@ export class HeroComponent {
   readonly qrCodeUrl = '/images/invitation-qr.png';
   readonly brideParents = 'Sema & Semih';
   readonly groomParents = 'Hatice Hülya & Yusuf';
+  now = Date.now();
+
+  private countdownTimer?: ReturnType<typeof setInterval>;
+
+  ngOnInit(): void {
+    this.countdownTimer = setInterval(() => {
+      this.now = Date.now();
+    }, 1000);
+  }
+
+  ngOnDestroy(): void {
+    if (this.countdownTimer) clearInterval(this.countdownTimer);
+  }
+
+  get countdownParts(): { value: string; label: string }[] {
+    const difference = Math.max(new Date(this.event.eventDate).getTime() - this.now, 0);
+    const days = Math.floor(difference / 86_400_000);
+    const hours = Math.floor((difference / 3_600_000) % 24);
+    const minutes = Math.floor((difference / 60_000) % 60);
+    const seconds = Math.floor((difference / 1000) % 60);
+
+    return [
+      { value: String(days), label: 'Gün' },
+      { value: String(hours).padStart(2, '0'), label: 'Saat' },
+      { value: String(minutes).padStart(2, '0'), label: 'Dk' },
+      { value: String(seconds).padStart(2, '0'), label: 'Sn' }
+    ];
+  }
 
   get backgroundStyle(): Record<string, string> {
     const fallbackImage = 'https://images.unsplash.com/photo-1519741497674-611481863552?w=1920&q=80';
@@ -99,5 +127,9 @@ export class HeroComponent {
 
   scrollToRsvp(): void {
     document.querySelector('#rsvp')?.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  scrollToNextSection(): void {
+    document.querySelector('#location')?.scrollIntoView({ behavior: 'smooth' });
   }
 }
