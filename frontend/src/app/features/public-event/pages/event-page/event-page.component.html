@@ -1,7 +1,7 @@
 <div #eventPage class="event-page">
 
   @if (loading) {
-    <div class="loading">
+    <div class="loading" [class.fade-out]="loadingFading">
       <div class="loading-spinner"></div>
       <p>Davetiye yükleniyor...</p>
     </div>
@@ -15,7 +15,7 @@
     </div>
   }
 
-  @if (event && !loading) {
+  @if (event) {
     <nav
       class="section-nav"
       [class.dragging]="sectionDragActive"

@@ -49,7 +49,12 @@
       <div class="event-fact">
         <span class="fact-label">Nikâh</span>
         <strong>{{ event.eventDate | date:'d MMMM yyyy' }}</strong>
-        <span>19:30</span>
+        <span class="fact-time">19:30</span>
+      </div>
+      <div class="event-fact">
+        <span class="fact-label">Düğün</span>
+        <strong>{{ event.eventDate | date:'d MMMM yyyy' }}</strong>
+        <span class="fact-time">20:00</span>
       </div>
       <div class="event-fact">
         <span class="fact-label">Mekân</span>
@@ -58,13 +63,6 @@
       </div>
     </div>
 
-    <a
-      class="qr-link"
-      [href]="invitationUrl"
-      aria-label="Düğün davetiyesi sitesini aç">
-      <img [src]="qrCodeUrl" alt="ozgefatihdugun.tr QR kodu" />
-    </a>
-    <p class="qr-caption">Davetiyeyi paylaşın</p>
 
     <div class="hero-actions">
       @if (event.googleMapsUrl) {

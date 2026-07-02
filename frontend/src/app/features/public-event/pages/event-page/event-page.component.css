@@ -120,13 +120,24 @@
 }
 
 .loading {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 20px;
+  background: var(--color-cream);
   color: var(--color-text-muted);
+  opacity: 1;
+  transition: opacity 0.32s ease;
+}
+
+.loading.fade-out {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .loading-spinner {
@@ -286,6 +297,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .loading { transition: none; }
+
   .event-page {
     scroll-behavior: auto;
     scroll-snap-type: none;
