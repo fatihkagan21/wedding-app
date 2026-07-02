@@ -175,7 +175,7 @@
 
 @media (max-width: 768px) {
   .event-page {
-    scroll-snap-type: none;
+    scroll-snap-type: y mandatory;
     scrollbar-gutter: auto;
   }
 
@@ -184,13 +184,14 @@
   .event-page > app-location,
   .event-page > #rsvp,
   .footer {
-    scroll-snap-align: none;
-    scroll-snap-stop: normal;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
   }
 
   .footer {
     min-height: auto;
     padding: 52px 20px 88px;
+    scroll-snap-align: end;
   }
 
   .music-button {

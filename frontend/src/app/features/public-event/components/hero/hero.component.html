@@ -1,108 +1,67 @@
 <section class="hero" [ngStyle]="backgroundStyle">
-
   <div class="overlay"></div>
 
-  <div class="hero-content">
-
-    <div class="title-area">
-
-      <p class="welcome">
-        Düğünümüze hoş geldiniz
-      </p>
-
-      <h1>
-        {{ event.brideName }}
-        <span>&amp;</span>
-        {{ event.groomName }}
-      </h1>
-
-      <p class="event-title">{{ event.title }}</p>
-
+  <article class="invitation" aria-labelledby="coupleNames">
+    <div class="date-emblem" aria-label="Düğün tarihi">
+      <span class="date-month">{{ event.eventDate | date:'MMMM' }}</span>
+      <strong class="date-day">{{ event.eventDate | date:'dd' }}</strong>
+      <span class="date-meta">{{ event.eventDate | date:'yyyy' }} · {{ event.eventDate | date:'EEEE' }}</span>
     </div>
 
-    <div class="countdown">
-      <div class="countdown-item">
-        <span class="countdown-value">{{ countdown.days }}</span>
-        <span class="countdown-label">Gün</span>
+    <p class="invitation-kicker">Bir ömür için ilk adım</p>
+
+    <h1 id="coupleNames">
+      <span>{{ event.brideName }}</span>
+      <span class="ampersand">&amp;</span>
+      <span>{{ event.groomName }}</span>
+    </h1>
+
+    <div class="families" aria-label="Düğün sahiplerinin aileleri">
+      <div class="family">
+        <strong>{{ brideParents }}</strong>
+        <span>ÖTLEŞ AİLESİ</span>
       </div>
-      <span class="countdown-sep">:</span>
-      <div class="countdown-item">
-        <span class="countdown-value">{{ countdown.hours }}</span>
-        <span class="countdown-label">Saat</span>
-      </div>
-      <span class="countdown-sep">:</span>
-      <div class="countdown-item">
-        <span class="countdown-value">{{ countdown.minutes }}</span>
-        <span class="countdown-label">Dakika</span>
-      </div>
-      <span class="countdown-sep">:</span>
-      <div class="countdown-item">
-        <span class="countdown-value">{{ countdown.seconds }}</span>
-        <span class="countdown-label">Saniye</span>
+      <div class="family">
+        <strong>{{ groomParents }}</strong>
+        <span>KEREMİT AİLESİ</span>
       </div>
     </div>
 
-    <div class="event-card">
+    <div class="ornament" aria-hidden="true">
+      <span></span><b>✦</b><span></span>
+    </div>
 
-      <div class="info">
+    <p class="invitation-note">
+      Yeni hayatımıza adım atarken, sevincimizi sizinle paylaşmak en güzel hatıramız olacak.
+    </p>
 
-        <div class="item">
-          <span class="icon" aria-hidden="true">◷</span>
-          <div>
-            <span class="item-label">Tarih</span>
-            <strong>
-              {{ event.eventDate | date:'dd MMMM yyyy' }}
-            </strong>
-          </div>
-        </div>
-
-        <div class="item">
-          <span class="icon" aria-hidden="true">⌁</span>
-          <div>
-            <span class="item-label">Saat</span>
-            <strong>
-              {{ event.eventDate | date:'HH:mm' }}
-            </strong>
-          </div>
-        </div>
-
-        <div class="item">
-          <span class="icon" aria-hidden="true">⌖</span>
-          <div>
-            <span class="item-label">Mekan</span>
-            <strong>
-              {{ event.venueName }}
-            </strong>
-            <p>
-              {{ event.venueAddress }}
-            </p>
-          </div>
-        </div>
-
+    <div class="event-facts" aria-label="Düğün bilgileri">
+      <div class="event-fact">
+        <span class="fact-label">Tarih &amp; Saat</span>
+        <strong>{{ event.eventDate | date:'d MMMM yyyy' }}</strong>
+        <span>{{ event.eventDate | date:'HH:mm' }}</span>
       </div>
-
+      <div class="event-fact">
+        <span class="fact-label">Buluşma Noktası</span>
+        <strong>{{ event.venueName }}</strong>
+        <span>{{ event.venueAddress }}</span>
+      </div>
     </div>
 
-    <div class="actions">
+    <a
+      class="qr-link"
+      [href]="invitationUrl"
+      aria-label="Düğün davetiyesi sitesini aç">
+      <img [src]="qrCodeUrl" alt="ozgefatihdugun.tr QR kodu" />
+    </a>
+    <p class="qr-caption">Davetiyeyi paylaşmak için okutabilirsiniz</p>
 
-      @if (event.googleMapsUrl) {
-        <a
-          class="secondary-btn"
-          [href]="event.googleMapsUrl"
-          target="_blank"
-          rel="noopener noreferrer">
-          Haritada Gör
-        </a>
-      }
-
-      <button
-        class="primary-btn"
-        (click)="scrollToRsvp()">
-        Katılım Bildir
-      </button>
-
-    </div>
-
-  </div>
-
+    <button
+      class="next-section"
+      type="button"
+      aria-label="Konum bölümüne geç"
+      (click)="scrollToNextSection()">
+      ↓
+    </button>
+  </article>
 </section>

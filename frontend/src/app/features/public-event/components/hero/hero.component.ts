@@ -1,5 +1,6 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { DatePipe, NgStyle } from '@angular/common';
+
 import { Event } from '../../../../models/event.model';
 
 @Component({
@@ -7,53 +8,60 @@ import { Event } from '../../../../models/event.model';
   standalone: true,
   imports: [DatePipe, NgStyle],
   templateUrl: './hero.component.html',
-  styleUrl: './hero.component.css'
+  styleUrl: './hero.component.css',
+  styles: [`
+    .event-facts {
+      max-width: 470px;
+      margin: 0 auto;
+      padding-block: 14px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      border-block: 1px solid var(--color-blush);
+    }
+    .event-fact {
+      min-width: 0;
+      padding-inline: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .event-fact + .event-fact { border-left: 1px solid var(--color-blush); }
+    .event-fact strong { font: 600 1rem/1.3 var(--font-display); }
+    .event-fact > span:last-child { font-size: .75rem; color: var(--color-text-muted); }
+    .fact-label {
+      margin-bottom: 3px;
+      font-size: .63rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--color-lilac-deep);
+    }
+    @media (max-width: 600px) {
+      .event-fact { padding-inline: 10px; }
+      .event-fact strong { font-size: .9rem; }
+    }
+  `]
 })
-export class HeroComponent implements OnInit, OnDestroy {
+export class HeroComponent {
 
   @Input() event!: Event;
 
-  countdown = { days: 0, hours: 0, minutes: 0, seconds: 0 };
-  private timer?: ReturnType<typeof setInterval>;
-
-  ngOnInit(): void {
-    this.startCountdown();
-  }
-
-  ngOnDestroy(): void {
-    if (this.timer) {
-      clearInterval(this.timer);
-    }
-  }
+  readonly invitationUrl = 'https://ozgefatihdugun.tr';
+  readonly qrCodeUrl = '/images/invitation-qr.png';
+  readonly brideParents = 'Sema & Semih';
+  readonly groomParents = 'Hatice Hülya & Yusuf';
 
   get backgroundStyle(): Record<string, string> {
-    const image = this.event.heroImageUrl
-      || 'https://images.unsplash.com/photo-1519741497674-611481863552?w=1920&q=80';
+    const fallbackImage = 'https://images.unsplash.com/photo-1519741497674-611481863552?w=1920&q=80';
+    const eventImage = this.event.heroImageUrl;
 
     return {
-      backgroundImage: `url('${image}')`
+      backgroundImage: eventImage
+        ? `url('${eventImage}'), url('${fallbackImage}')`
+        : `url('${fallbackImage}')`
     };
   }
 
-  private startCountdown(): void {
-    this.updateCountdown();
-    this.timer = setInterval(() => this.updateCountdown(), 1000);
-  }
-
-  private updateCountdown(): void {
-    const target = new Date(this.event.eventDate).getTime();
-    const now = Date.now();
-    const diff = Math.max(0, target - now);
-
-    this.countdown = {
-      days: Math.floor(diff / (1000 * 60 * 60 * 24)),
-      hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
-      minutes: Math.floor((diff / (1000 * 60)) % 60),
-      seconds: Math.floor((diff / 1000) % 60)
-    };
-  }
-
-  scrollToRsvp(): void {
-    document.getElementById('rsvp')?.scrollIntoView({ behavior: 'smooth' });
+  scrollToNextSection(): void {
+    document.querySelector('app-location')?.scrollIntoView({ behavior: 'smooth' });
   }
 }

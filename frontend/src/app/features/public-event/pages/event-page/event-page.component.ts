@@ -31,6 +31,7 @@ export class EventPageComponent implements OnInit {
   bgMusic!: ElementRef<HTMLAudioElement>;
 
   isPlaying = false;
+  private readonly musicVolume = 0.25;
 
   // Şimdilik manuel.
   private eventId = '991c4c5b-bb31-43d8-bcea-ab4bbf2c636a';
@@ -43,6 +44,7 @@ export class EventPageComponent implements OnInit {
 
   playMusic(): void {
     const audio = this.bgMusic.nativeElement;
+    audio.volume = this.musicVolume;
 
     audio.play()
       .then(() => {
@@ -56,6 +58,7 @@ export class EventPageComponent implements OnInit {
 
   toggleMusic(): void {
     const audio = this.bgMusic.nativeElement;
+    audio.volume = this.musicVolume;
 
     if (audio.paused) {
       audio.play();
