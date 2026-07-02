@@ -175,7 +175,7 @@
 
 @media (max-width: 768px) {
   .event-page {
-    scroll-snap-type: y mandatory;
+    scroll-snap-type: y proximity;
     scrollbar-gutter: auto;
   }
 
@@ -185,7 +185,7 @@
   .event-page > #rsvp,
   .footer {
     scroll-snap-align: start;
-    scroll-snap-stop: always;
+    scroll-snap-stop: normal;
   }
 
   .footer {

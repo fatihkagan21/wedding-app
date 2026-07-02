@@ -35,9 +35,45 @@ import { Event } from '../../../../models/event.model';
       text-transform: uppercase;
       color: var(--color-lilac-deep);
     }
+    .hero-actions {
+      margin-top: 12px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+    .hero-action {
+      min-width: 132px;
+      min-height: 42px;
+      padding: 10px 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--color-lilac-deep);
+      border-radius: 6px;
+      font: 600 .78rem/1 var(--font-body);
+      letter-spacing: .06em;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background .2s ease, color .2s ease, transform .2s ease;
+    }
+    .hero-action:hover { transform: translateY(-1px); }
+    .hero-action-primary {
+      background: var(--color-lilac-deep);
+      color: #fff;
+    }
+    .hero-action-secondary {
+      background: transparent;
+      color: var(--color-lilac-deep);
+    }
     @media (max-width: 600px) {
       .event-fact { padding-inline: 10px; }
       .event-fact strong { font-size: .9rem; }
+      .hero-actions { gap: 8px; }
+      .hero-action {
+        min-width: 0;
+        flex: 1;
+        padding-inline: 12px;
+      }
     }
   `]
 })
@@ -61,7 +97,7 @@ export class HeroComponent {
     };
   }
 
-  scrollToNextSection(): void {
-    document.querySelector('app-location')?.scrollIntoView({ behavior: 'smooth' });
+  scrollToRsvp(): void {
+    document.querySelector('#rsvp')?.scrollIntoView({ behavior: 'smooth' });
   }
 }
