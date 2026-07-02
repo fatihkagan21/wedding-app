@@ -10,9 +10,13 @@
 
     <div class="location-grid">
       <div class="venue-card">
-        <div class="venue-icon" aria-hidden="true">⌖</div>
         <h3>{{ event.venueName }}</h3>
-        <p class="venue-address">{{ event.venueAddress }}</p>
+        <a
+          class="venue-address"
+          target="_blank"
+          rel="noopener noreferrer">
+          Çiçekli, Çamlık Cd., 35040 Bornova/İzmir
+        </a>
 
         <div class="venue-date">
           <span class="venue-date-label">Tarih &amp; Saat</span>
@@ -34,7 +38,7 @@
         @if (mapEmbedUrl) {
           <iframe
             [src]="mapEmbedUrl"
-            tabindex="-1"
+            tabindex="0"
             width="100%"
             height="100%"
             style="border:0;"
@@ -43,7 +47,6 @@
             referrerpolicy="no-referrer-when-downgrade"
             title="Mekan haritası">
           </iframe>
-          <span class="map-focus-label" aria-hidden="true">{{ event.venueName }}</span>
         }
       </div>
     </div>

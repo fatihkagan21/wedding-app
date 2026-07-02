@@ -48,10 +48,13 @@
 }
 
 .venue-address {
+  display: block;
   color: var(--color-text-muted);
   line-height: 1.7;
   margin: 0 0 28px;
   flex-grow: 1;
+  text-decoration-color: var(--color-lilac);
+  text-underline-offset: 3px;
 }
 
 .venue-date {
@@ -107,27 +110,11 @@
 
 .map-wrapper iframe {
   display: block;
-  pointer-events: none;
-  filter: grayscale(0.88) saturate(0.45) contrast(0.92);
+  pointer-events: auto;
+  touch-action: auto;
 }
 
-.map-focus-label {
-  position: absolute;
-  left: 14px;
-  bottom: 14px;
-  max-width: calc(100% - 28px);
-  padding: 8px 12px;
-  border: 1px solid rgba(125, 86, 141, 0.2);
-  border-radius: var(--radius-sm);
-  background: rgba(255, 253, 251, 0.94);
-  box-shadow: 0 4px 12px rgba(45, 36, 48, 0.14);
-  color: var(--color-lilac-deep);
-  font-size: 0.75rem;
-  font-weight: 600;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
+
 
 @media (max-width: 768px) {
   .location {

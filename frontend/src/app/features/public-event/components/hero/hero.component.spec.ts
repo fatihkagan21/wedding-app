@@ -16,7 +16,7 @@ describe('HeroComponent', () => {
     component = fixture.componentInstance;
     fixture.componentRef.setInput('event', {
       id: 'event-1',
-      title: 'Özge & Fatih Kağan Düğünü',
+      title: 'Özge & Fatih Kağan Düğün Davetiyesi',
       brideName: 'Özge',
       groomName: 'Fatih Kağan',
       venueName: 'Yaka Davet Çiçekliköy',
