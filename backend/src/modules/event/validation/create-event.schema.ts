@@ -15,4 +15,6 @@ export const createEventSchema = z.object({
 
   heroImageUrl: z.string().regex(/^https?:\/\/[^\s$.?#].[^\s]*$/).optional(),
   musicUrl: z.string().regex(/^https?:\/\/[^\s$.?#].[^\s]*$/).optional(),
+  googleMapsUrl: z.string().url().optional(),
+  googleMapsEmbedUrl: z.string().url().optional(),
 });

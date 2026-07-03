@@ -16,6 +16,7 @@ export interface Event {
     heroImageUrl?: string;
     musicUrl?: string;
     googleMapsUrl?: string;
+    googleMapsEmbedUrl?: string;
 
     createdAt: string;
   }

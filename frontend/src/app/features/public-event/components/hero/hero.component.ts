@@ -15,7 +15,7 @@ import { Event } from '../../../../models/event.model';
       margin: 0 auto;
       padding-block: 14px;
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       border-block: 1px solid var(--color-blush);
     }
     .event-fact {
@@ -23,6 +23,7 @@ import { Event } from '../../../../models/event.model';
       padding-inline: 18px;
       display: flex;
       flex-direction: column;
+      justify-content: center;
       gap: 2px;
     }
     .event-fact + .event-fact { border-left: 1px solid var(--color-blush); }
@@ -32,9 +33,16 @@ import { Event } from '../../../../models/event.model';
     }
     .event-fact > span:last-child { font-size: .75rem; color: var(--color-text-muted); }
     .event-fact .fact-time {
-      font-size: .9rem;
+      font-size: 1rem;
       font-weight: 600;
       color: var(--color-lilac-deep);
+    }
+    .schedule-fact { gap: 10px; }
+    .schedule-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
     }
     .fact-label {
       margin-bottom: 3px;
@@ -77,7 +85,7 @@ import { Event } from '../../../../models/event.model';
       .event-facts { padding-block: 9px; }
       .event-fact { padding-inline: 6px; }
       .event-fact strong { font-size: .94rem; }
-      .event-fact .fact-time { font-size: .84rem; }
+      .event-fact .fact-time { font-size: .92rem; }
       .hero-actions { margin-top: 8px; gap: 8px; }
       .hero-action {
         min-width: 0;
