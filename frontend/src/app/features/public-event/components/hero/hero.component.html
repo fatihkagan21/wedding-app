@@ -33,10 +33,10 @@
     </div>
 
     <p class="invitation-note">
-      Sevincimize ortak olmanız dileğiyle.
+      Sevincimize ortak olmanız dileğiyle
     </p>
 
-    <div class="countdown" aria-label="Düğüne kalan süre">
+    <div class="countdown" aria-label="Nikâha kalan süre">
       @for (part of countdownParts; track part.label) {
         <span class="countdown-part">
           <strong>{{ part.value }}</strong>
@@ -63,7 +63,8 @@
       </div>
     </div>
 
-
+    <br>
+    <br>
     <div class="hero-actions">
       @if (event.googleMapsUrl) {
         <a
@@ -71,14 +72,16 @@
           [href]="event.googleMapsUrl"
           target="_blank"
           rel="noopener noreferrer">
-          Haritada Aç
+          <span class="action-icon action-icon-map" aria-hidden="true">📍</span>
+          <span>Haritada Aç</span>
         </a>
       }
       <button
         class="hero-action hero-action-primary"
         type="button"
         (click)="scrollToRsvp()">
-        Katılım Durumu Bildir
+        <span class="action-icon" aria-hidden="true">✓</span>
+        <span>Katılım Durumu Bildir</span>
       </button>
     </div>
 
