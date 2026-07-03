@@ -55,6 +55,12 @@
       <app-rsvp-form [eventId]="event.id"></app-rsvp-form>
     </section>
 
+    <app-photo-upload
+      class="page-section"
+      [class.section-active]="activeSection === 'photos'"
+      [event]="event">
+    </app-photo-upload>
+
     <footer class="footer">
       <div class="footer-ornament">✦</div>
       <p class="footer-names">

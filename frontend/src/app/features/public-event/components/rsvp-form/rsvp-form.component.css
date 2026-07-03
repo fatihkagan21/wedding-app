@@ -260,3 +260,35 @@ textarea {
     grid-template-columns: 1fr;
   }
 }
+
+
+.scroll-cue {
+  margin: 10px auto 0;
+  padding: 2px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  border: 0;
+  background: transparent;
+  color: var(--color-text-muted);
+  font-family: var(--font-body);
+  cursor: pointer;
+}
+
+.scroll-cue span {
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+}
+
+.scroll-cue b {
+  color: var(--color-lilac-deep);
+  font-size: 1rem;
+  line-height: 1;
+  animation: cue-bounce 1.8s ease-in-out infinite;
+}
+
+@keyframes cue-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(3px); }
+}

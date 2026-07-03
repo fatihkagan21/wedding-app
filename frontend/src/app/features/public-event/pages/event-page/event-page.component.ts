@@ -5,6 +5,7 @@ import { Event } from '../../../../models/event.model';
 
 import { HeroComponent } from '../../components/hero/hero.component';
 import { LocationComponent } from '../../components/location/location.component';
+import { PhotoUploadComponent } from '../../components/photo-upload/photo-upload.component';
 import { RsvpFormComponent } from '../../components/rsvp-form/rsvp-form.component';
 
 @Component({
@@ -14,6 +15,7 @@ import { RsvpFormComponent } from '../../components/rsvp-form/rsvp-form.componen
     CommonModule,
     HeroComponent,
     LocationComponent,
+    PhotoUploadComponent,
     RsvpFormComponent
   ],
   templateUrl: './event-page.component.html',
@@ -38,10 +40,11 @@ export class EventPageComponent implements OnInit, OnDestroy {
   readonly sections = [
     { id: 'hero', label: 'Davet' },
     { id: 'location', label: 'Konum' },
-    { id: 'rsvp', label: 'Katılım' }
+    { id: 'rsvp', label: 'Katılım' },
+    { id: 'photos', label: 'Fotoğraflar' }
   ];
 
-  private readonly musicVolume = 0.25;
+  private readonly musicVolume = 0.5;
   private sectionObserver?: IntersectionObserver;
   private sectionDragMoved = false;
   private sectionDragStartY = 0;
