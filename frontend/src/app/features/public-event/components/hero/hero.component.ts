@@ -32,20 +32,24 @@ import { Event } from '../../../../models/event.model';
       overflow-wrap: anywhere;
     }
     .event-fact > span:last-child { font-size: .75rem; color: var(--color-text-muted); }
+    .fact-address {
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+    }
     .event-fact .fact-time {
       font-size: 1rem;
       font-weight: 600;
       color: var(--color-lilac-deep);
     }
-    .schedule-fact { gap: 10px; }
+    .schedule-fact { gap: 18px; }
     .schedule-item {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 2px;
+      gap: 0;
     }
     .fact-label {
-      margin-bottom: 3px;
+      margin-bottom: 1px;
       font-size: .66rem;
       letter-spacing: .12em;
       text-transform: uppercase;
