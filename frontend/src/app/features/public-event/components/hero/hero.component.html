@@ -46,20 +46,20 @@
     </div>
 
     <div class="event-facts" aria-label="Düğün bilgileri">
-      <div class="event-fact">
-        <span class="fact-label">Nikâh</span>
-        <strong>{{ event.eventDate | date:'d MMMM yyyy' }}</strong>
-        <span class="fact-time">19:30</span>
-      </div>
-      <div class="event-fact">
-        <span class="fact-label">Düğün</span>
-        <strong>{{ event.eventDate | date:'d MMMM yyyy' }}</strong>
-        <span class="fact-time">20:00</span>
+      <div class="event-fact schedule-fact">
+        <div class="schedule-item">
+          <span class="fact-label">Nikâh</span>
+          <strong class="fact-time">19:30</strong>
+        </div>
+        <div class="schedule-item">
+          <span class="fact-label">Düğün</span>
+          <strong class="fact-time">20:00</strong>
+        </div>
       </div>
       <div class="event-fact">
         <span class="fact-label">Mekân</span>
         <strong>{{ event.venueName }}</strong>
-        <span>{{ event.venueAddress }}</span>
+        <span class="fact-address">Çiçekli, Çamlık Cd. No:41, 35040 Bornova/İzmir</span>
       </div>
     </div>
 

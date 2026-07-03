@@ -30,7 +30,8 @@ model Event {
 
   heroImageUrl  String?
   musicUrl      String?
-  googleMapsUrl String?
+  googleMapsUrl      String?
+  googleMapsEmbedUrl String?
   
   createdAt     DateTime @default(now())
 

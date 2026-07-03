@@ -30,9 +30,10 @@ export class LocationComponent implements OnChanges {
       `${this.event.venueName}, ${this.event.venueAddress}`
     );
 
-    this.mapEmbedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-      `https://maps.google.com/maps?q=${query}&output=embed`
-    );
+    const embedUrl = this.event.googleMapsEmbedUrl
+      || `https://maps.google.com/maps?q=${query}&output=embed`;
+
+    this.mapEmbedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(embedUrl);
     this.mapsLinkUrl = this.event.googleMapsUrl || `https://maps.google.com/maps?q=${query}`;
   }
 
