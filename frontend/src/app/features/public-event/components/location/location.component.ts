@@ -25,6 +25,10 @@ export class LocationComponent implements OnChanges {
     }
   }
 
+  scrollToRsvp(): void {
+    document.querySelector('#rsvp')?.scrollIntoView({ behavior: 'smooth' });
+  }
+
   private updateMapUrls(): void {
     const query = encodeURIComponent(
       `${this.event.venueName}, ${this.event.venueAddress}`

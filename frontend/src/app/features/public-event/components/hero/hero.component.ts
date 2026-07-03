@@ -68,6 +68,7 @@ import { Event } from '../../../../models/event.model';
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      gap: 7px;
       border: 1px solid var(--color-lilac-deep);
       border-radius: 6px;
       font: 600 .78rem/1 var(--font-body);
@@ -75,6 +76,24 @@ import { Event } from '../../../../models/event.model';
       text-decoration: none;
       cursor: pointer;
       transition: background .2s ease, color .2s ease, transform .2s ease;
+    }
+    .action-icon {
+      flex: 0 0 auto;
+      width: 18px;
+      height: 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .78);
+      color: #111;
+      font-size: .78rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+    .action-icon-map {
+      background: transparent;
+      font-size: 1rem;
     }
     .hero-action:hover { transform: translateY(-1px); }
     .hero-action-primary {
@@ -90,13 +109,20 @@ import { Event } from '../../../../models/event.model';
       .event-fact { padding-inline: 6px; }
       .event-fact strong { font-size: .94rem; }
       .event-fact .fact-time { font-size: .92rem; }
-      .hero-actions { margin-top: 8px; gap: 8px; }
+      .hero-actions {
+        width: 100%;
+        margin-top: auto;
+        gap: 8px;
+      }
       .hero-action {
         min-width: 0;
         min-height: 38px;
         flex: 1;
         padding: 8px 10px;
       }
+    }
+    @media (max-width: 380px), (max-height: 720px) {
+      .hero-actions { margin-top: 12px; }
     }
   `]
 })
@@ -110,6 +136,7 @@ export class HeroComponent implements OnInit, OnDestroy {
   readonly groomParents = 'Hatice Hülya & Yusuf';
   now = Date.now();
 
+  private readonly ceremonyLeadTimeMs = 30 * 60_000;
   private countdownTimer?: ReturnType<typeof setInterval>;
 
   ngOnInit(): void {
@@ -123,7 +150,8 @@ export class HeroComponent implements OnInit, OnDestroy {
   }
 
   get countdownParts(): { value: string; label: string }[] {
-    const difference = Math.max(new Date(this.event.eventDate).getTime() - this.now, 0);
+    const ceremonyTime = new Date(this.event.eventDate).getTime() - this.ceremonyLeadTimeMs;
+    const difference = Math.max(ceremonyTime - this.now, 0);
     const days = Math.floor(difference / 86_400_000);
     const hours = Math.floor((difference / 3_600_000) % 24);
     const minutes = Math.floor((difference / 60_000) % 60);
