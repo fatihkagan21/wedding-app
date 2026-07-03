@@ -155,4 +155,9 @@ export class RsvpFormComponent implements OnInit {
       }
     });
   }
+
+  
+  scrollToPhoto(): void {
+    document.querySelector('#photos')?.scrollIntoView({ behavior: 'smooth' });
+  }
 }

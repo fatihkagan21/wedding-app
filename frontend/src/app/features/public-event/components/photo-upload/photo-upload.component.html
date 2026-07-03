@@ -1,0 +1,28 @@
+<section id="photos" class="photo-upload">
+  <div class="photo-upload-inner">
+    <div class="camera-mark" aria-hidden="true">📷</div>
+    <div class="section-divider">Fotoğraflar</div>
+    <h2 class="section-title">Geceden Sizde Kalanlar</h2>
+    <p class="section-subtitle">
+      Düğün gecesinden çektiğiniz fotoğrafları bu form üzerinden bizimle paylaşabilirsiniz.
+    </p>
+
+    @if (isUploadOpen) {
+      <a
+        class="upload-button"
+        [href]="formUrl"
+        target="_blank"
+        rel="noopener noreferrer">
+        <span aria-hidden="true">📷</span>
+        Fotoğraf Yükle
+      </a>
+    } @else {
+      <div class="locked-state" role="status">
+        <span class="lock-icon" aria-hidden="true">◷</span>
+        <span>Fotoğraf paylaşımı</span>
+        <strong>{{ event.eventDate | date:'d MMMM yyyy, HH:mm' }}</strong>
+        <small>Düğün başladıktan sonra açılacak</small>
+      </div>
+    }
+  </div>
+</section>

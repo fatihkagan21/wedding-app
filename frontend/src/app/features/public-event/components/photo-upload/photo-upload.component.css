@@ -1,0 +1,119 @@
+:host {
+  display: block;
+}
+
+.photo-upload {
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: var(--section-padding);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, #fffafb 0%, #f5eef7 58%, #fff9ef 100%);
+  text-align: center;
+}
+
+.photo-upload-inner {
+  width: min(100%, 620px);
+}
+
+.camera-mark {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 18px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--color-blush);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: var(--shadow-soft);
+  font-size: 1.7rem;
+}
+
+.section-divider {
+  margin-bottom: 24px;
+}
+
+.section-subtitle {
+  max-width: 510px;
+  margin-bottom: 30px;
+  line-height: 1.7;
+}
+
+.upload-button {
+  min-width: 220px;
+  min-height: 48px;
+  padding: 13px 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  border-radius: var(--radius-sm);
+  background: var(--color-lilac-deep);
+  color: var(--color-white);
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: var(--shadow-soft);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.upload-button:hover {
+  background: #684477;
+  color: var(--color-white);
+  transform: translateY(-1px);
+}
+
+.locked-state {
+  width: min(100%, 360px);
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  border: 1px solid var(--color-blush);
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--color-text-muted);
+}
+
+.lock-icon {
+  margin-bottom: 5px;
+  color: var(--color-lilac-deep);
+  font-size: 1.35rem;
+}
+
+.locked-state strong {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  color: var(--color-text);
+}
+
+.locked-state small {
+  margin-top: 4px;
+  font-size: 0.75rem;
+}
+
+@media (max-width: 600px) {
+  .photo-upload {
+    height: 100svh;
+    min-height: 100svh;
+    padding: 28px 20px 82px;
+  }
+
+  .camera-mark {
+    width: 56px;
+    height: 56px;
+    margin-bottom: 14px;
+    font-size: 1.5rem;
+  }
+
+  .section-divider {
+    margin-bottom: 18px;
+  }
+
+  .section-subtitle {
+    margin-bottom: 24px;
+    line-height: 1.55;
+  }
+}
