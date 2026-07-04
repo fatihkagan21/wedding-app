@@ -19,7 +19,7 @@ export class PhotoUploadComponent implements OnInit, OnDestroy {
   private availabilityTimer?: ReturnType<typeof setInterval>;
 
   get isUploadOpen(): boolean {
-    return this.now >= new Date(this.event.eventDate).getTime();
+    return this.now <= new Date(this.event.eventDate).getTime();
   }
 
   ngOnInit(): void {
