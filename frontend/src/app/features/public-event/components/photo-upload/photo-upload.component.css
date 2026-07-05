@@ -36,69 +36,122 @@
 
 .section-subtitle {
   max-width: 510px;
-  margin-bottom: 30px;
+  margin-bottom: 26px;
   line-height: 1.7;
+}
+
+.upload-card {
+  padding: 24px;
+  border: 1px solid var(--color-blush);
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: var(--shadow-soft);
+}
+
+.file-picker {
+  min-height: 92px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border: 1px dashed var(--color-lilac);
+  border-radius: var(--radius-sm);
+  background: var(--color-blush-light);
+  cursor: pointer;
+}
+
+.file-picker-title {
+  color: var(--color-lilac-deep);
+  font-weight: 600;
+}
+
+.file-picker-hint {
+  color: var(--color-text-muted);
+  font-size: 0.76rem;
+}
+
+.file-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+.selection-count {
+  margin: 14px 0 0;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
 }
 
 .upload-button {
   min-width: 220px;
   min-height: 48px;
+  margin-top: 18px;
   padding: 13px 22px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 9px;
+  border: 0;
   border-radius: var(--radius-sm);
   background: var(--color-lilac-deep);
   color: var(--color-white);
+  font: inherit;
   font-weight: 600;
-  text-decoration: none;
   box-shadow: var(--shadow-soft);
+  cursor: pointer;
   transition: background 0.2s ease, transform 0.2s ease;
 }
 
-.upload-button:hover {
+.upload-button:hover:not(:disabled) {
   background: #684477;
-  color: var(--color-white);
   transform: translateY(-1px);
 }
 
-.locked-state {
-  width: min(100%, 360px);
-  margin: 0 auto;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3px;
-  border: 1px solid var(--color-blush);
+.upload-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.45);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.75s linear infinite;
+}
+
+.message {
+  margin: 18px 0 0;
+  padding: 12px 14px;
   border-radius: var(--radius-sm);
-  background: rgba(255, 255, 255, 0.72);
-  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
 }
 
-.lock-icon {
-  margin-bottom: 5px;
-  color: var(--color-lilac-deep);
-  font-size: 1.35rem;
+.error-message {
+  background: #fff0f0;
+  color: #8a3333;
 }
 
-.locked-state strong {
-  font-family: var(--font-display);
-  font-size: 1.2rem;
-  color: var(--color-text);
+.success-message {
+  background: #f0f7f1;
+  color: #456b4b;
 }
 
-.locked-state small {
-  margin-top: 4px;
-  font-size: 0.75rem;
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 @media (max-width: 600px) {
   .photo-upload {
-    height: 100svh;
     min-height: 100svh;
-    padding: 28px 20px 82px;
+    padding: 38px 20px 82px;
   }
 
   .camera-mark {
@@ -113,7 +166,15 @@
   }
 
   .section-subtitle {
-    margin-bottom: 24px;
+    margin-bottom: 22px;
     line-height: 1.55;
+  }
+
+  .upload-card {
+    padding: 18px;
+  }
+
+  .upload-button {
+    width: 100%;
   }
 }

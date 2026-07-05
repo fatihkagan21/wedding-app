@@ -39,6 +39,10 @@ services:
       DATABASE_URL: ${DATABASE_URL:?DATABASE_URL is required}
       DIRECT_URL: ${DIRECT_URL:?DIRECT_URL is required}
       ADMIN_API_KEY: ${ADMIN_API_KEY:?ADMIN_API_KEY is required}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:?GOOGLE_CLIENT_ID is required}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:?GOOGLE_CLIENT_SECRET is required}
+      GOOGLE_REFRESH_TOKEN: ${GOOGLE_REFRESH_TOKEN:?GOOGLE_REFRESH_TOKEN is required}
+      GOOGLE_DRIVE_FOLDER_ID: ${GOOGLE_DRIVE_FOLDER_ID:?GOOGLE_DRIVE_FOLDER_ID is required}
     depends_on:
       migrate:
         condition: service_completed_successfully
