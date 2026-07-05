@@ -206,15 +206,8 @@ export class EventPageComponent implements OnInit, OnDestroy {
     if (!root) return;
 
     this.sectionObserver?.disconnect();
-    this.sectionObserver = new IntersectionObserver(entries => {
-      const activeEntry = entries
-        .filter(entry => entry.isIntersecting)
-        .sort((left, right) => right.intersectionRatio - left.intersectionRatio)[0];
-
-      if (activeEntry) {
-        this.activeSection = activeEntry.target.id;
-        this.cdr.detectChanges();
-      }
+    this.sectionObserver = new IntersectionObserver(() => {
+      this.updateActiveSection(root);
     }, {
       root,
       rootMargin: '-15% 0px -45% 0px',
@@ -225,5 +218,24 @@ export class EventPageComponent implements OnInit, OnDestroy {
       const element = document.getElementById(section.id);
       if (element) this.sectionObserver?.observe(element);
     });
+
+    this.updateActiveSection(root);
+  }
+
+  private updateActiveSection(root: HTMLElement): void {
+    const rootRect = root.getBoundingClientRect();
+    const focusY = rootRect.top + rootRect.height / 2;
+    const currentSection = this.sections.find(section => {
+      const element = document.getElementById(section.id);
+      if (!element) return false;
+
+      const sectionRect = element.getBoundingClientRect();
+      return sectionRect.top <= focusY && sectionRect.bottom >= focusY;
+    });
+
+    if (currentSection && currentSection.id !== this.activeSection) {
+      this.activeSection = currentSection.id;
+      this.cdr.detectChanges();
+    }
   }
 }
