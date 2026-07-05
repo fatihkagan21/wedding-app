@@ -303,17 +303,18 @@ h1 span:not(.ampersand) {
   .families {
     width: 100%;
     grid-template-columns: minmax(0, 1fr) 26px minmax(0, 1fr);
-    margin-top: 14px;
+    margin-top: 20px;
     gap: 0;
   }
 
   .family strong {
-    min-height: 35px;
-    font-size: 0.72rem;
+    min-height: 0;
+    font-size: 0.68rem;
     line-height: 1.35;
   }
 
   .family span {
+    margin-top: 3px;
     font-size: 0.6rem;
   }
 
@@ -352,7 +353,7 @@ h1 span:not(.ampersand) {
   }
 
   .families {
-    margin-top: 10px;
+    margin-top: 16px;
   }
 
   .union-mark {

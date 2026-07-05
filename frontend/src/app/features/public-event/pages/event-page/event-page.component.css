@@ -1,6 +1,7 @@
 :host {
   display: block;
-  height: var(--event-viewport-height, 100dvh);
+  height: 100vh;
+  height: 100dvh;
   min-height: 0;
   overflow: hidden;
 }
