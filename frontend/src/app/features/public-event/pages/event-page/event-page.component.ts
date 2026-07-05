@@ -50,6 +50,11 @@ export class EventPageComponent implements OnInit, OnDestroy {
   private sectionDragMoved = false;
   private sectionDragStartY = 0;
   private suppressSectionClick = false;
+  private readonly visualViewport = window.visualViewport;
+  private readonly updateViewportHeight = (): void => {
+    const height = this.visualViewport?.height ?? window.innerHeight;
+    document.documentElement.style.setProperty('--event-viewport-height', `${Math.round(height)}px`);
+  };
 
   // Şimdilik manuel.
   private eventId = '991c4c5b-bb31-43d8-bcea-ab4bbf2c636a';
@@ -58,11 +63,19 @@ export class EventPageComponent implements OnInit, OnDestroy {
   private cdr = inject(ChangeDetectorRef);
 
   ngOnInit(): void {
+    document.body.classList.add('event-page-open');
+    this.updateViewportHeight();
+    this.visualViewport?.addEventListener('resize', this.updateViewportHeight);
+    window.addEventListener('resize', this.updateViewportHeight);
     this.loadEvent();
   }
 
   ngOnDestroy(): void {
     this.sectionObserver?.disconnect();
+    this.visualViewport?.removeEventListener('resize', this.updateViewportHeight);
+    window.removeEventListener('resize', this.updateViewportHeight);
+    document.body.classList.remove('event-page-open');
+    document.documentElement.style.removeProperty('--event-viewport-height');
   }
 
   scrollToSection(sectionId: string): void {

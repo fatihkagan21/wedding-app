@@ -105,6 +105,15 @@ a:hover {
   max-width: 480px;
 }
 
+body.event-page-open {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: var(--event-viewport-height, 100dvh);
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
 @media (max-width: 768px) {
   :root {
     --section-padding: 56px 20px;

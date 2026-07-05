@@ -50,7 +50,7 @@
                 id="attendeeCount"
                 type="number"
                 min="1"
-                max="10"
+                [max]="maxAttendeeCount"
                 inputmode="numeric"
                 formControlName="attendeeCount"
                 (focus)="selectAttendeeCount($event)"
@@ -59,7 +59,7 @@
                 [attr.aria-invalid]="form.controls.attendeeCount.invalid && form.controls.attendeeCount.touched"
                 aria-describedby="attendeeCountError" />
               @if (form.controls.attendeeCount.invalid && form.controls.attendeeCount.touched) {
-                <p id="attendeeCountError" class="field-error">Kişi sayısı 1 ile 10 arasında olmalıdır.</p>
+                <p id="attendeeCountError" class="field-error">Kişi sayısı 1 ile 5 arasında olmalıdır.</p>
               }
             </div>
           }

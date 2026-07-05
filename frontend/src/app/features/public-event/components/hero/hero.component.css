@@ -131,7 +131,7 @@ h1 span:not(.ampersand) {
   font-size: 0.93rem;
   font-weight: 500;
   line-height: 1.3;
-  overflow-wrap: anywhere;
+  white-space: nowrap;
 }
 
 .family span {
@@ -301,7 +301,7 @@ h1 span:not(.ampersand) {
   }
 
   .families {
-    width: calc(100% - 12px);
+    width: 100%;
     grid-template-columns: minmax(0, 1fr) 26px minmax(0, 1fr);
     margin-top: 14px;
     gap: 0;
@@ -309,7 +309,7 @@ h1 span:not(.ampersand) {
 
   .family strong {
     min-height: 35px;
-    font-size: 0.8rem;
+    font-size: 0.72rem;
     line-height: 1.35;
   }
 
