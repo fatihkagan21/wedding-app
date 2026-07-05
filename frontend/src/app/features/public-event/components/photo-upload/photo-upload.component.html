@@ -2,27 +2,52 @@
   <div class="photo-upload-inner">
     <div class="camera-mark" aria-hidden="true">📷</div>
     <div class="section-divider">Fotoğraflar</div>
-    <h2 class="section-title">Geceden Sizde Kalanlar</h2>
+    <h2 class="section-title">Anılarınızı Bizimle Paylaşın</h2>
     <p class="section-subtitle">
-      Düğün gecesinden çektiğiniz fotoğrafları bu form üzerinden bizimle paylaşabilirsiniz.
+      Bu güzel günden yakaladığınız kareleri seçin, anılarımızı birlikte çoğaltalım.
     </p>
 
-    @if (isUploadOpen) {
-      <a
+    <div class="upload-card">
+      <label class="file-picker" for="photo-input">
+        <span class="file-picker-title">Fotoğraf seçin</span>
+        <span class="file-picker-hint">JPEG, PNG, WebP, HEIC veya HEIF · En fazla 100 MB</span>
+      </label>
+      <input
+        #photoInput
+        id="photo-input"
+        class="file-input"
+        type="file"
+        accept="image/jpeg,image/png,image/webp,image/heic,image/heif"
+        multiple
+        [disabled]="uploading"
+        (change)="onFileSelected($event)">
+
+      @if (selectedFiles.length > 0) {
+        <p class="selection-count" aria-live="polite">
+          {{ selectedFiles.length }} fotoğraf seçildi
+        </p>
+      }
+
+      <button
         class="upload-button"
-        [href]="formUrl"
-        target="_blank"
-        rel="noopener noreferrer">
-        <span aria-hidden="true">📷</span>
-        Fotoğraf Yükle
-      </a>
-    } @else {
-      <div class="locked-state" role="status">
-        <span class="lock-icon" aria-hidden="true">◷</span>
-        <span>Fotoğraf paylaşımı</span>
-        <strong>{{ event.eventDate | date:'d MMMM yyyy, HH:mm' }}</strong>
-        <small>Düğün başladıktan sonra açılacak</small>
-      </div>
-    }
+        type="button"
+        [disabled]="selectedFiles.length === 0 || uploading"
+        (click)="upload(photoInput)">
+        @if (uploading) {
+          <span class="spinner" aria-hidden="true"></span>
+          Yükleniyor...
+        } @else {
+          Fotoğrafları Yükle
+        }
+      </button>
+
+      @if (errorMessage) {
+        <p class="message error-message" role="alert">{{ errorMessage }}</p>
+      }
+
+      @if (successMessage) {
+        <p class="message success-message" role="status">{{ successMessage }}</p>
+      }
+    </div>
   </div>
 </section>

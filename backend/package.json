@@ -20,6 +20,7 @@
   "devDependencies": {
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
+    "@types/multer": "^2.2.0",
     "@types/node": "^25.9.1",
     "@types/pg": "^8.15.6",
     "tsx": "^4.20.6",
@@ -31,6 +32,8 @@
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "googleapis": "^173.0.0",
+    "multer": "^2.2.0",
     "pg": "^8.16.3",
     "prisma": "^7.0.0",
     "zod": "^4.4.3"
