@@ -4,30 +4,30 @@
     <div class="section-divider">Fotoğraflar</div>
     <h2 class="section-title">Anılarınızı Bizimle Paylaşın</h2>
     <p class="section-subtitle">
-      Bu güzel günden yakaladığınız kareleri seçin, anılarımızı birlikte çoğaltalım.
+      Bu güzel günden yakaladığınız fotoğraf ve videoları seçin, anılarımızı birlikte çoğaltalım.
     </p>
 
     <div class="upload-card">
       <label class="file-picker" for="photo-input">
-        <span class="file-picker-title">Fotoğraf seçin</span>
-        <span class="file-picker-hint">JPEG, PNG, WebP, HEIC veya HEIF · En fazla 100 MB</span>
+        <span class="file-picker-title">Fotoğraf veya video seçin</span>
+        <span class="file-picker-hint">JPEG, PNG, WebP, HEIC, HEIF, MP4, MOV, WebM veya M4V · En fazla 500 MB</span>
       </label>
       <p class="picker-note">
-        Çok sayıda fotoğraf seçtiğinizde telefonunuzun bu sayfaya dönmesi birkaç saniye sürebilir.
+        Çok sayıda veya büyük dosya seçtiğinizde telefonunuzun bu sayfaya dönmesi biraz sürebilir.
       </p>
       <input
         #photoInput
         id="photo-input"
         class="file-input"
         type="file"
-        accept="image/jpeg,image/png,image/webp,image/heic,image/heif"
+        accept="image/jpeg,image/png,image/webp,image/heic,image/heif,video/mp4,video/quicktime,video/webm,video/x-m4v,.mov,.m4v"
         multiple
         [disabled]="uploading"
         (change)="onFileSelected($event)">
 
       @if (selectedFiles.length > 0) {
         <p class="selection-count" aria-live="polite">
-          {{ selectedFiles.length }} fotoğraf seçildi
+          {{ selectedFiles.length }} dosya seçildi
         </p>
       }
 
@@ -40,7 +40,7 @@
           <span class="spinner" aria-hidden="true"></span>
           Yükleniyor...
         } @else {
-          Fotoğrafları Yükle
+          Dosyaları Yükle
         }
       </button>
 

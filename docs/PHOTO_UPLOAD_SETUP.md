@@ -1,6 +1,6 @@
 # Fotoğraf yükleme kurulumu
 
-Bu özellik `POST /photos/upload` üzerinden gelen fotoğrafları kişisel Google Drive hesabındaki özel bir klasöre yükler. Veritabanına kayıt atmaz, istemciye Drive dosya kimliği veya bağlantısı dönmez.
+Bu özellik `POST /photos/upload` üzerinden gelen fotoğraf ve videoları kişisel Google Drive hesabındaki özel bir klasöre yükler. Veritabanına kayıt atmaz, istemciye Drive dosya kimliği veya bağlantısı dönmez.
 
 Backend paketleri:
 
@@ -46,13 +46,17 @@ Render'da `wedding-api > Environment` bölümüne dört değeri ekleyin ve backe
 
 Yerel çalıştırmada aynı değerleri git tarafından yok sayılan `backend/.env` dosyasına ekleyin. Docker Compose production kullanıyorsanız `.env.production` dosyasına ekleyin.
 
+## Büyük dosyalar
+
+Canlı frontend Cloudflare üzerinden yayınlandığı için yükleme çağrısı doğrudan Render API adresine gider. Render servis adresi değişirse `frontend/src/environments/environment.production.ts` içindeki `photoUploadUrl` değerini güncelleyin. Backend CORS ayarı bu alan adından gelen isteğe izin vermelidir.
+
 ## Manuel test listesi
 
 - [ ] Tek bir JPEG seçildiğinde seçilen dosya sayısı `1` görünüyor.
-- [ ] Birden fazla geçerli fotoğraf tek istekte yükleniyor.
+- [ ] Birden fazla geçerli dosya sırayla yükleniyor.
 - [ ] PNG, WebP, HEIC ve HEIF dosyaları kabul ediliyor.
-- [ ] Video seçimi frontend'de reddediliyor; API'ye doğrudan gönderilirse `400` dönüyor.
-- [ ] 100 MB üstündeki tek bir dosya frontend'de reddediliyor; API'ye doğrudan gönderilirse `400` dönüyor.
+- [ ] 500 MB üstündeki tek bir dosya frontend'de reddediliyor; API'ye doğrudan gönderilirse `400` dönüyor.
+- [ ] MP4, MOV, WebM veya M4V videosu seçilip Drive klasörüne yüklenebiliyor.
 - [ ] Dosyasız istek `400` dönüyor.
 - [ ] Yükleme sırasında buton pasif ve `Yükleniyor...` yazıyor.
 - [ ] Başarılı yüklemeden sonra seçim temizleniyor ve teşekkür mesajı görünüyor.
