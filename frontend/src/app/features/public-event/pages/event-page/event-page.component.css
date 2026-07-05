@@ -293,8 +293,11 @@
   }
 
   .section-nav {
-    right: 3px;
+    right: 0;
     padding-inline: 1px;
+    opacity: 0.78;
+    transform: translateY(-50%) scale(0.9);
+    transform-origin: right center;
   }
 
   .section-nav button::after {

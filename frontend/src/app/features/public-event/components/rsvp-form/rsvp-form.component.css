@@ -245,19 +245,32 @@ textarea {
 
 @media (max-width: 380px) {
   .rsvp-card {
-    padding: 18px 14px;
+    padding: 16px 10px;
   }
 
   .rsvp-card h2 {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
   }
 
   .subtitle {
-    margin-bottom: 28px;
+    margin-bottom: 14px;
+    font-size: 0.82rem;
+    line-height: 1.35;
   }
 
   .attendance-buttons {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2px;
+    padding: 3px;
+  }
+
+  .attendance-buttons button {
+    min-width: 0;
+    min-height: 44px;
+    padding: 7px 2px;
+    font-size: clamp(0.68rem, 3.35vw, 0.78rem);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
   }
 }
 

@@ -125,8 +125,26 @@ import { Event } from '../../../../models/event.model';
         line-height: 1.15;
       }
     }
-    @media (max-width: 380px), (max-height: 720px) {
-      .hero-actions { margin-top: 18px; }
+    @media (max-width: 380px) {
+      .event-fact { padding-inline: 4px; }
+      .event-fact strong { font-size: .8rem; }
+      .event-fact > span:last-child { font-size: .66rem; }
+      .hero-actions {
+        gap: 4px;
+      }
+      .hero-action {
+        padding-inline: 3px;
+        font-size: .62rem;
+        letter-spacing: .02em;
+      }
+      .action-icon {
+        width: 15px;
+        height: 15px;
+        font-size: .68rem;
+      }
+    }
+    @media (max-height: 720px) {
+      .hero-actions { margin-top: 16px; }
     }
   `]
 })

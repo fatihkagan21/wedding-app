@@ -38,9 +38,32 @@ const removeTemporaryFiles = async (req: Request): Promise<void> => {
 const router = Router();
 
 router.post("/upload", (req, res) => {
+  const requestId = randomUUID();
+  const startedAt = Date.now();
+  res.setHeader("X-Request-ID", requestId);
+
+  console.info("Photo upload request received", {
+    requestId,
+    contentLength: req.get("content-length") ?? "unknown",
+    contentType: req.get("content-type") ?? "unknown",
+  });
+
+  res.on("finish", () => {
+    console.info("Photo upload request completed", {
+      requestId,
+      statusCode: res.statusCode,
+      durationMs: Date.now() - startedAt,
+    });
+  });
+
   upload.array("photos")(req, res, async (error) => {
     if (error) {
       await removeTemporaryFiles(req);
+
+      console.warn("Photo upload request rejected", {
+        requestId,
+        code: error instanceof multer.MulterError ? error.code : error.message,
+      });
 
       if (error instanceof multer.MulterError && error.code === "LIMIT_FILE_SIZE") {
         res.status(400).json({ error: "Her fotoğraf en fazla 100 MB olabilir." });

@@ -218,15 +218,20 @@
 }
 
 @media (max-width: 380px) {
+  .location {
+    padding: 12px 10px;
+  }
+
   .venue-card {
-    padding: 26px 20px;
+    padding: 12px 14px;
   }
 
   .venue-card h3 {
-    font-size: 1.55rem;
+    font-size: 1.2rem;
   }
 
   .map-wrapper {
-    min-height: 220px;
+    height: clamp(150px, 26svh, 200px);
+    min-height: 0;
   }
 }
