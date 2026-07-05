@@ -20,6 +20,7 @@ import { CreateRsvpPayload } from '../../../../models/rsvp.model';
 export class RsvpFormComponent implements OnInit {
 
   @Input() eventId!: string;
+  readonly maxAttendeeCount = 5;
 
   private fb = inject(FormBuilder);
   private rsvpService = inject(RsvpService);
@@ -37,7 +38,7 @@ export class RsvpFormComponent implements OnInit {
   form = this.fb.group({
     contactFullName: ['', this.nameValidators],
     attending: [true, Validators.required],
-    attendeeCount: [1, [Validators.required, Validators.min(1), Validators.max(10)]],
+    attendeeCount: [1, [Validators.required, Validators.min(1), Validators.max(this.maxAttendeeCount)]],
     attendees: this.fb.array<FormControl<string | null>>([]),
     notes: ['']
   });
@@ -54,7 +55,7 @@ export class RsvpFormComponent implements OnInit {
     this.form.controls.attendeeCount.valueChanges.subscribe(value => {
       const count = Number(value);
 
-      if (this.isAttending && Number.isInteger(count) && count >= 1 && count <= 10) {
+      if (this.isAttending && Number.isInteger(count) && count >= 1 && count <= this.maxAttendeeCount) {
         this.updateAttendeeInputs(count);
       }
     });
@@ -96,7 +97,7 @@ export class RsvpFormComponent implements OnInit {
 
     const currentValue = Number(this.form.controls.attendeeCount.value);
     const normalizedValue = Number.isFinite(currentValue)
-      ? Math.min(Math.max(Math.round(currentValue), 1), 10)
+      ? Math.min(Math.max(Math.round(currentValue), 1), this.maxAttendeeCount)
       : 1;
 
     this.form.controls.attendeeCount.setValue(normalizedValue);
