@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild,
 import { CommonModule } from '@angular/common';
 import { EventService } from '../../../../core/services/event.service';
 import { Event } from '../../../../models/event.model';
+import { ActivatedRoute } from '@angular/router';
 
 import { HeroComponent } from '../../components/hero/hero.component';
 import { LocationComponent } from '../../components/location/location.component';
@@ -53,6 +54,7 @@ export class EventPageComponent implements OnInit, OnDestroy {
   // Şimdilik manuel.
   private eventId = '991c4c5b-bb31-43d8-bcea-ab4bbf2c636a';
   private eventService = inject(EventService);
+  private route = inject(ActivatedRoute);
   private cdr = inject(ChangeDetectorRef);
 
   ngOnInit(): void {
@@ -176,6 +178,7 @@ export class EventPageComponent implements OnInit, OnDestroy {
           this.cdr.detectChanges();
           setTimeout(() => this.playMusic(), 100);
           this.observeSections();
+          this.openInitialSection();
         }, 320);
       },
       error: (err) => {
@@ -183,6 +186,18 @@ export class EventPageComponent implements OnInit, OnDestroy {
         this.loading = false;
         this.error = true;
       }
+    });
+  }
+
+  private openInitialSection(): void {
+    const initialSection = this.route.snapshot.data['initialSection'];
+
+    if (typeof initialSection !== 'string') return;
+
+    setTimeout(() => {
+      this.activeSection = initialSection;
+      document.getElementById(initialSection)?.scrollIntoView({ behavior: 'auto' });
+      this.cdr.detectChanges();
     });
   }
 
@@ -201,7 +216,7 @@ export class EventPageComponent implements OnInit, OnDestroy {
         this.cdr.detectChanges();
       }
     }, {
-      root,
+      root: window.matchMedia('(max-width: 768px)').matches ? null : root,
       rootMargin: '-15% 0px -45% 0px',
       threshold: [0.2, 0.4, 0.6]
     });

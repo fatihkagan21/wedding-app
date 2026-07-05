@@ -81,6 +81,13 @@
   white-space: nowrap;
 }
 
+.picker-note {
+  margin: 10px 4px 0;
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+  line-height: 1.45;
+}
+
 .selection-count {
   margin: 14px 0 0;
   color: var(--color-text-muted);

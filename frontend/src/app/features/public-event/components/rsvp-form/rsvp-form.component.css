@@ -206,7 +206,7 @@ textarea {
   .rsvp {
     min-height: 100svh;
     padding: 14px;
-    align-items: center;
+    align-items: flex-start;
   }
 
   .rsvp-card {

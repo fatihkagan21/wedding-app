@@ -266,8 +266,18 @@
 }
 
 @media (max-width: 768px) {
+  :host {
+    height: auto;
+    min-height: 100%;
+    overflow: visible;
+  }
+
   .event-page {
-    scroll-snap-type: y mandatory;
+    height: auto;
+    min-height: 100%;
+    overflow: visible;
+    overscroll-behavior-y: auto;
+    scroll-snap-type: none;
     scrollbar-gutter: auto;
   }
 

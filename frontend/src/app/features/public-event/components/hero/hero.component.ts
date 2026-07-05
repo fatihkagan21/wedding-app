@@ -112,13 +112,17 @@ import { Event } from '../../../../models/event.model';
       .hero-actions {
         width: 100%;
         margin-top: auto;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 8px;
       }
       .hero-action {
         min-width: 0;
         min-height: 38px;
-        flex: 1;
-        padding: 8px 10px;
+        width: 100%;
+        padding: 8px 6px;
+        font-size: .69rem;
+        line-height: 1.15;
       }
     }
     @media (max-width: 380px), (max-height: 720px) {
@@ -178,6 +182,10 @@ export class HeroComponent implements OnInit, OnDestroy {
 
   scrollToRsvp(): void {
     document.querySelector('#rsvp')?.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  scrollToPhotos(): void {
+    document.querySelector('#photos')?.scrollIntoView({ behavior: 'smooth' });
   }
 
   scrollToNextSection(): void {
