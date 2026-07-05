@@ -321,12 +321,12 @@ h1 span:not(.ampersand) {
   }
 
   .union-mark {
-    margin-block: 10px 8px;
+    margin-block: 14px 14px;
   }
 
   .invitation-note {
     margin-bottom: 8px;
-    font-size: 0.9rem;
+    font-size: clamp(0.78rem, 3.7vw, 0.9rem);
   }
 
   .qr-link {
@@ -359,7 +359,7 @@ h1 span:not(.ampersand) {
   }
 
   .union-mark {
-    margin-block: 12px 8px;
+    margin-block: 10px 10px;
   }
 
   .qr-link img {

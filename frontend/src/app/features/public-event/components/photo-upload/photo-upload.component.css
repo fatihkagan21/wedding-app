@@ -185,3 +185,34 @@
     width: 100%;
   }
 }
+
+@media (max-width: 380px), (max-height: 700px) {
+  .photo-upload {
+    padding: 24px 12px 68px;
+  }
+
+  .camera-mark {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 10px;
+    font-size: 1.25rem;
+  }
+
+  .section-divider {
+    margin-bottom: 12px;
+  }
+
+  .section-subtitle {
+    margin-bottom: 14px;
+    font-size: 0.88rem;
+  }
+
+  .upload-card {
+    padding: 14px;
+  }
+
+  .file-picker {
+    min-height: 78px;
+    padding: 12px;
+  }
+}

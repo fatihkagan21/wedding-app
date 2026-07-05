@@ -19,6 +19,19 @@ export class PhotoUploadComponent {
     'image/heic',
     'image/heif'
   ]);
+  private readonly mimeAliases: Record<string, string> = {
+    'image/jpg': 'image/jpeg',
+    'image/pjpeg': 'image/jpeg',
+    'image/x-png': 'image/png'
+  };
+  private readonly mimeTypesByExtension: Record<string, string> = {
+    jpg: 'image/jpeg',
+    jpeg: 'image/jpeg',
+    png: 'image/png',
+    webp: 'image/webp',
+    heic: 'image/heic',
+    heif: 'image/heif'
+  };
 
   selectedFiles: File[] = [];
   uploading = false;
@@ -32,21 +45,23 @@ export class PhotoUploadComponent {
     this.errorMessage = '';
     this.successMessage = '';
 
-    const invalidType = files.find(file => !this.allowedMimeTypes.has(file.type));
-    if (invalidType) {
+    const normalizedFiles = files.map(file => this.normalizeImageFile(file));
+    if (normalizedFiles.some(file => file === null)) {
       this.clearSelection(input);
       this.errorMessage = 'Sadece JPEG, PNG, WebP, HEIC veya HEIF fotoğrafları seçebilirsiniz.';
       return;
     }
 
-    const oversizedFile = files.find(file => file.size > this.maxFileSize);
+    const validFiles = normalizedFiles.filter((file): file is File => file !== null);
+
+    const oversizedFile = validFiles.find(file => file.size > this.maxFileSize);
     if (oversizedFile) {
       this.clearSelection(input);
       this.errorMessage = `“${oversizedFile.name}” 100 MB sınırını aşıyor.`;
       return;
     }
 
-    this.selectedFiles = files;
+    this.selectedFiles = validFiles;
   }
 
   upload(input: HTMLInputElement): void {
@@ -67,10 +82,41 @@ export class PhotoUploadComponent {
           this.clearSelection(input);
         },
         error: (error: HttpErrorResponse) => {
-          this.errorMessage = error.error?.error
-            ?? 'Fotoğraflar yüklenemedi. Lütfen daha sonra tekrar deneyin.';
+          this.errorMessage = this.getUploadErrorMessage(error);
         }
       });
+  }
+
+  private normalizeImageFile(file: File): File | null {
+    const originalMimeType = file.type.toLowerCase();
+    const extension = file.name.split('.').pop()?.toLowerCase() ?? '';
+    const normalizedMimeType = this.allowedMimeTypes.has(originalMimeType)
+      ? originalMimeType
+      : this.mimeAliases[originalMimeType] ?? this.mimeTypesByExtension[extension];
+
+    if (!normalizedMimeType || !this.allowedMimeTypes.has(normalizedMimeType)) {
+      return null;
+    }
+
+    if (normalizedMimeType === originalMimeType) return file;
+
+    return new File([file], file.name, {
+      type: normalizedMimeType,
+      lastModified: file.lastModified
+    });
+  }
+
+  private getUploadErrorMessage(error: HttpErrorResponse): string {
+    if (typeof error.error?.error === 'string') return error.error.error;
+    if (error.status === 0) {
+      return 'Yükleme sırasında bağlantı kesildi. İnternet bağlantınızı kontrol edip tekrar deneyin.';
+    }
+    if (error.status === 413) return 'Seçtiğiniz fotoğrafların toplam boyutu çok büyük.';
+    if (error.status === 502 || error.status === 504) {
+      return 'Yükleme zaman aşımına uğradı. Daha az fotoğrafla tekrar deneyin.';
+    }
+
+    return 'Fotoğraflar yüklenemedi. Lütfen daha sonra tekrar deneyin.';
   }
 
   private clearSelection(input: HTMLInputElement): void {
