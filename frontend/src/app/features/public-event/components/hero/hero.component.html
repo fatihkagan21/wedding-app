@@ -63,8 +63,6 @@
       </div>
     </div>
 
-    <br>
-    <br>
     <div class="hero-actions">
       @if (event.googleMapsUrl) {
         <a
@@ -82,6 +80,13 @@
         (click)="scrollToRsvp()">
         <span class="action-icon" aria-hidden="true">✓</span>
         <span>Katılım Durumu Bildir</span>
+      </button>
+      <button
+        class="hero-action hero-action-secondary"
+        type="button"
+        (click)="scrollToPhotos()">
+        <span class="action-icon action-icon-map" aria-hidden="true">📷</span>
+        <span>Fotoğraf Yükle</span>
       </button>
     </div>
 
