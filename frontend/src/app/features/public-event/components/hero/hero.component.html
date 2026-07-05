@@ -11,20 +11,22 @@
       <span class="date-weekday">{{ event.eventDate | date:'EEEE' }}</span>
     </div>
 
-    <h1 id="coupleNames">
-      <span>{{ event.brideName }}</span>
-      <span class="ampersand">&amp;</span>
-      <span>{{ event.groomName }}</span>
-    </h1>
+    <div class="couple-block">
+      <h1 id="coupleNames">
+        <span>{{ event.brideName }}</span>
+        <span class="ampersand">&amp;</span>
+        <span>{{ event.groomName }}</span>
+      </h1>
 
-    <div class="families" aria-label="Düğün sahiplerinin aileleri">
-      <div class="family">
-        <strong>{{ brideParents }}</strong>
-        <span>ÖTLEŞ AİLESİ</span>
-      </div>
-      <div class="family">
-        <strong>{{ groomParents }}</strong>
-        <span>KEREMİT AİLESİ</span>
+      <div class="families" aria-label="Düğün sahiplerinin aileleri">
+        <div class="family">
+          <strong>{{ brideParents }}</strong>
+          <span>ÖTLEŞ AİLESİ</span>
+        </div>
+        <div class="family">
+          <strong>{{ groomParents }}</strong>
+          <span>KEREMİT AİLESİ</span>
+        </div>
       </div>
     </div>
 

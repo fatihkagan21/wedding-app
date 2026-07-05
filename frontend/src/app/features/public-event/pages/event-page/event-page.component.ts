@@ -216,7 +216,7 @@ export class EventPageComponent implements OnInit, OnDestroy {
         this.cdr.detectChanges();
       }
     }, {
-      root: window.matchMedia('(max-width: 768px)').matches ? null : root,
+      root,
       rootMargin: '-15% 0px -45% 0px',
       threshold: [0.2, 0.4, 0.6]
     });
