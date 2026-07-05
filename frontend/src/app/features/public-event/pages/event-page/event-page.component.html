@@ -39,25 +39,21 @@
 
     <app-hero
       class="page-section"
-      [class.section-active]="activeSection === 'hero'"
       [event]="event">
     </app-hero>
     <app-location
       class="page-section"
-      [class.section-active]="activeSection === 'location'"
       [event]="event">
     </app-location>
 
     <section
       id="rsvp"
-      class="page-section"
-      [class.section-active]="activeSection === 'rsvp'">
+      class="page-section">
       <app-rsvp-form [eventId]="event.id"></app-rsvp-form>
     </section>
 
     <app-photo-upload
-      class="page-section"
-      [class.section-active]="activeSection === 'photos'">
+      class="page-section">
     </app-photo-upload>
 
     <footer class="footer">

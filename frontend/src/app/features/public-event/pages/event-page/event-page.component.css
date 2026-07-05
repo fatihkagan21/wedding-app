@@ -120,16 +120,6 @@
   background: var(--color-cream);
 }
 
-.page-section {
-  opacity: 0.32;
-  transition: opacity 0.42s ease;
-  will-change: opacity;
-}
-
-.page-section.section-active {
-  opacity: 1;
-}
-
 .loading {
   position: fixed;
   inset: 0;
@@ -266,19 +256,13 @@
 }
 
 @media (max-width: 768px) {
-  :host {
-    height: auto;
-    min-height: 100%;
-    overflow: visible;
+  .event-page {
+    scrollbar-gutter: auto;
   }
 
-  .event-page {
-    height: auto;
-    min-height: 100%;
-    overflow: visible;
-    overscroll-behavior-y: auto;
+  .event-page:has(#rsvp input:focus),
+  .event-page:has(#rsvp textarea:focus) {
     scroll-snap-type: none;
-    scrollbar-gutter: auto;
   }
 
   .event-page > app-hero,
@@ -320,11 +304,6 @@
 
 @media (prefers-reduced-motion: reduce) {
   .loading { transition: none; }
-
-  .page-section {
-    opacity: 1;
-    transition: none;
-  }
 
   .event-page {
     scroll-behavior: auto;
