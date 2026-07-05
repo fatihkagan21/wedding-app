@@ -111,7 +111,7 @@ import { Event } from '../../../../models/event.model';
       .event-fact .fact-time { font-size: .92rem; }
       .hero-actions {
         width: 100%;
-        margin-top: clamp(18px, 3vh, 26px);
+        margin-top: clamp(30px, 4.5vh, 40px);
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 8px;
@@ -126,7 +126,7 @@ import { Event } from '../../../../models/event.model';
       }
     }
     @media (max-width: 380px), (max-height: 720px) {
-      .hero-actions { margin-top: 14px; }
+      .hero-actions { margin-top: 18px; }
     }
   `]
 })
