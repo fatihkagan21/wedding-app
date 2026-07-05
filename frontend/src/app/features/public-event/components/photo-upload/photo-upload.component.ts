@@ -11,18 +11,24 @@ import { PhotoService } from '../../../../core/services/photo.service';
 })
 export class PhotoUploadComponent {
   private readonly photoService = inject(PhotoService);
-  private readonly maxFileSize = 100 * 1024 * 1024;
+  private readonly maxFileSize = 500 * 1024 * 1024;
   private readonly allowedMimeTypes = new Set([
     'image/jpeg',
     'image/png',
     'image/webp',
     'image/heic',
-    'image/heif'
+    'image/heif',
+    'video/mp4',
+    'video/quicktime',
+    'video/webm',
+    'video/x-m4v'
   ]);
   private readonly mimeAliases: Record<string, string> = {
     'image/jpg': 'image/jpeg',
     'image/pjpeg': 'image/jpeg',
-    'image/x-png': 'image/png'
+    'image/x-png': 'image/png',
+    'video/mov': 'video/quicktime',
+    'video/m4v': 'video/x-m4v'
   };
   private readonly mimeTypesByExtension: Record<string, string> = {
     jpg: 'image/jpeg',
@@ -30,7 +36,11 @@ export class PhotoUploadComponent {
     png: 'image/png',
     webp: 'image/webp',
     heic: 'image/heic',
-    heif: 'image/heif'
+    heif: 'image/heif',
+    mp4: 'video/mp4',
+    mov: 'video/quicktime',
+    webm: 'video/webm',
+    m4v: 'video/x-m4v'
   };
 
   selectedFiles: File[] = [];
@@ -45,10 +55,10 @@ export class PhotoUploadComponent {
     this.errorMessage = '';
     this.successMessage = '';
 
-    const normalizedFiles = files.map(file => this.normalizeImageFile(file));
+    const normalizedFiles = files.map(file => this.normalizeMediaFile(file));
     if (normalizedFiles.some(file => file === null)) {
       this.clearSelection(input);
-      this.errorMessage = 'Sadece JPEG, PNG, WebP, HEIC veya HEIF fotoğrafları seçebilirsiniz.';
+      this.errorMessage = 'Sadece JPEG, PNG, WebP, HEIC, HEIF, MP4, MOV, WebM veya M4V dosyaları seçebilirsiniz.';
       return;
     }
 
@@ -57,7 +67,7 @@ export class PhotoUploadComponent {
     const oversizedFile = validFiles.find(file => file.size > this.maxFileSize);
     if (oversizedFile) {
       this.clearSelection(input);
-      this.errorMessage = `“${oversizedFile.name}” 100 MB sınırını aşıyor.`;
+      this.errorMessage = `“${oversizedFile.name}” 500 MB sınırını aşıyor.`;
       return;
     }
 
@@ -66,7 +76,7 @@ export class PhotoUploadComponent {
 
   upload(input: HTMLInputElement): void {
     if (!this.selectedFiles.length || this.uploading) {
-      this.errorMessage = 'Lütfen en az bir fotoğraf seçin.';
+      this.errorMessage = 'Lütfen en az bir fotoğraf veya video seçin.';
       return;
     }
 
@@ -87,7 +97,7 @@ export class PhotoUploadComponent {
       });
   }
 
-  private normalizeImageFile(file: File): File | null {
+  private normalizeMediaFile(file: File): File | null {
     const originalMimeType = file.type.toLowerCase();
     const extension = file.name.split('.').pop()?.toLowerCase() ?? '';
     const normalizedMimeType = this.allowedMimeTypes.has(originalMimeType)
@@ -111,12 +121,12 @@ export class PhotoUploadComponent {
     if (error.status === 0) {
       return 'Yükleme sırasında bağlantı kesildi. İnternet bağlantınızı kontrol edip tekrar deneyin.';
     }
-    if (error.status === 413) return 'Seçtiğiniz fotoğrafların toplam boyutu çok büyük.';
+    if (error.status === 413) return 'Seçtiğiniz dosya 500 MB sınırını aşıyor.';
     if (error.status === 502 || error.status === 504) {
-      return 'Yükleme zaman aşımına uğradı. Daha az fotoğrafla tekrar deneyin.';
+      return 'Yükleme zaman aşımına uğradı. Daha küçük bir dosyayla tekrar deneyin.';
     }
 
-    return 'Fotoğraflar yüklenemedi. Lütfen daha sonra tekrar deneyin.';
+    return 'Dosyalar yüklenemedi. Lütfen daha sonra tekrar deneyin.';
   }
 
   private clearSelection(input: HTMLInputElement): void {

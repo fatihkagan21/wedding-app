@@ -30,6 +30,7 @@ export const uploadPhotoToDrive = async (photo: DrivePhoto): Promise<void> => {
   const drive = google.drive({ version: "v3", auth: oauthClient });
 
   await drive.files.create({
+    uploadType: "resumable",
     requestBody: {
       name: photo.name,
       parents: [getRequiredEnvironmentVariable("GOOGLE_DRIVE_FOLDER_ID")],

@@ -8,6 +8,10 @@ const extensionsByMimeType: Record<string, string> = {
   "image/webp": ".webp",
   "image/heic": ".heic",
   "image/heif": ".heif",
+  "video/mp4": ".mp4",
+  "video/quicktime": ".mov",
+  "video/webm": ".webm",
+  "video/x-m4v": ".m4v",
 };
 
 export const uploadPhotos = async (photos: Express.Multer.File[]): Promise<void> => {

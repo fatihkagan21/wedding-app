@@ -5,14 +5,30 @@ import { Request, Router } from "express";
 import multer from "multer";
 import * as controller from "./photo.controller.js";
 
-const MAX_FILE_SIZE = 100 * 1024 * 1024;
+const MAX_FILE_SIZE = 500 * 1024 * 1024;
 const allowedMimeTypes = new Set([
   "image/jpeg",
   "image/png",
   "image/webp",
   "image/heic",
   "image/heif",
+  "video/mp4",
+  "video/quicktime",
+  "video/webm",
+  "video/x-m4v",
 ]);
+const mimeTypesByExtension: Record<string, string> = {
+  jpg: "image/jpeg",
+  jpeg: "image/jpeg",
+  png: "image/png",
+  webp: "image/webp",
+  heic: "image/heic",
+  heif: "image/heif",
+  mp4: "video/mp4",
+  mov: "video/quicktime",
+  webm: "video/webm",
+  m4v: "video/x-m4v",
+};
 
 const upload = multer({
   storage: multer.diskStorage({
@@ -21,11 +37,21 @@ const upload = multer({
   }),
   limits: { fileSize: MAX_FILE_SIZE },
   fileFilter: (_req, file, callback) => {
-    if (!allowedMimeTypes.has(file.mimetype)) {
+    const extension = file.originalname.split(".").pop()?.toLowerCase() ?? "";
+    const normalizedMimeType = allowedMimeTypes.has(file.mimetype)
+      ? file.mimetype
+      : mimeTypesByExtension[extension];
+
+    if (!normalizedMimeType) {
+      console.warn("Unsupported upload file type", {
+        originalName: file.originalname,
+        mimeType: file.mimetype || "unknown",
+      });
       callback(new Error("INVALID_FILE_TYPE"));
       return;
     }
 
+    file.mimetype = normalizedMimeType;
     callback(null, true);
   },
 });
@@ -66,7 +92,7 @@ router.post("/upload", (req, res) => {
       });
 
       if (error instanceof multer.MulterError && error.code === "LIMIT_FILE_SIZE") {
-        res.status(400).json({ error: "Her fotoğraf en fazla 100 MB olabilir." });
+        res.status(400).json({ error: "Her dosya en fazla 500 MB olabilir." });
         return;
       }
 
@@ -77,7 +103,7 @@ router.post("/upload", (req, res) => {
 
       if (error instanceof Error && error.message === "INVALID_FILE_TYPE") {
         res.status(400).json({
-          error: "Sadece JPEG, PNG, WebP, HEIC veya HEIF fotoğrafları yükleyebilirsiniz.",
+          error: "Sadece JPEG, PNG, WebP, HEIC, HEIF, MP4, MOV, WebM veya M4V dosyaları yükleyebilirsiniz.",
         });
         return;
       }

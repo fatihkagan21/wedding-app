@@ -1,5 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { ApiService } from './api.service';
+import { concatMap, from, last } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 interface PhotoUploadResponse {
   message: string;
@@ -7,12 +9,16 @@ interface PhotoUploadResponse {
 
 @Injectable({ providedIn: 'root' })
 export class PhotoService {
-  private readonly api = inject(ApiService);
+  private readonly http = inject(HttpClient);
 
   uploadPhotos(files: File[]) {
-    const formData = new FormData();
-    files.forEach(file => formData.append('photos', file));
-
-    return this.api.post<PhotoUploadResponse>('/photos/upload', formData);
+    return from(files).pipe(
+      concatMap(file => {
+        const formData = new FormData();
+        formData.append('photos', file);
+        return this.http.post<PhotoUploadResponse>(environment.photoUploadUrl, formData);
+      }),
+      last()
+    );
   }
 }
