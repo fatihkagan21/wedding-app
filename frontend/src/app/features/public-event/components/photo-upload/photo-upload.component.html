@@ -73,7 +73,7 @@
             type="button"
             [disabled]="recorderState === 'requesting'"
             (click)="startRecording()">
-            <span class="record-button-icon" aria-hidden="true">🎙️</span>
+            <span class="record-dot" aria-hidden="true"></span>
             {{ recorderState === 'requesting' ? 'Mikrofon açılıyor...' : 'Kayda Başla' }}
           </button>
           <p class="recording-note">En fazla 5 dakika · Kayıttan önce mikrofon izni istenir</p>

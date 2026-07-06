@@ -26,6 +26,8 @@ services:
         sync: false
       - key: GOOGLE_DRIVE_FOLDER_ID
         sync: false
+      - key: FRONTEND_PUBLIC_URL
+        value: https://ozgefatihdugun.tr
 
   - type: web
     runtime: docker
@@ -48,5 +50,3 @@ services:
           envVarKey: RENDER_EXTERNAL_HOSTNAME
       - key: BACKEND_PORT
         value: 443
-      - key: FRONTEND_PUBLIC_URL
-        value: https://ozgefatihdugun.tr
