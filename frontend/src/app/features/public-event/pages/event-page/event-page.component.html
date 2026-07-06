@@ -1,4 +1,7 @@
-<div #eventPage class="event-page">
+<div
+  #eventPage
+  class="event-page"
+  [class.rsvp-active]="activeSection === 'rsvp'">
 
   @if (loading) {
     <div class="loading" [class.fade-out]="loadingFading">
