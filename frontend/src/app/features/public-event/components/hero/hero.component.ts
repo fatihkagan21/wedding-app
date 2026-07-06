@@ -1,5 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { DatePipe, NgStyle } from '@angular/common';
+import { environment } from '../../../../../environments/environment';
 
 import { Event } from '../../../../models/event.model';
 
@@ -58,6 +59,7 @@ import { Event } from '../../../../models/event.model';
     .hero-actions {
       margin-top: 12px;
       display: flex;
+      flex-wrap: wrap;
       justify-content: center;
       gap: 10px;
     }
@@ -114,12 +116,15 @@ import { Event } from '../../../../models/event.model';
         margin-top: clamp(16px, 3.5svh, 30px);
         padding-top: 0;
         display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-auto-rows: 1fr;
+        align-items: stretch;
         gap: 8px;
       }
       .hero-action {
         min-width: 0;
         min-height: 38px;
+        height: 100%;
         width: 100%;
         padding: 8px 6px;
         font-size: .69rem;
@@ -163,6 +168,11 @@ export class HeroComponent implements OnInit, OnDestroy {
   readonly brideParents = 'Sema & Semih';
   readonly groomParents = 'Hatice Hülya & Yusuf';
   now = Date.now();
+
+  get calendarUrl(): string {
+    const baseUrl = environment.apiUrl.replace(/\/$/, '');
+    return `${baseUrl}/events/${this.event.id}/calendar.ics`;
+  }
 
   private readonly ceremonyLeadTimeMs = 30 * 60_000;
   private countdownTimer?: ReturnType<typeof setInterval>;
