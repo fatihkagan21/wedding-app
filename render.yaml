@@ -28,6 +28,10 @@ services:
         sync: false
       - key: FRONTEND_PUBLIC_URL
         value: https://ozgefatihdugun.tr
+      - key: MEMORY_UPLOAD_MODE
+        value: scheduled
+      - key: MEMORY_UPLOAD_OPEN_AT
+        value: 2026-09-05T20:00:00+03:00
 
   - type: web
     runtime: docker
@@ -50,3 +54,7 @@ services:
           envVarKey: RENDER_EXTERNAL_HOSTNAME
       - key: BACKEND_PORT
         value: 443
+      - key: MEMORY_UPLOAD_MODE
+        value: scheduled
+      - key: MEMORY_UPLOAD_OPEN_AT
+        value: 2026-09-05T20:00:00+03:00

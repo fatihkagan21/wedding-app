@@ -4,6 +4,7 @@ import { tmpdir } from "node:os";
 import { Request, Router } from "express";
 import multer from "multer";
 import * as controller from "./photo.controller.js";
+import { requireMemoryUploadOpen } from "../../shared/middleware/memory-upload-gate.middleware.js";
 
 const MAX_FILE_SIZE = 500 * 1024 * 1024;
 const allowedMimeTypes = new Set([
@@ -82,7 +83,7 @@ const removeTemporaryFiles = async (req: Request): Promise<void> => {
 
 const router = Router();
 
-router.post("/upload", (req, res) => {
+router.post("/upload", requireMemoryUploadOpen, (req, res) => {
   const requestId = randomUUID();
   const startedAt = Date.now();
   res.setHeader("X-Request-ID", requestId);

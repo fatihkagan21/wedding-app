@@ -1,9 +1,20 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnDestroy, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { finalize } from 'rxjs';
 import { PhotoService } from '../../../../core/services/photo.service';
+import { environment } from '../../../../../environments/environment';
 
 type RecorderState = 'idle' | 'requesting' | 'recording' | 'recorded';
+type MemoryUploadMode = 'open' | 'closed' | 'scheduled';
+
+declare global {
+  interface Window {
+    __WEDDING_APP_CONFIG__?: {
+      memoryUploadMode?: string;
+      memoryUploadOpenAt?: string;
+    };
+  }
+}
 
 @Component({
   selector: 'app-photo-upload',
@@ -11,8 +22,10 @@ type RecorderState = 'idle' | 'requesting' | 'recording' | 'recorded';
   templateUrl: './photo-upload.component.html',
   styleUrl: './photo-upload.component.css'
 })
-export class PhotoUploadComponent implements OnDestroy {
+export class PhotoUploadComponent implements OnDestroy, OnInit {
   private readonly photoService = inject(PhotoService);
+  private readonly memoryUploadMode = this.getMemoryUploadMode();
+  private readonly memoryUploadOpenAt = this.getMemoryUploadOpenAt();
   private readonly maxFileSize = 500 * 1024 * 1024;
   private readonly maxRecordingSeconds = 5 * 60;
   private readonly allowedMimeTypes = new Set([
@@ -57,12 +70,56 @@ export class PhotoUploadComponent implements OnDestroy {
   audioUploading = false;
   audioErrorMessage = '';
   audioSuccessMessage = '';
+  now = new Date();
 
   private mediaRecorder?: MediaRecorder;
   private mediaStream?: MediaStream;
   private recordedAudio?: File;
   private recordingChunks: Blob[] = [];
   private recordingTimer?: ReturnType<typeof setInterval>;
+  private countdownTimer?: ReturnType<typeof setInterval>;
+
+  get memoryUploadOpen(): boolean {
+    if (this.memoryUploadMode === 'open') return true;
+    if (this.memoryUploadMode === 'closed') return false;
+    return this.now >= this.memoryUploadOpenAt;
+  }
+
+  get memoryUploadScheduled(): boolean {
+    return this.memoryUploadMode === 'scheduled' && !this.memoryUploadOpen;
+  }
+
+  get memoryUploadClosed(): boolean {
+    return this.memoryUploadMode === 'closed';
+  }
+
+  get memoryUploadDateLabel(): string {
+    return new Intl.DateTimeFormat('tr-TR', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+      timeZone: 'Europe/Istanbul'
+    }).format(this.memoryUploadOpenAt);
+  }
+
+  get countdownParts(): { days: string; hours: string; minutes: string; seconds: string } {
+    const remainingMs = Math.max(0, this.memoryUploadOpenAt.getTime() - this.now.getTime());
+    const totalSeconds = Math.floor(remainingMs / 1000);
+    const days = Math.floor(totalSeconds / 86400);
+    const hours = Math.floor((totalSeconds % 86400) / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+
+    return {
+      days: String(days).padStart(2, '0'),
+      hours: String(hours).padStart(2, '0'),
+      minutes: String(minutes).padStart(2, '0'),
+      seconds: String(seconds).padStart(2, '0')
+    };
+  }
 
   get recordingSupported(): boolean {
     return typeof navigator !== 'undefined'
@@ -76,7 +133,15 @@ export class PhotoUploadComponent implements OnDestroy {
     return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
   }
 
+  ngOnInit(): void {
+    if (this.memoryUploadMode === 'scheduled' && !this.memoryUploadOpen) {
+      this.countdownTimer = setInterval(() => this.now = new Date(), 1000);
+    }
+  }
+
   onFileSelected(event: Event): void {
+    if (!this.memoryUploadOpen) return;
+
     const input = event.target as HTMLInputElement;
     const files = Array.from(input.files ?? []);
 
@@ -102,6 +167,11 @@ export class PhotoUploadComponent implements OnDestroy {
   }
 
   upload(input: HTMLInputElement): void {
+    if (!this.memoryUploadOpen) {
+      this.errorMessage = 'Anı yükleme düğün başladıktan sonra açılacak.';
+      return;
+    }
+
     if (!this.selectedFiles.length || this.uploading) {
       this.errorMessage = 'Lütfen en az bir fotoğraf veya video seçin.';
       return;
@@ -125,6 +195,11 @@ export class PhotoUploadComponent implements OnDestroy {
   }
 
   async startRecording(): Promise<void> {
+    if (!this.memoryUploadOpen) {
+      this.audioErrorMessage = 'Sesli anı bırakma düğün başladıktan sonra açılacak.';
+      return;
+    }
+
     if (!this.recordingSupported || this.recorderState === 'requesting' || this.recorderState === 'recording') return;
 
     this.resetRecording();
@@ -184,6 +259,11 @@ export class PhotoUploadComponent implements OnDestroy {
   }
 
   uploadRecording(): void {
+    if (!this.memoryUploadOpen) {
+      this.audioErrorMessage = 'Sesli anı yükleme düğün başladıktan sonra açılacak.';
+      return;
+    }
+
     if (!this.recordedAudio || this.audioUploading) return;
 
     this.audioUploading = true;
@@ -205,8 +285,30 @@ export class PhotoUploadComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     if (this.mediaRecorder?.state === 'recording') this.mediaRecorder.stop();
+    if (this.countdownTimer) clearInterval(this.countdownTimer);
     this.finishRecordingSession();
     this.revokeRecordedAudioUrl();
+  }
+
+  private getMemoryUploadMode(): MemoryUploadMode {
+    const configuredMode = window.__WEDDING_APP_CONFIG__?.memoryUploadMode
+      ?? environment.memoryUpload.mode;
+
+    if (configuredMode === 'open' || configuredMode === 'closed' || configuredMode === 'scheduled') {
+      return configuredMode;
+    }
+
+    return 'open';
+  }
+
+  private getMemoryUploadOpenAt(): Date {
+    const configuredDate = window.__WEDDING_APP_CONFIG__?.memoryUploadOpenAt
+      ?? environment.memoryUpload.openAt;
+    const openAt = new Date(configuredDate);
+
+    return Number.isNaN(openAt.getTime())
+      ? new Date('2026-09-05T20:00:00+03:00')
+      : openAt;
   }
 
   private createRecordingFile(): void {
