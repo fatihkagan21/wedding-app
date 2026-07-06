@@ -288,32 +288,55 @@ h1 span:last-child {
   .hero {
     height: 100svh;
     min-height: 100svh;
-    padding: 8px;
+    padding: 14px 8px 8px;
     align-items: flex-start;
     overflow: hidden;
   }
 
   .invitation {
     width: 100%;
-    height: calc(100svh - 16px);
+    height: calc(100svh - 22px);
     min-height: 0;
-    padding: 14px 16px max(10px, env(safe-area-inset-bottom));
+    padding: 18px 14px max(10px, env(safe-area-inset-bottom));
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
   }
 
+  .date-emblem {
+    margin-bottom: clamp(21px, 3svh, 28px);
+  }
+
+  .couple-block {
+    width: min(100%, 330px);
+  }
+
   h1 {
-    gap: 7px;
+    width: max-content;
+    max-width: 100%;
+    grid-template-columns: max-content auto max-content;
+    justify-content: center;
+    gap: 4px;
     font-size: clamp(1.75rem, 8vw, 2.15rem);
   }
 
+  .ampersand,
+  h1 span:last-child {
+    transform: none;
+  }
+
   .families {
-    width: calc(100% - 12px);
-    grid-template-columns: minmax(0, 1fr) clamp(20px, 6vw, 34px) minmax(0, 1fr);
-    margin-top: 22px;
+    width: 100%;
+    grid-template-columns: minmax(0, 1fr) 24px minmax(0, 1.32fr);
+    margin-top: 12px;
     gap: 0;
+  }
+
+  .family {
+    min-height: 40px;
+    display: grid;
+    align-content: center;
   }
 
   .family strong {
@@ -330,7 +353,7 @@ h1 span:last-child {
   }
 
   .union-mark {
-    margin-block: 14px 14px;
+    margin-block: 10px 9px;
   }
 
   .couple-block,
@@ -343,7 +366,7 @@ h1 span:last-child {
   }
 
   .invitation-note {
-    margin-bottom: 8px;
+    margin-bottom: 7px;
     font-size: clamp(0.78rem, 3.7vw, 0.9rem);
   }
 
@@ -356,7 +379,7 @@ h1 span:last-child {
   }
 
   .scroll-cue {
-    margin-top: 2px;
+    margin-top: 3px;
   }
 }
 
@@ -373,7 +396,7 @@ h1 span:last-child {
   }
 
   .families {
-    margin-top: 16px;
+    margin-top: 8px;
   }
 
   .union-mark {
