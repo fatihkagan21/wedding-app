@@ -260,9 +260,13 @@
     scrollbar-gutter: auto;
   }
 
-  /* Keep iOS momentum scrolling from snapping a long RSVP form to Photos
-     when the virtual keyboard closes and the focused field is blurred. */
-  .event-page.rsvp-active,
+  /* A long RSVP form needs free local movement, but proximity keeps the
+     full-page transition feel when the user deliberately leaves it. */
+  .event-page.rsvp-active {
+    scroll-snap-type: y proximity;
+  }
+
+  /* iOS can re-snap as the virtual keyboard changes the viewport. */
   .event-page:has(#rsvp input:focus),
   .event-page:has(#rsvp textarea:focus) {
     scroll-snap-type: none;
