@@ -201,6 +201,78 @@ button:disabled { opacity: 0.55; cursor: not-allowed; }
 @keyframes spin { to { transform: rotate(360deg); } }
 @keyframes recording-pulse { 50% { opacity: 0.35; transform: scale(0.82); } }
 
+@media (max-width: 699px) {
+  .photo-upload {
+    padding: 22px 12px 64px;
+    align-items: flex-start;
+  }
+
+  .camera-mark {
+    width: 42px;
+    height: 42px;
+    margin-bottom: 7px;
+    font-size: 1.15rem;
+  }
+
+  .section-divider {
+    margin-bottom: 7px;
+    font-size: 0.84rem;
+  }
+
+  .section-title {
+    margin-bottom: 5px;
+    font-size: 1.75rem;
+  }
+
+  .section-subtitle {
+    margin-bottom: 12px;
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
+
+  .memory-options { gap: 12px; }
+  .upload-card { padding: 13px; }
+
+  .card-heading {
+    margin-bottom: 9px;
+    gap: 9px;
+  }
+
+  .card-heading h3 { font-size: 1.12rem; }
+  .card-heading p { font-size: 0.69rem; line-height: 1.3; }
+
+  .card-icon {
+    flex-basis: 36px;
+    width: 36px;
+    height: 36px;
+  }
+
+  .file-picker {
+    min-height: 66px;
+    padding: 9px;
+  }
+
+  .file-picker-title { font-size: 0.88rem; }
+  .file-picker-hint,
+  .picker-note,
+  .recording-note { font-size: 0.65rem; }
+  .picker-note { margin-top: 6px; line-height: 1.35; }
+
+  .upload-button,
+  .record-button,
+  .stop-button,
+  .secondary-button {
+    min-height: 42px;
+    padding: 9px 12px;
+    font-size: 0.84rem;
+  }
+
+  .upload-button { margin-top: 10px; }
+  .record-button,
+  .recording-status { min-height: 64px; }
+  .recording-note { margin-top: 6px; }
+}
+
 @media (min-width: 700px) {
   .photo-upload { padding: 70px 24px; }
   .memory-options { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
@@ -209,12 +281,11 @@ button:disabled { opacity: 0.55; cursor: not-allowed; }
 }
 
 @media (max-width: 380px), (max-height: 700px) {
-  .photo-upload { padding: 24px 12px 68px; align-items: flex-start; }
-  .camera-mark { width: 46px; height: 46px; margin-bottom: 9px; font-size: 1.2rem; }
-  .section-divider { margin-bottom: 10px; }
-  .section-subtitle { margin-bottom: 14px; font-size: 0.86rem; }
-  .upload-card { padding: 14px; }
-  .file-picker, .record-button, .recording-status { min-height: 76px; }
+  .photo-upload { padding-top: 16px; }
+  .camera-mark { width: 38px; height: 38px; }
+  .section-subtitle { margin-bottom: 9px; font-size: 0.75rem; }
+  .upload-card { padding: 11px; }
+  .file-picker { min-height: 58px; }
 }
 
 @media (prefers-reduced-motion: reduce) { .recording-pulse { animation: none; } }

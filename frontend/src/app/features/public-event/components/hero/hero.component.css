@@ -309,15 +309,20 @@ h1 span:last-child {
   }
 
   .couple-block {
-    width: min(100%, 330px);
+    width: fit-content;
+    max-width: 100%;
+    display: grid;
+    grid-template-columns: max-content auto max-content;
+    justify-content: center;
+    column-gap: 4px;
   }
 
   h1 {
-    width: max-content;
-    max-width: 100%;
-    grid-template-columns: max-content auto max-content;
-    justify-content: center;
-    gap: 4px;
+    grid-column: 1 / -1;
+    width: auto;
+    max-width: none;
+    grid-template-columns: subgrid;
+    column-gap: 4px;
     font-size: clamp(1.75rem, 8vw, 2.15rem);
   }
 
@@ -327,10 +332,11 @@ h1 span:last-child {
   }
 
   .families {
-    width: 100%;
-    grid-template-columns: minmax(0, 1fr) 24px minmax(0, 1.32fr);
+    grid-column: 1 / -1;
+    width: auto;
+    grid-template-columns: subgrid;
     margin-top: 12px;
-    gap: 0;
+    column-gap: 4px;
   }
 
   .family {
@@ -380,6 +386,17 @@ h1 span:last-child {
 
   .scroll-cue {
     margin-top: 3px;
+  }
+}
+
+@supports not (grid-template-columns: subgrid) {
+  @media (max-width: 600px) {
+    .couple-block { width: min(100%, 300px); }
+    h1,
+    .families {
+      width: 100%;
+      grid-template-columns: minmax(0, 1fr) 24px minmax(0, 1.25fr);
+    }
   }
 }
 
