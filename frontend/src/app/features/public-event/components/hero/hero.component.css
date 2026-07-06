@@ -76,6 +76,7 @@
   text-transform: uppercase;
 }
 
+/* Names + families block */
 .couple-block {
   width: fit-content;
   max-width: 100%;
@@ -89,7 +90,7 @@ h1 {
   display: flex;
   align-items: baseline;
   justify-content: center;
-  gap: clamp(7px, 1.6vw, 12px);
+  gap: clamp(7px, 1.4vw, 10px);
   font-family: var(--font-display);
   font-size: clamp(2.35rem, 6vw, 3.05rem);
   font-style: italic;
@@ -101,7 +102,8 @@ h1 {
 
 h1 span:not(.ampersand) {
   min-width: 0;
-  text-align: center;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
 }
 
 .ampersand {
@@ -117,17 +119,26 @@ h1 span:last-child {
 .families {
   width: 100%;
   max-width: 100%;
-  margin-top: 13px;
+  margin-top: 15px;
   margin-inline: auto;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: clamp(16px, 4vw, 34px);
-  align-items: start;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: clamp(14px, 3vw, 24px);
 }
 
 .family {
+  flex: 0 1 auto;
   min-width: 0;
-  text-align: center;
+  max-width: calc(50% - 18px);
+}
+
+.family:first-child {
+  text-align: left;
+}
+
+.family:last-child {
+  text-align: right;
 }
 
 .family strong,
@@ -137,17 +148,15 @@ h1 span:last-child {
 
 .family strong {
   min-height: 0;
-  font-size: 0.82rem;
+  font-size: 0.96rem;
   font-weight: 500;
   line-height: 1.28;
-  white-space: normal;
-  overflow-wrap: break-word;
-  text-wrap: balance;
+  white-space: nowrap;
 }
 
 .family span {
-  margin-top: 3px;
-  font-size: 0.6rem;
+  margin-top: 4px;
+  font-size: 0.7rem;
   letter-spacing: 0.09em;
   color: var(--color-text-muted);
   white-space: nowrap;
@@ -324,34 +333,30 @@ h1 span:last-child {
   }
 
   h1 {
-    width: fit-content;
-    max-width: 100%;
-    gap: 6px;
-    font-size: clamp(1.76rem, 7.5vw, 2.12rem);
+    gap: 5px;
+    font-size: clamp(1.84rem, 7.7vw, 2.16rem);
     line-height: 1;
   }
 
   .families {
-    width: 100%;
-    max-width: 100%;
-    margin-top: 11px;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    column-gap: clamp(12px, 3.4vw, 18px);
+    margin-top: 13px;
+    gap: clamp(12px, 3.5vw, 18px);
   }
 
   .family {
-    min-height: 34px;
+    max-width: calc(50% - 14px);
+    min-height: 38px;
   }
 
   .family strong {
-    font-size: clamp(0.56rem, 2.25vw, 0.66rem);
+    font-size: clamp(0.7rem, 2.85vw, 0.82rem);
     line-height: 1.22;
   }
 
   .family span {
     margin-top: 3px;
-    font-size: clamp(0.44rem, 1.75vw, 0.5rem);
-    letter-spacing: 0.06em;
+    font-size: clamp(0.52rem, 2.08vw, 0.6rem);
+    letter-spacing: 0.055em;
   }
 
   .union-mark {
@@ -397,29 +402,34 @@ h1 span:last-child {
     padding-block: 6px;
   }
 
+  .couple-block {
+    width: fit-content;
+  }
+
   h1 {
-    gap: 5px;
-    font-size: clamp(1.62rem, 7vw, 1.92rem);
+    gap: 4px;
+    font-size: clamp(1.72rem, 7.2vw, 1.98rem);
   }
 
   .families {
-    margin-top: 9px;
-    column-gap: 10px;
+    margin-top: 10px;
+    gap: 10px;
   }
 
   .family {
-    min-height: 32px;
+    max-width: calc(50% - 12px);
+    min-height: 34px;
   }
 
   .family strong {
-    font-size: clamp(0.5rem, 2.2vw, 0.58rem);
+    font-size: clamp(0.62rem, 2.55vw, 0.72rem);
     line-height: 1.18;
   }
 
   .family span {
     margin-top: 3px;
-    font-size: 0.43rem;
-    letter-spacing: 0.045em;
+    font-size: 0.49rem;
+    letter-spacing: 0.04em;
   }
 
   .union-mark {

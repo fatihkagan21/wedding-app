@@ -133,7 +133,12 @@ button { font: inherit; }
   color: #963e52;
 }
 
-.record-dot, .recording-pulse {
+.record-button-icon {
+  font-size: 1.05rem;
+  line-height: 1;
+}
+
+.recording-pulse {
   width: 13px;
   height: 13px;
   border-radius: 50%;
