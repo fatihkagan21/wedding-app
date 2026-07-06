@@ -111,7 +111,8 @@ import { Event } from '../../../../models/event.model';
       .event-fact .fact-time { font-size: .92rem; }
       .hero-actions {
         width: 100%;
-        margin-top: clamp(42px, 6vh, 64px);
+        margin-top: auto;
+        padding-top: clamp(18px, 4.5svh, 46px);
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 8px;
@@ -144,7 +145,12 @@ import { Event } from '../../../../models/event.model';
       }
     }
     @media (max-height: 720px) {
-      .hero-actions { margin-top: 24px; }
+      .hero-actions { padding-top: 12px; }
+    }
+    @media (max-height: 620px) {
+      .event-facts { padding-block: 6px; }
+      .hero-actions { padding-top: 7px; }
+      .hero-action { min-height: 34px; padding-block: 6px; }
     }
   `]
 })

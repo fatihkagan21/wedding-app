@@ -79,7 +79,7 @@ export class PhotoUploadComponent {
     const normalizedFiles = files.map(file => this.normalizeMediaFile(file));
     if (normalizedFiles.some(file => file === null)) {
       this.clearSelection(input);
-      this.errorMessage = 'Yalnızca desteklenen fotoğraf, video veya ses dosyalarını seçebilirsiniz.';
+      this.errorMessage = 'Sadece JPEG, PNG, WebP, HEIC, HEIF, MP4, MOV, WebM, M4V, MP3, M4A, AAC, WAV, OGG, Opus, 3GP, AMR veya FLAC dosyaları yükleyebilirsiniz.';
       return;
     }
 
