@@ -302,6 +302,14 @@ h1 span:not(.ampersand) {
     font-size: clamp(1.75rem, 8vw, 2.15rem);
   }
 
+  h1 .ampersand {
+    transform: translateX(2px);
+  }
+
+  h1 span:last-child {
+    transform: translateX(5px);
+  }
+
   .families {
     width: calc(100% - 28px);
     grid-template-columns: minmax(0, 1fr) clamp(20px, 6vw, 34px) minmax(0, 1fr);
