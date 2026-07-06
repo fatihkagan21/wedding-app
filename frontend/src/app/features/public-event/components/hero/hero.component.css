@@ -77,16 +77,16 @@
 }
 
 .couple-block {
-  width: fit-content;
+  width: min(100%, 440px);
   max-width: 100%;
   margin-inline: auto;
 }
 
 h1 {
   margin: 0;
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: baseline;
-  justify-content: center;
   gap: 10px;
   font-family: var(--font-display);
   font-size: clamp(2.35rem, 6vw, 3.05rem);
@@ -97,15 +97,22 @@ h1 {
 }
 
 h1 span:not(.ampersand) {
+  min-width: 0;
+  text-align: center;
   white-space: nowrap;
 }
 
 .ampersand {
   color: var(--color-gold);
+  transform: translateX(3px);
+}
+
+h1 span:last-child {
+  transform: translateX(6px);
 }
 
 .families {
-  width: calc(100% - 40px);
+  width: 100%;
   margin-top: 28px;
   margin-inline: auto;
   display: grid;
@@ -279,18 +286,18 @@ h1 span:not(.ampersand) {
 
 @media (max-width: 600px) {
   .hero {
-    height: auto;
+    height: 100svh;
     min-height: 100svh;
     padding: 8px;
     align-items: flex-start;
-    overflow: visible;
+    overflow: hidden;
   }
 
   .invitation {
     width: 100%;
-    height: auto;
-    min-height: calc(100svh - 16px);
-    padding: 14px 16px 42px;
+    height: calc(100svh - 16px);
+    min-height: 0;
+    padding: 14px 16px max(10px, env(safe-area-inset-bottom));
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -302,16 +309,8 @@ h1 span:not(.ampersand) {
     font-size: clamp(1.75rem, 8vw, 2.15rem);
   }
 
-  h1 .ampersand {
-    transform: translateX(2px);
-  }
-
-  h1 span:last-child {
-    transform: translateX(5px);
-  }
-
   .families {
-    width: calc(100% - 28px);
+    width: calc(100% - 12px);
     grid-template-columns: minmax(0, 1fr) clamp(20px, 6vw, 34px) minmax(0, 1fr);
     margin-top: 22px;
     gap: 0;
@@ -357,14 +356,14 @@ h1 span:not(.ampersand) {
   }
 
   .scroll-cue {
-    margin-top: 3px;
+    margin-top: 2px;
   }
 }
 
 @media (max-width: 380px), (max-height: 720px) {
   .invitation {
     justify-content: flex-start;
-    padding: 10px 14px 36px;
+    padding: 8px 14px max(6px, env(safe-area-inset-bottom));
   }
 
   .date-emblem {

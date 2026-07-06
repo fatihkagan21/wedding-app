@@ -122,7 +122,7 @@ router.post("/upload", (req, res) => {
 
       if (error instanceof Error && error.message === "INVALID_FILE_TYPE") {
         res.status(400).json({
-          error: "Yalnızca desteklenen fotoğraf, video veya ses dosyalarını yükleyebilirsiniz.",
+          error: "Sadece JPEG, PNG, WebP, HEIC, HEIF, MP4, MOV, WebM, M4V, MP3, M4A, AAC, WAV, OGG, Opus, 3GP, AMR veya FLAC dosyaları yükleyebilirsiniz.",
         });
         return;
       }
