@@ -2,13 +2,13 @@ import { Request, Response } from "express";
 import * as photoService from "./photo.service.js";
 
 const SUCCESS_MESSAGE =
-  "Fotoğraf ve videolarınız başarıyla yüklendi. Bu güzel anıları bizimle paylaştığınız için teşekkür ederiz 🤍";
+  "Anılarınız başarıyla yüklendi. Bu güzel anıları bizimle paylaştığınız için teşekkür ederiz 🤍";
 
 export const uploadPhotos = async (req: Request, res: Response): Promise<void> => {
   const photos = req.files as Express.Multer.File[] | undefined;
 
   if (!photos?.length) {
-    res.status(400).json({ error: "Lütfen en az bir fotoğraf veya video seçin." });
+    res.status(400).json({ error: "Lütfen en az bir fotoğraf, video veya ses dosyası seçin." });
     return;
   }
 

@@ -12,6 +12,16 @@ const extensionsByMimeType: Record<string, string> = {
   "video/quicktime": ".mov",
   "video/webm": ".webm",
   "video/x-m4v": ".m4v",
+  "audio/mpeg": ".mp3",
+  "audio/mp4": ".m4a",
+  "audio/aac": ".aac",
+  "audio/wav": ".wav",
+  "audio/x-wav": ".wav",
+  "audio/ogg": ".ogg",
+  "audio/webm": ".webm",
+  "audio/3gpp": ".3gp",
+  "audio/amr": ".amr",
+  "audio/flac": ".flac",
 };
 
 export const uploadPhotos = async (photos: Express.Multer.File[]): Promise<void> => {

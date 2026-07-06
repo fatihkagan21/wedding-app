@@ -21,14 +21,26 @@ export class PhotoUploadComponent {
     'video/mp4',
     'video/quicktime',
     'video/webm',
-    'video/x-m4v'
+    'video/x-m4v',
+    'audio/mpeg',
+    'audio/mp4',
+    'audio/aac',
+    'audio/wav',
+    'audio/x-wav',
+    'audio/ogg',
+    'audio/webm',
+    'audio/3gpp',
+    'audio/amr',
+    'audio/flac'
   ]);
   private readonly mimeAliases: Record<string, string> = {
     'image/jpg': 'image/jpeg',
     'image/pjpeg': 'image/jpeg',
     'image/x-png': 'image/png',
     'video/mov': 'video/quicktime',
-    'video/m4v': 'video/x-m4v'
+    'video/m4v': 'video/x-m4v',
+    'audio/mp3': 'audio/mpeg',
+    'audio/x-m4a': 'audio/mp4'
   };
   private readonly mimeTypesByExtension: Record<string, string> = {
     jpg: 'image/jpeg',
@@ -40,7 +52,16 @@ export class PhotoUploadComponent {
     mp4: 'video/mp4',
     mov: 'video/quicktime',
     webm: 'video/webm',
-    m4v: 'video/x-m4v'
+    m4v: 'video/x-m4v',
+    mp3: 'audio/mpeg',
+    m4a: 'audio/mp4',
+    aac: 'audio/aac',
+    wav: 'audio/wav',
+    ogg: 'audio/ogg',
+    opus: 'audio/ogg',
+    '3gp': 'audio/3gpp',
+    amr: 'audio/amr',
+    flac: 'audio/flac'
   };
 
   selectedFiles: File[] = [];
@@ -58,7 +79,7 @@ export class PhotoUploadComponent {
     const normalizedFiles = files.map(file => this.normalizeMediaFile(file));
     if (normalizedFiles.some(file => file === null)) {
       this.clearSelection(input);
-      this.errorMessage = 'Sadece JPEG, PNG, WebP, HEIC, HEIF, MP4, MOV, WebM veya M4V dosyaları seçebilirsiniz.';
+      this.errorMessage = 'Yalnızca desteklenen fotoğraf, video veya ses dosyalarını seçebilirsiniz.';
       return;
     }
 
@@ -76,7 +97,7 @@ export class PhotoUploadComponent {
 
   upload(input: HTMLInputElement): void {
     if (!this.selectedFiles.length || this.uploading) {
-      this.errorMessage = 'Lütfen en az bir fotoğraf veya video seçin.';
+      this.errorMessage = 'Lütfen en az bir fotoğraf, video veya ses dosyası seçin.';
       return;
     }
 

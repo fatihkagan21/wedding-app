@@ -1,16 +1,16 @@
 <section id="photos" class="photo-upload">
   <div class="photo-upload-inner">
-    <div class="camera-mark" aria-hidden="true">📷</div>
-    <div class="section-divider">Fotoğraflar</div>
-    <h2 class="section-title">Anılarınızı Bizimle Paylaşın</h2>
+    <div class="camera-mark" aria-hidden="true">✦</div>
+    <div class="section-divider">Anılar</div>
+    <h2 class="section-title">Anı Köşesi</h2>
     <p class="section-subtitle">
-      Bu güzel günden yakaladığınız fotoğraf ve videoları seçin, anılarımızı birlikte çoğaltalım.
+      Bu güzel günden fotoğraflarınızı, videolarınızı ve ses kayıtlarınızı paylaşın; anılarımızı birlikte çoğaltalım.
     </p>
 
     <div class="upload-card">
       <label class="file-picker" for="photo-input">
-        <span class="file-picker-title">Fotoğraf veya video seçin</span>
-        <span class="file-picker-hint">JPEG, PNG, WebP, HEIC, HEIF, MP4, MOV, WebM veya M4V · En fazla 500 MB</span>
+        <span class="file-picker-title">Fotoğraf, video veya ses seçin</span>
+        <span class="file-picker-hint">Dosya başına en fazla 500 MB</span>
       </label>
       <p class="picker-note">
         Çok sayıda veya büyük dosya seçtiğinizde telefonunuzun bu sayfaya dönmesi biraz sürebilir.
@@ -20,7 +20,7 @@
         id="photo-input"
         class="file-input"
         type="file"
-        accept="image/jpeg,image/png,image/webp,image/heic,image/heif,video/mp4,video/quicktime,video/webm,video/x-m4v,.mov,.m4v"
+        accept="image/jpeg,image/png,image/webp,image/heic,image/heif,video/mp4,video/quicktime,video/webm,video/x-m4v,audio/*,.mov,.m4v,.m4a,.aac,.wav,.ogg,.opus,.3gp,.amr,.flac"
         multiple
         [disabled]="uploading"
         (change)="onFileSelected($event)">
@@ -40,7 +40,7 @@
           <span class="spinner" aria-hidden="true"></span>
           Yükleniyor...
         } @else {
-          Dosyaları Yükle
+          Anıları Yükle
         }
       </button>
 
