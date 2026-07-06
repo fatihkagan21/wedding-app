@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "test": "npm run build && node --test dist/shared/middleware/admin-event-access.test.js",
+    "test": "npm run build && node --test dist/shared/middleware/admin-event-access.test.js dist/shared/middleware/memory-upload-gate.middleware.test.js",
     "dev": "tsx watch src/server.ts",
     "seed:prod": "node prisma/seed.js",
     "start:prod": "prisma migrate deploy && npm run seed:prod && node dist/server.js"

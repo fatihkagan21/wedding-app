@@ -36,6 +36,80 @@
   text-align: left;
 }
 
+.memory-gate-card {
+  width: min(100%, 360px);
+  margin: 34px auto 0;
+  padding: 24px 22px;
+  border: 1px solid rgba(141, 100, 145, 0.22);
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.76);
+  box-shadow: var(--shadow-soft);
+  color: var(--color-text);
+  animation: gate-float 3.6s ease-in-out infinite;
+}
+
+.gate-icon {
+  width: 28px;
+  height: 28px;
+  margin: 0 auto 12px;
+  display: grid;
+  place-items: center;
+  color: var(--color-lilac-deep);
+  font-size: 1.15rem;
+}
+
+.gate-kicker {
+  margin: 0 0 10px;
+  color: var(--color-text-muted);
+  font-size: 0.94rem;
+}
+
+.memory-gate-card h3 {
+  margin: 0;
+  color: var(--color-text);
+  font-family: var(--font-heading);
+  font-size: clamp(1.15rem, 4vw, 1.45rem);
+  font-weight: 500;
+}
+
+.gate-copy {
+  margin: 10px 0 0;
+  color: var(--color-text-muted);
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
+.countdown {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.countdown span {
+  min-width: 0;
+  padding: 8px 5px;
+  border-radius: 14px;
+  background: rgba(245, 238, 247, 0.78);
+}
+
+.countdown strong,
+.countdown small {
+  display: block;
+}
+
+.countdown strong {
+  color: var(--color-lilac-deep);
+  font-size: 1rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.countdown small {
+  margin-top: 2px;
+  color: var(--color-text-muted);
+  font-size: 0.58rem;
+}
+
 .upload-card {
   min-width: 0;
   padding: 18px;
@@ -200,6 +274,7 @@ button:disabled { opacity: 0.55; cursor: not-allowed; }
 
 @keyframes spin { to { transform: rotate(360deg); } }
 @keyframes recording-pulse { 50% { opacity: 0.35; transform: scale(0.82); } }
+@keyframes gate-float { 50% { transform: translateY(-3px); } }
 
 @media (max-width: 699px) {
   .photo-upload {
@@ -231,6 +306,18 @@ button:disabled { opacity: 0.55; cursor: not-allowed; }
   }
 
   .memory-options { gap: 12px; }
+  .memory-gate-card {
+    width: min(100%, 360px);
+    margin-top: 24px;
+    padding: 21px 16px;
+  }
+
+  .gate-kicker { font-size: 0.88rem; }
+  .gate-copy { font-size: 0.72rem; }
+  .countdown { gap: 6px; }
+  .countdown span { padding: 7px 3px; border-radius: 12px; }
+  .countdown strong { font-size: 0.88rem; }
+  .countdown small { font-size: 0.52rem; }
   .upload-card { padding: 13px; }
 
   .card-heading {
@@ -288,4 +375,9 @@ button:disabled { opacity: 0.55; cursor: not-allowed; }
   .file-picker { min-height: 58px; }
 }
 
-@media (prefers-reduced-motion: reduce) { .recording-pulse { animation: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .recording-pulse,
+  .memory-gate-card {
+    animation: none;
+  }
+}
