@@ -50,6 +50,14 @@ export class EventPageComponent implements OnInit, OnDestroy {
   private sectionDragMoved = false;
   private sectionDragStartY = 0;
   private suppressSectionClick = false;
+  private readonly pauseMusicForVoiceRecording = (): void => {
+    const audio = this.bgMusic?.nativeElement;
+    if (!audio || audio.paused) return;
+
+    audio.pause();
+    this.isPlaying = false;
+    this.cdr.detectChanges();
+  };
 
   // Şimdilik manuel.
   private eventId = '991c4c5b-bb31-43d8-bcea-ab4bbf2c636a';
@@ -59,11 +67,13 @@ export class EventPageComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     document.body.classList.add('event-page-open');
+    window.addEventListener('voice-recording-started', this.pauseMusicForVoiceRecording);
     this.loadEvent();
   }
 
   ngOnDestroy(): void {
     this.sectionObserver?.disconnect();
+    window.removeEventListener('voice-recording-started', this.pauseMusicForVoiceRecording);
     document.body.classList.remove('event-page-open');
   }
 

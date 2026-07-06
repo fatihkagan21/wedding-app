@@ -1,11 +1,9 @@
-:host {
-  display: block;
-}
+:host { display: block; }
 
 .photo-upload {
   min-height: 100vh;
   min-height: 100dvh;
-  padding: var(--section-padding);
+  padding: 42px 16px 84px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -13,64 +11,81 @@
   text-align: center;
 }
 
-.photo-upload-inner {
-  width: min(100%, 620px);
-}
+.photo-upload-inner { width: min(100%, 920px); }
 
 .camera-mark {
-  width: 64px;
-  height: 64px;
-  margin: 0 auto 18px;
+  width: 54px;
+  height: 54px;
+  margin: 0 auto 14px;
   display: grid;
   place-items: center;
   border: 1px solid var(--color-blush);
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.82);
   box-shadow: var(--shadow-soft);
-  font-size: 1.7rem;
+  font-size: 1.45rem;
 }
 
-.section-divider {
-  margin-bottom: 24px;
-}
+.section-divider { margin-bottom: 18px; }
+.section-subtitle { max-width: 570px; margin-bottom: 24px; line-height: 1.55; }
 
-.section-subtitle {
-  max-width: 510px;
-  margin-bottom: 26px;
-  line-height: 1.7;
+.memory-options {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+  text-align: left;
 }
 
 .upload-card {
-  padding: 24px;
+  min-width: 0;
+  padding: 18px;
   border: 1px solid var(--color-blush);
   border-radius: var(--radius-sm);
-  background: rgba(255, 255, 255, 0.78);
+  background: rgba(255, 255, 255, 0.82);
   box-shadow: var(--shadow-soft);
 }
 
+.card-heading {
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.card-heading h3 { margin: 0 0 2px; font-size: 1.35rem; color: var(--color-lilac-deep); }
+.card-heading p { margin: 0; color: var(--color-text-muted); font-size: 0.78rem; line-height: 1.4; }
+
+.card-icon {
+  flex: 0 0 42px;
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--color-blush-light);
+  color: var(--color-lilac-deep);
+}
+
+.microphone-icon { color: #b34d62; font-size: 0.8rem; }
+
 .file-picker {
-  min-height: 92px;
-  padding: 18px;
+  min-height: 88px;
+  padding: 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 4px;
+  gap: 3px;
   border: 1px dashed var(--color-lilac);
   border-radius: var(--radius-sm);
   background: var(--color-blush-light);
+  text-align: center;
   cursor: pointer;
 }
 
-.file-picker-title {
-  color: var(--color-lilac-deep);
-  font-weight: 600;
-}
-
-.file-picker-hint {
-  color: var(--color-text-muted);
-  font-size: 0.76rem;
-}
+.file-picker-title { color: var(--color-lilac-deep); font-weight: 600; }
+.file-picker-hint, .picker-note, .recording-note { color: var(--color-text-muted); font-size: 0.72rem; }
+.picker-note { margin: 9px 2px 0; text-align: center; line-height: 1.4; }
 
 .file-input {
   position: absolute;
@@ -81,48 +96,94 @@
   white-space: nowrap;
 }
 
-.picker-note {
-  margin: 10px 4px 0;
-  color: var(--color-text-muted);
-  font-size: 0.75rem;
-  line-height: 1.45;
-}
+.selection-count { margin: 12px 0 0; color: var(--color-text-muted); font-size: 0.85rem; text-align: center; }
 
-.selection-count {
-  margin: 14px 0 0;
-  color: var(--color-text-muted);
-  font-size: 0.9rem;
-}
+button { font: inherit; }
 
-.upload-button {
-  min-width: 220px;
+.upload-button,
+.record-button,
+.stop-button,
+.secondary-button {
   min-height: 48px;
-  margin-top: 18px;
-  padding: 13px 22px;
+  padding: 12px 18px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 9px;
-  border: 0;
   border-radius: var(--radius-sm);
-  background: var(--color-lilac-deep);
-  color: var(--color-white);
-  font: inherit;
   font-weight: 600;
-  box-shadow: var(--shadow-soft);
   cursor: pointer;
   transition: background 0.2s ease, transform 0.2s ease;
 }
 
-.upload-button:hover:not(:disabled) {
-  background: #684477;
-  transform: translateY(-1px);
+.upload-button {
+  width: 100%;
+  margin-top: 16px;
+  border: 0;
+  background: var(--color-lilac-deep);
+  color: var(--color-white);
+  box-shadow: var(--shadow-soft);
 }
 
-.upload-button:disabled {
-  opacity: 0.55;
-  cursor: not-allowed;
+.record-button {
+  width: 100%;
+  min-height: 88px;
+  border: 1px solid #e5bdc6;
+  background: #fff5f7;
+  color: #963e52;
 }
+
+.record-dot, .recording-pulse {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #c94e66;
+}
+
+.recording-note { margin: 9px 2px 0; text-align: center; }
+
+.recording-status {
+  min-height: 88px;
+  padding: 16px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid #e5bdc6;
+  border-radius: var(--radius-sm);
+  background: #fff5f7;
+  color: #963e52;
+}
+
+.recording-status strong { font-variant-numeric: tabular-nums; }
+.recording-pulse { animation: recording-pulse 1.2s ease-in-out infinite; }
+
+.stop-button {
+  width: 100%;
+  margin-top: 12px;
+  border: 0;
+  background: #963e52;
+  color: #fff;
+}
+
+.recording-preview { padding: 14px; border-radius: var(--radius-sm); background: var(--color-blush-light); }
+.recording-preview p { margin: 0 0 10px; color: var(--color-lilac-deep); font-weight: 600; text-align: center; }
+.recording-preview audio { width: 100%; height: 42px; display: block; }
+
+.recording-actions { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; margin-top: 12px; }
+.recording-actions .upload-button { margin-top: 0; }
+
+.secondary-button {
+  width: 100%;
+  border: 1px solid var(--color-lilac-deep);
+  background: transparent;
+  color: var(--color-lilac-deep);
+}
+
+.upload-button:hover:not(:disabled), .record-button:hover:not(:disabled),
+.stop-button:hover:not(:disabled), .secondary-button:hover:not(:disabled) { transform: translateY(-1px); }
+
+button:disabled { opacity: 0.55; cursor: not-allowed; }
 
 .spinner {
   width: 16px;
@@ -133,86 +194,27 @@
   animation: spin 0.75s linear infinite;
 }
 
-.message {
-  margin: 18px 0 0;
-  padding: 12px 14px;
-  border-radius: var(--radius-sm);
-  font-size: 0.9rem;
-  line-height: 1.5;
-}
+.message { margin: 14px 0 0; padding: 11px 12px; border-radius: var(--radius-sm); font-size: 0.82rem; line-height: 1.45; text-align: center; }
+.error-message { background: #fff0f0; color: #8a3333; }
+.success-message { background: #f0f7f1; color: #456b4b; }
 
-.error-message {
-  background: #fff0f0;
-  color: #8a3333;
-}
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes recording-pulse { 50% { opacity: 0.35; transform: scale(0.82); } }
 
-.success-message {
-  background: #f0f7f1;
-  color: #456b4b;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-@media (max-width: 600px) {
-  .photo-upload {
-    min-height: 100svh;
-    padding: 38px 20px 82px;
-  }
-
-  .camera-mark {
-    width: 56px;
-    height: 56px;
-    margin-bottom: 14px;
-    font-size: 1.5rem;
-  }
-
-  .section-divider {
-    margin-bottom: 18px;
-  }
-
-  .section-subtitle {
-    margin-bottom: 22px;
-    line-height: 1.55;
-  }
-
-  .upload-card {
-    padding: 18px;
-  }
-
-  .upload-button {
-    width: 100%;
-  }
+@media (min-width: 700px) {
+  .photo-upload { padding: 70px 24px; }
+  .memory-options { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+  .upload-card { padding: 22px; }
+  .recording-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (max-width: 380px), (max-height: 700px) {
-  .photo-upload {
-    padding: 24px 12px 68px;
-  }
-
-  .camera-mark {
-    width: 48px;
-    height: 48px;
-    margin-bottom: 10px;
-    font-size: 1.25rem;
-  }
-
-  .section-divider {
-    margin-bottom: 12px;
-  }
-
-  .section-subtitle {
-    margin-bottom: 14px;
-    font-size: 0.88rem;
-  }
-
-  .upload-card {
-    padding: 14px;
-  }
-
-  .file-picker {
-    min-height: 78px;
-    padding: 12px;
-  }
+  .photo-upload { padding: 24px 12px 68px; align-items: flex-start; }
+  .camera-mark { width: 46px; height: 46px; margin-bottom: 9px; font-size: 1.2rem; }
+  .section-divider { margin-bottom: 10px; }
+  .section-subtitle { margin-bottom: 14px; font-size: 0.86rem; }
+  .upload-card { padding: 14px; }
+  .file-picker, .record-button, .recording-status { min-height: 76px; }
 }
+
+@media (prefers-reduced-motion: reduce) { .recording-pulse { animation: none; } }
