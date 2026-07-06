@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npm run build && node --test dist/shared/middleware/admin-event-access.test.js",
     "dev": "tsx watch src/server.ts",
     "seed:prod": "node prisma/seed.js",
     "start:prod": "prisma migrate deploy && npm run seed:prod && node dist/server.js"
