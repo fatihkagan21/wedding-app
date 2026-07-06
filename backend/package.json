@@ -6,6 +6,8 @@
   "scripts": {
     "build": "tsc",
     "test": "npm run build && node --test dist/shared/middleware/admin-event-access.test.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test:load": "node tests/load/event-api-load.mjs",
     "dev": "tsx watch src/server.ts",
     "seed:prod": "node prisma/seed.js",
     "start:prod": "prisma migrate deploy && npm run seed:prod && node dist/server.js"
