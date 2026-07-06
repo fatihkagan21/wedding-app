@@ -72,18 +72,19 @@ const foldICSLines = (lines: string[]): string => {
 
 export const createEventCalendarICS = (event: Event, publicUrl: string): string => {
   const eventDate = new Date(event.eventDate);
-  const start = eventDate;
-  const end = addHours(start, 4);
+  const start = addHours(eventDate, -0.5);
+  const end = addHours(start, 4.5);
   const dtstamp = formatICSDateUtc(new Date());
   const dtstart = formatICSDate(start, ISTANBUL_TIME_ZONE);
   const dtend = formatICSDate(end, ISTANBUL_TIME_ZONE);
   const uid = `${event.id}@wedding-app`;
-  const location = escapeICSText(`${event.venueName}, ${event.venueAddress}`);
+  const location = escapeICSText(event.venueName);
   const description = escapeICSText(
     [
       `Davetiye linki: ${publicUrl}`,
+      event.googleMapsUrl ? `Google Maps konumu: ${event.googleMapsUrl}` : undefined,
       `${event.brideName} & ${event.groomName} düğünü`,
-      `${event.venueName} - ${event.venueAddress}`,
+      event.venueName,
       event.description,
     ]
       .filter((line): line is string => Boolean(line))
@@ -116,6 +117,11 @@ export const createEventCalendarICS = (event: Event, publicUrl: string): string 
     `LOCATION:${location}`,
     `DESCRIPTION:${description}`,
     `URL:${publicUrl}`,
+    'BEGIN:VALARM',
+    'TRIGGER:-P1D',
+    'ACTION:DISPLAY',
+    `DESCRIPTION:${escapeICSText(`${event.brideName} & ${event.groomName} düğünü yarın`)}`,
+    'END:VALARM',
     'END:VEVENT',
     'END:VCALENDAR',
   ];
