@@ -42,7 +42,7 @@ export class EventPageComponent implements OnInit, OnDestroy {
     { id: 'hero', label: 'Davet' },
     { id: 'location', label: 'Konum' },
     { id: 'rsvp', label: 'Katılım' },
-    { id: 'photos', label: 'Fotoğraflar' }
+    { id: 'photos', label: 'Anılar' }
   ];
 
   private readonly musicVolume = 0.5;

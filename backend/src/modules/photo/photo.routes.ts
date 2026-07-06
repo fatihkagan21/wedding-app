@@ -16,6 +16,16 @@ const allowedMimeTypes = new Set([
   "video/quicktime",
   "video/webm",
   "video/x-m4v",
+  "audio/mpeg",
+  "audio/mp4",
+  "audio/aac",
+  "audio/wav",
+  "audio/x-wav",
+  "audio/ogg",
+  "audio/webm",
+  "audio/3gpp",
+  "audio/amr",
+  "audio/flac",
 ]);
 const mimeTypesByExtension: Record<string, string> = {
   jpg: "image/jpeg",
@@ -28,6 +38,15 @@ const mimeTypesByExtension: Record<string, string> = {
   mov: "video/quicktime",
   webm: "video/webm",
   m4v: "video/x-m4v",
+  mp3: "audio/mpeg",
+  m4a: "audio/mp4",
+  aac: "audio/aac",
+  wav: "audio/wav",
+  ogg: "audio/ogg",
+  opus: "audio/ogg",
+  "3gp": "audio/3gpp",
+  amr: "audio/amr",
+  flac: "audio/flac",
 };
 
 const upload = multer({
@@ -103,7 +122,7 @@ router.post("/upload", (req, res) => {
 
       if (error instanceof Error && error.message === "INVALID_FILE_TYPE") {
         res.status(400).json({
-          error: "Sadece JPEG, PNG, WebP, HEIC, HEIF, MP4, MOV, WebM veya M4V dosyaları yükleyebilirsiniz.",
+          error: "Yalnızca desteklenen fotoğraf, video veya ses dosyalarını yükleyebilirsiniz.",
         });
         return;
       }
