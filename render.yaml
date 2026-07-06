@@ -40,7 +40,7 @@ services:
     region: frankfurt
     dockerfilePath: ./frontend/Dockerfile.prod
     dockerContext: ./frontend
-    healthCheckPath: /health
+    healthCheckPath: /
     autoDeployTrigger: commit
     domains:
       - ozgefatihdugun.tr
