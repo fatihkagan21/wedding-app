@@ -24,6 +24,7 @@ services:
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/wedding_db
       DIRECT_URL: postgresql://postgres:postgres@postgres:5432/wedding_db
       ADMIN_API_KEY: local-admin-key
+      FRONTEND_PUBLIC_URL: http://localhost:4200
     ports:
       - "3000:3000"
     volumes:

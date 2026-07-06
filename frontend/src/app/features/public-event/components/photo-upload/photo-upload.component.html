@@ -56,7 +56,7 @@
 
       <article class="upload-card voice-card">
         <div class="card-heading">
-          <span class="card-icon microphone-icon" aria-hidden="true">●</span>
+          <span class="card-icon microphone-icon" aria-hidden="true">🎙️</span>
           <div>
             <h3>Bize sesli bir anı bırak</h3>
             <p>Mikrofona dokunun ve mesajınızı kaydedin</p>
@@ -73,7 +73,7 @@
             type="button"
             [disabled]="recorderState === 'requesting'"
             (click)="startRecording()">
-            <span class="record-dot" aria-hidden="true"></span>
+            <span class="record-button-icon" aria-hidden="true">🎙️</span>
             {{ recorderState === 'requesting' ? 'Mikrofon açılıyor...' : 'Kayda Başla' }}
           </button>
           <p class="recording-note">En fazla 5 dakika · Kayıttan önce mikrofon izni istenir</p>

@@ -48,3 +48,5 @@ services:
           envVarKey: RENDER_EXTERNAL_HOSTNAME
       - key: BACKEND_PORT
         value: 443
+      - key: FRONTEND_PUBLIC_URL
+        value: https://ozgefatihdugun.tr
