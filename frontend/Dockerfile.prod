@@ -13,7 +13,8 @@ ENV NGINX_ENVSUBST_FILTER="PORT|BACKEND_SCHEME|BACKEND_HOST|BACKEND_PORT"
 ENV MEMORY_UPLOAD_MODE=scheduled
 ENV MEMORY_UPLOAD_OPEN_AT=2026-09-05T20:00:00+03:00
 COPY nginx.conf.template /etc/nginx/templates/default.conf.template
+COPY docker-entrypoint.d/40-runtime-config.sh /docker-entrypoint.d/40-runtime-config.sh
+RUN chmod +x /docker-entrypoint.d/40-runtime-config.sh
 COPY --from=build /app/dist/frontend/browser /usr/share/nginx/html
 
 EXPOSE 80
-CMD ["/bin/sh", "-c", "envsubst '${MEMORY_UPLOAD_MODE} ${MEMORY_UPLOAD_OPEN_AT}' < /usr/share/nginx/html/runtime-config.template.js > /usr/share/nginx/html/runtime-config.js && nginx -g 'daemon off;'"]
