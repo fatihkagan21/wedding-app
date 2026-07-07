@@ -50,6 +50,10 @@ export class EventPageComponent implements OnInit, OnDestroy {
   private sectionDragMoved = false;
   private sectionDragStartY = 0;
   private suppressSectionClick = false;
+  private programmaticScrollUntil = 0;
+  private rsvpBoundarySnapTimer?: ReturnType<typeof setTimeout>;
+  private rsvpBoundarySnapLocked = false;
+  private pageScrollListenerAttached = false;
   private readonly pauseMusicForVoiceRecording = (): void => {
     const audio = this.bgMusic?.nativeElement;
     if (!audio || audio.paused) return;
@@ -73,12 +77,17 @@ export class EventPageComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.sectionObserver?.disconnect();
+    this.detachPageScrollListener();
+    this.clearRsvpBoundarySnapTimer();
     window.removeEventListener('voice-recording-started', this.pauseMusicForVoiceRecording);
     document.body.classList.remove('event-page-open');
   }
 
   scrollToSection(sectionId: string): void {
     this.activeSection = sectionId;
+    this.programmaticScrollUntil = Date.now() + 900;
+    this.rsvpBoundarySnapLocked = sectionId === 'photos';
+    this.cdr.detectChanges();
     document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
   }
 
@@ -190,6 +199,7 @@ export class EventPageComponent implements OnInit, OnDestroy {
           this.cdr.detectChanges();
           setTimeout(() => this.playMusic(), 100);
           this.observeSections();
+          this.attachPageScrollListener();
           this.openInitialSection();
         }, 320);
       },
@@ -208,6 +218,7 @@ export class EventPageComponent implements OnInit, OnDestroy {
 
     setTimeout(() => {
       this.activeSection = initialSection;
+      this.programmaticScrollUntil = Date.now() + 250;
       document.getElementById(initialSection)?.scrollIntoView({ behavior: 'auto' });
       this.cdr.detectChanges();
     });
@@ -235,6 +246,8 @@ export class EventPageComponent implements OnInit, OnDestroy {
   }
 
   private updateActiveSection(root: HTMLElement): void {
+    if (Date.now() < this.programmaticScrollUntil) return;
+
     const rootRect = root.getBoundingClientRect();
     const focusY = rootRect.top + rootRect.height / 2;
     const currentSection = this.sections.find(section => {
@@ -249,5 +262,77 @@ export class EventPageComponent implements OnInit, OnDestroy {
       this.activeSection = currentSection.id;
       this.cdr.detectChanges();
     }
+  }
+
+  private attachPageScrollListener(): void {
+    const root = this.eventPage?.nativeElement;
+    if (!root || this.pageScrollListenerAttached) return;
+
+    root.addEventListener('scroll', this.handlePageScroll, { passive: true });
+    this.pageScrollListenerAttached = true;
+  }
+
+  private detachPageScrollListener(): void {
+    const root = this.eventPage?.nativeElement;
+    if (!root || !this.pageScrollListenerAttached) return;
+
+    root.removeEventListener('scroll', this.handlePageScroll);
+    this.pageScrollListenerAttached = false;
+  }
+
+  private readonly handlePageScroll = (): void => {
+    this.scheduleRsvpBoundarySnap();
+  };
+
+  private scheduleRsvpBoundarySnap(): void {
+    this.clearRsvpBoundarySnapTimer();
+
+    this.rsvpBoundarySnapTimer = setTimeout(() => {
+      this.snapFromRsvpBoundaryIfNeeded();
+    }, 80);
+  }
+
+  private snapFromRsvpBoundaryIfNeeded(): void {
+    const root = this.eventPage?.nativeElement;
+    const rsvpSection = document.getElementById('rsvp');
+    const photosSection = document.getElementById('photos');
+
+    if (!root || !rsvpSection || !photosSection) return;
+    if (!this.isMobileViewport()) return;
+    if (this.isRsvpInputFocused()) return;
+    if (Date.now() < this.programmaticScrollUntil) return;
+
+    const rsvpTop = rsvpSection.offsetTop;
+    const rsvpBottomScrollPoint = rsvpTop + rsvpSection.scrollHeight - root.clientHeight;
+    const lowerBoundaryPassed = root.scrollTop > rsvpBottomScrollPoint + 22;
+
+    if (!lowerBoundaryPassed) {
+      if (root.scrollTop < rsvpBottomScrollPoint - 18) {
+        this.rsvpBoundarySnapLocked = false;
+      }
+      return;
+    }
+
+    if (this.rsvpBoundarySnapLocked) return;
+
+    this.rsvpBoundarySnapLocked = true;
+    this.activeSection = 'photos';
+    this.programmaticScrollUntil = Date.now() + 900;
+    this.cdr.detectChanges();
+    photosSection.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  private isMobileViewport(): boolean {
+    return window.matchMedia('(max-width: 768px)').matches;
+  }
+
+  private isRsvpInputFocused(): boolean {
+    const activeElement = document.activeElement;
+    return activeElement instanceof HTMLElement && !!activeElement.closest('#rsvp');
+  }
+
+  private clearRsvpBoundarySnapTimer(): void {
+    if (this.rsvpBoundarySnapTimer) clearTimeout(this.rsvpBoundarySnapTimer);
+    this.rsvpBoundarySnapTimer = undefined;
   }
 }
