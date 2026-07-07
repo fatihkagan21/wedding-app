@@ -54,6 +54,8 @@ export class EventPageComponent implements OnInit, OnDestroy {
   private rsvpBoundarySnapTimer?: ReturnType<typeof setTimeout>;
   private rsvpBoundarySnapLocked = false;
   private pageScrollListenerAttached = false;
+  private lastPageScrollTop = 0;
+  private lastScrollDirection: 'up' | 'down' = 'down';
   private readonly pauseMusicForVoiceRecording = (): void => {
     const audio = this.bgMusic?.nativeElement;
     if (!audio || audio.paused) return;
@@ -268,6 +270,7 @@ export class EventPageComponent implements OnInit, OnDestroy {
     const root = this.eventPage?.nativeElement;
     if (!root || this.pageScrollListenerAttached) return;
 
+    this.lastPageScrollTop = root.scrollTop;
     root.addEventListener('scroll', this.handlePageScroll, { passive: true });
     this.pageScrollListenerAttached = true;
   }
@@ -281,6 +284,12 @@ export class EventPageComponent implements OnInit, OnDestroy {
   }
 
   private readonly handlePageScroll = (): void => {
+    const root = this.eventPage?.nativeElement;
+    if (root) {
+      this.lastScrollDirection = root.scrollTop >= this.lastPageScrollTop ? 'down' : 'up';
+      this.lastPageScrollTop = root.scrollTop;
+    }
+
     this.scheduleRsvpBoundarySnap();
   };
 
@@ -296,20 +305,26 @@ export class EventPageComponent implements OnInit, OnDestroy {
     const root = this.eventPage?.nativeElement;
     const rsvpSection = document.getElementById('rsvp');
     const photosSection = document.getElementById('photos');
+    const rsvpCard = rsvpSection?.querySelector<HTMLElement>('.rsvp-card');
+    const scrollCue = rsvpSection?.querySelector<HTMLElement>('.scroll-cue');
 
-    if (!root || !rsvpSection || !photosSection) return;
+    if (!root || !rsvpSection || !photosSection || !rsvpCard || !scrollCue) return;
     if (!this.isMobileViewport()) return;
     if (this.isRsvpInputFocused()) return;
     if (Date.now() < this.programmaticScrollUntil) return;
+    if (this.lastScrollDirection !== 'down') {
+      this.rsvpBoundarySnapLocked = false;
+      return;
+    }
 
-    const rsvpTop = rsvpSection.offsetTop;
-    const rsvpBottomScrollPoint = rsvpTop + rsvpSection.scrollHeight - root.clientHeight;
-    const lowerBoundaryPassed = root.scrollTop > rsvpBottomScrollPoint + 22;
+    const rootRect = root.getBoundingClientRect();
+    const rsvpCardRect = rsvpCard.getBoundingClientRect();
+    const scrollCueRect = scrollCue.getBoundingClientRect();
+    const visualEndVisible = rsvpCardRect.bottom <= rootRect.bottom - 6
+      && scrollCueRect.bottom <= rootRect.bottom - 6;
 
-    if (!lowerBoundaryPassed) {
-      if (root.scrollTop < rsvpBottomScrollPoint - 18) {
-        this.rsvpBoundarySnapLocked = false;
-      }
+    if (!visualEndVisible) {
+      this.rsvpBoundarySnapLocked = false;
       return;
     }
 
