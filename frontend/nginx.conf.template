@@ -26,6 +26,14 @@ server {
         try_files $uri $uri/ /index.html;
     }
 
+    location = /runtime-config.js {
+        try_files /runtime-config.js =404;
+        expires off;
+        add_header Cache-Control "no-store, no-cache, must-revalidate, proxy-revalidate" always;
+        add_header Pragma "no-cache" always;
+        add_header Expires "0" always;
+    }
+
     location = /health {
         access_log off;
         return 200 "ok\n";
