@@ -7,6 +7,7 @@ import { DEMO_EVENT } from '../../../../core/config/demo-event';
 import { HeroComponent } from '../../components/hero/hero.component';
 import { LocationComponent } from '../../components/location/location.component';
 import { PhotoUploadComponent } from '../../components/photo-upload/photo-upload.component';
+import { RsvpFormComponent } from '../../components/rsvp-form/rsvp-form.component';
 
 @Component({
   selector: 'app-event-page',
@@ -15,7 +16,8 @@ import { PhotoUploadComponent } from '../../components/photo-upload/photo-upload
     CommonModule,
     HeroComponent,
     LocationComponent,
-    PhotoUploadComponent
+    PhotoUploadComponent,
+    RsvpFormComponent
   ],
   templateUrl: './event-page.component.html',
   styleUrl: './event-page.component.css'

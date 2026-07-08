@@ -5,7 +5,7 @@
         <div class="section-divider">Katılım</div>
         <h2>Katılım Bildirimi</h2>
         <p class="subtitle">
-          Lütfen katılım durumunuzu bildirin. Sizleri aramızda görmekten mutluluk duyarız.
+          Form alanları demo görünümü için açıktır. Bu sitede katılım bildirimi gönderilmez.
         </p>
 
         <form [formGroup]="form" (ngSubmit)="submit()">
@@ -108,8 +108,8 @@
             <button
               class="submit-btn"
               type="submit"
-              [disabled]="submitting">
-              {{ submitting ? 'Gönderiliyor...' : 'Katılım Bildirimini Gönder' }}
+              [disabled]="submitting || demoMode">
+              {{ demoMode ? 'Demo Sitede Gönderim Kapalı' : (submitting ? 'Gönderiliyor...' : 'Katılım Bildirimini Gönder') }}
             </button>
           </div>
         </form>

@@ -164,8 +164,8 @@ export class HeroComponent implements OnInit, OnDestroy {
 
   readonly invitationUrl = 'https://ozgefatihdugun.tr';
   readonly qrCodeUrl = '/images/invitation-qr.png';
-  readonly brideParents = 'Sema & Semih';
-  readonly groomParents = 'Hatice Hülya & Yusuf';
+  readonly brideParents = 'Ayşe & Mehmet';
+  readonly groomParents = 'Zeynep & Ahmet';
   now = Date.now();
 
   private readonly ceremonyLeadTimeMs = 30 * 60_000;

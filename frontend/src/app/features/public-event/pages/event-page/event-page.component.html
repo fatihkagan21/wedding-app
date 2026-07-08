@@ -52,27 +52,7 @@
     <section
       id="rsvp"
       class="page-section">
-      <section class="rsvp">
-        <div class="rsvp-card">
-          <div>
-            <div class="section-divider">Demo</div>
-            <h2>Katilim Formu Kapali</h2>
-            <p class="subtitle">
-              Bu sayfa sadece tanitim ve on izleme amaciyla hazirlanmistir.
-              Katilim bildirimi demo sitede alinmaz.
-            </p>
-          </div>
-
-          <button
-            class="scroll-cue"
-            type="button"
-            aria-label="Ani kosesine gec"
-            (click)="scrollToSection('photos')">
-            <span>Asagi kaydirin</span>
-            <b aria-hidden="true">&darr;</b>
-          </button>
-        </div>
-      </section>
+      <app-rsvp-form [eventId]="event.id" [demoMode]="true"></app-rsvp-form>
     </section>
 
     <app-photo-upload

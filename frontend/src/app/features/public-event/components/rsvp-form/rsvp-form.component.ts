@@ -20,6 +20,7 @@ import { CreateRsvpPayload } from '../../../../models/rsvp.model';
 export class RsvpFormComponent implements OnInit {
 
   @Input() eventId!: string;
+  @Input() demoMode = false;
   readonly maxAttendeeCount = 5;
 
   private fb = inject(FormBuilder);
@@ -104,6 +105,11 @@ export class RsvpFormComponent implements OnInit {
   }
 
   submit(): void {
+    if (this.demoMode) {
+      this.validationMessage = 'Demo sitede katılım bildirimi gönderilemez.';
+      return;
+    }
+
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       this.validationMessage = 'Lütfen işaretli alanları doldurun.';

@@ -1,19 +1,77 @@
 <section id="photos" class="photo-upload">
   <div class="photo-upload-inner">
-    <div class="camera-mark" aria-hidden="true">&#9671;</div>
-    <div class="section-divider">Anilar</div>
-    <h2 class="section-title">Ani Kosesi</h2>
+    <div class="camera-mark" aria-hidden="true">📷</div>
+    <div class="section-divider">Anılar</div>
+    <h2 class="section-title">Anı Köşesi</h2>
     <p class="section-subtitle">
-      Bu bolum demo sitede yalnizca tasarim ve akis on izlemesi icin gosterilir.
+      Fotoğraf, video ve sesli anı alanları demo görünümü için açıktır. Bu sitede yükleme yapılmaz.
     </p>
 
-    <article class="memory-gate-card" aria-live="polite">
-      <div class="gate-icon" aria-hidden="true">&#9671;</div>
-      <p class="gate-kicker">Fotograf, video ve ses paylasimi</p>
-      <h3>Ani yukleme demo sitede kapali</h3>
-      <p class="gate-copy">
-        Demo link uzerinden dosya secilemez, mikrofon kaydi alinamaz ve backend'e yukleme istegi gonderilmez.
-      </p>
-    </article>
+    <div class="memory-options">
+      <article class="upload-card media-card">
+        <div class="card-heading">
+          <span class="card-icon" aria-hidden="true">
+            <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" focusable="false">
+              <path d="M4 7.5h3.2l1.25-2h7.1l1.25 2H20a2 2 0 0 1 2 2v8.5a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9.5a2 2 0 0 1 2-2Z" />
+              <circle cx="12" cy="13.5" r="3.5" />
+            </svg>
+          </span>
+          <div>
+            <h3>Fotoğraf &amp; Video</h3>
+            <p>Galerinizden anılarınızı seçin</p>
+          </div>
+        </div>
+
+        <label class="file-picker disabled-picker" for="photo-input">
+          <span class="file-picker-title">Fotoğraf veya video seç</span>
+          <span class="file-picker-hint">Demo sitede dosya seçimi kapalıdır</span>
+        </label>
+        <p class="picker-note">Bu alan gerçek davetiye deneyimini göstermek için yer alır.</p>
+        <input
+          id="photo-input"
+          class="file-input"
+          type="file"
+          accept="image/jpeg,image/png,image/webp,image/heic,image/heif,video/mp4,video/quicktime,video/webm,video/x-m4v,.mov,.m4v"
+          multiple
+          disabled>
+
+        <button
+          class="upload-button"
+          type="button"
+          disabled>
+          Demo Sitede Yükleme Kapalı
+        </button>
+
+        <p class="message error-message" role="status">Bu demo link üzerinden backend'e yükleme isteği gönderilmez.</p>
+      </article>
+
+      <article class="upload-card voice-card">
+        <div class="card-heading">
+          <span class="card-icon microphone-icon" aria-hidden="true">🎙️</span>
+          <div>
+            <h3>Bize sesli bir anı bırak</h3>
+            <p>Mikrofona dokunun ve mesajınızı kaydedin</p>
+          </div>
+        </div>
+
+        <button
+          class="record-button"
+          type="button"
+          disabled>
+          <span class="record-dot" aria-hidden="true"></span>
+          Kayda Başla
+        </button>
+        <p class="recording-note">Demo sitede mikrofon izni istenmez ve ses kaydı alınmaz.</p>
+
+        <button
+          class="upload-button"
+          type="button"
+          disabled>
+          Sesli Anıyı Yükle
+        </button>
+
+        <p class="message error-message" role="status">Sesli anı gönderimi demo sitede kapalıdır.</p>
+      </article>
+    </div>
   </div>
 </section>
