@@ -3,9 +3,9 @@
     <div class="location-inner">
 
     <div class="section-divider">Konum</div>
-    <h2 class="section-title">Düğünümüze Nasıl Ulaşırsınız?</h2>
+    <h2 class="section-title">Dugun Alanina Nasil Ulasirsiniz?</h2>
     <p class="section-subtitle">
-      Düğünümüze kolayca ulaşabilmeniz için mekan bilgilerini ve haritayı burada bulabilirsiniz.
+      Demo davetiye icin mekan bilgileri ve harita on izlemesi burada gosterilir.
     </p>
 
     <div class="location-grid">
@@ -13,9 +13,10 @@
         <h3>{{ event.venueName }}</h3>
         <a
           class="venue-address"
+          [href]="mapsLinkUrl"
           target="_blank"
           rel="noopener noreferrer">
-          Çiçekli, Çamlık Cd. No:41, 35040 Bornova/İzmir - Manisa Yolu Üstü
+          {{ event.venueAddress }}
         </a>
 
         <div class="venue-date">
@@ -30,7 +31,7 @@
           [href]="mapsLinkUrl"
           target="_blank"
           rel="noopener noreferrer">
-        📍 Yol Tarifi Al
+          Yol Tarifi Al
         </a>
       </div>
 
@@ -45,7 +46,7 @@
             allowfullscreen
             loading="lazy"
             referrerpolicy="strict-origin-when-cross-origin"
-            title="Mekan haritası">
+            title="Mekan haritasi">
           </iframe>
         }
       </div>
@@ -54,10 +55,10 @@
     <button
       class="scroll-cue"
       type="button"
-      aria-label="Katılım bildirimi bölümüne geç"
+      aria-label="Katilim bolumune gec"
       (click)="scrollToRsvp()">
-      <span>Aşağı kaydırın</span>
-      <b aria-hidden="true">↓</b>
+      <span>Asagi kaydirin</span>
+      <b aria-hidden="true">&darr;</b>
     </button>
 
     </div>

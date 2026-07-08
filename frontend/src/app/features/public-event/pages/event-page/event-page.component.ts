@@ -1,13 +1,12 @@
 import { ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { EventService } from '../../../../core/services/event.service';
 import { Event } from '../../../../models/event.model';
 import { ActivatedRoute } from '@angular/router';
+import { DEMO_EVENT } from '../../../../core/config/demo-event';
 
 import { HeroComponent } from '../../components/hero/hero.component';
 import { LocationComponent } from '../../components/location/location.component';
 import { PhotoUploadComponent } from '../../components/photo-upload/photo-upload.component';
-import { RsvpFormComponent } from '../../components/rsvp-form/rsvp-form.component';
 
 @Component({
   selector: 'app-event-page',
@@ -16,8 +15,7 @@ import { RsvpFormComponent } from '../../components/rsvp-form/rsvp-form.componen
     CommonModule,
     HeroComponent,
     LocationComponent,
-    PhotoUploadComponent,
-    RsvpFormComponent
+    PhotoUploadComponent
   ],
   templateUrl: './event-page.component.html',
   styleUrl: './event-page.component.css'
@@ -65,9 +63,6 @@ export class EventPageComponent implements OnInit, OnDestroy {
     this.cdr.detectChanges();
   };
 
-  // Şimdilik manuel.
-  private eventId = '991c4c5b-bb31-43d8-bcea-ab4bbf2c636a';
-  private eventService = inject(EventService);
   private route = inject(ActivatedRoute);
   private cdr = inject(ChangeDetectorRef);
 
@@ -188,29 +183,19 @@ export class EventPageComponent implements OnInit, OnDestroy {
   loadEvent(): void {
     this.loading = true;
     this.error = false;
+    this.event = DEMO_EVENT;
+    this.loadingFading = true;
     this.cdr.detectChanges();
 
-    this.eventService.getEventById(this.eventId).subscribe({
-      next: (response) => {
-        this.event = response as Event;
-        this.loadingFading = true;
-        this.cdr.detectChanges();
-        setTimeout(() => {
-          this.loading = false;
-          this.loadingFading = false;
-          this.cdr.detectChanges();
-          setTimeout(() => this.playMusic(), 100);
-          this.observeSections();
-          this.attachPageScrollListener();
-          this.openInitialSection();
-        }, 320);
-      },
-      error: (err) => {
-        console.error('Event loading failed', err);
-        this.loading = false;
-        this.error = true;
-      }
-    });
+    setTimeout(() => {
+      this.loading = false;
+      this.loadingFading = false;
+      this.cdr.detectChanges();
+      setTimeout(() => this.playMusic(), 100);
+      this.observeSections();
+      this.attachPageScrollListener();
+      this.openInitialSection();
+    }, 320);
   }
 
   private openInitialSection(): void {

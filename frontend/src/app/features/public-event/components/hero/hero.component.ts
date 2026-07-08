@@ -1,6 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { DatePipe, NgStyle } from '@angular/common';
-import { environment } from '../../../../../environments/environment';
 
 import { Event } from '../../../../models/event.model';
 
@@ -168,11 +167,6 @@ export class HeroComponent implements OnInit, OnDestroy {
   readonly brideParents = 'Sema & Semih';
   readonly groomParents = 'Hatice Hülya & Yusuf';
   now = Date.now();
-
-  get calendarUrl(): string {
-    const baseUrl = environment.apiUrl.replace(/\/$/, '');
-    return `${baseUrl}/events/${this.event.id}/calendar.ics`;
-  }
 
   private readonly ceremonyLeadTimeMs = 30 * 60_000;
   private countdownTimer?: ReturnType<typeof setInterval>;

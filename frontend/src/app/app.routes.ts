@@ -1,12 +1,7 @@
 import { Routes } from '@angular/router';
 import { EventPageComponent } from './features/public-event/pages/event-page/event-page.component';
-import { DashboardComponent } from './features/admin/dashboard.component';
 
 export const routes: Routes = [
-  {
-    path: 'admin',
-    component: DashboardComponent
-  },
   {
     path: 'photos',
     component: EventPageComponent,
@@ -15,5 +10,9 @@ export const routes: Routes = [
   {
     path: '',
     component: EventPageComponent
+  },
+  {
+    path: '**',
+    redirectTo: ''
   }
 ];

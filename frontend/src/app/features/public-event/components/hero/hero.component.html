@@ -2,7 +2,7 @@
   <div class="overlay"></div>
 
   <article class="invitation" aria-labelledby="coupleNames">
-    <div class="date-emblem" aria-label="Düğün tarihi">
+    <div class="date-emblem" aria-label="Dugun tarihi">
       <span class="date-primary">
         <strong>{{ event.eventDate | date:'dd' }}</strong>
         <span>{{ event.eventDate | date:'MMMM' }}</span>
@@ -18,14 +18,14 @@
         <span>{{ event.groomName }}</span>
       </h1>
 
-      <div class="families" aria-label="Düğün sahiplerinin aileleri">
+      <div class="families" aria-label="Dugun sahiplerinin aileleri">
         <div class="family">
           <strong>{{ brideParents }}</strong>
-          <span>ÖTLEŞ AİLESİ</span>
+          <span>GELIN AILESI</span>
         </div>
         <div class="family">
           <strong>{{ groomParents }}</strong>
-          <span>KEREMİT AİLESİ</span>
+          <span>DAMAT AILESI</span>
         </div>
       </div>
     </div>
@@ -35,10 +35,10 @@
     </div>
 
     <p class="invitation-note">
-      Sevincimize ortak olmanız dileğiyle
+      Sevincimize ortak olmaniz dilegiyle
     </p>
 
-    <div class="countdown" aria-label="Nikâha kalan süre">
+    <div class="countdown" aria-label="Nikaha kalan sure">
       @for (part of countdownParts; track part.label) {
         <span class="countdown-part">
           <strong>{{ part.value }}</strong>
@@ -47,21 +47,21 @@
       }
     </div>
 
-    <div class="event-facts" aria-label="Düğün bilgileri">
+    <div class="event-facts" aria-label="Dugun bilgileri">
       <div class="event-fact schedule-fact">
         <div class="schedule-item">
-          <span class="fact-label">Nikâh</span>
+          <span class="fact-label">Nikah</span>
           <strong class="fact-time">19:30</strong>
         </div>
         <div class="schedule-item">
-          <span class="fact-label">Düğün</span>
+          <span class="fact-label">Dugun</span>
           <strong class="fact-time">20:00</strong>
         </div>
       </div>
       <div class="event-fact">
-        <span class="fact-label">Mekân</span>
+        <span class="fact-label">Mekan</span>
         <strong>{{ event.venueName }}</strong>
-        <span class="fact-address">Çiçekli, Çamlık Cd. No:41, 35040 Bornova/İzmir</span>
+        <span class="fact-address">{{ event.venueAddress }}</span>
       </div>
     </div>
 
@@ -72,40 +72,33 @@
           [href]="event.googleMapsUrl"
           target="_blank"
           rel="noopener noreferrer">
-          <span class="action-icon action-icon-map" aria-hidden="true">📍</span>
-          <span>Haritada Aç</span>
+          <span class="action-icon action-icon-map" aria-hidden="true">&#9671;</span>
+          <span>Haritada Ac</span>
         </a>
       }
       <button
         class="hero-action hero-action-primary"
         type="button"
         (click)="scrollToRsvp()">
-        <span class="action-icon" aria-hidden="true">✓</span>
-        <span>Katılım Durumu Bildir</span>
+        <span class="action-icon" aria-hidden="true">&#10003;</span>
+        <span>Katilim Bolumunu Gor</span>
       </button>
       <button
         class="hero-action hero-action-secondary"
         type="button"
         (click)="scrollToPhotos()">
-        <span class="action-icon action-icon-map" aria-hidden="true">✦</span>
-          <span>Anı Yükle</span>
+        <span class="action-icon action-icon-map" aria-hidden="true">&#9671;</span>
+        <span>Ani Kosesini Gor</span>
       </button>
-      <a
-        class="hero-action hero-action-primary"
-        [href]="calendarUrl"
-        aria-label="Düğün etkinliğini takvime ekle">
-        <span class="action-icon" aria-hidden="true">📅</span>
-        <span>Takvime Ekle</span>
-      </a>
     </div>
 
     <button
       class="scroll-cue"
       type="button"
-      aria-label="Konum bölümüne geç"
+      aria-label="Konum bolumune gec"
       (click)="scrollToNextSection()">
-      <span>Aşağı kaydırın</span>
-      <b aria-hidden="true">↓</b>
+      <span>Asagi kaydirin</span>
+      <b aria-hidden="true">&darr;</b>
     </button>
   </article>
 </section>
