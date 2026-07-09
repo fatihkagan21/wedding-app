@@ -105,6 +105,14 @@ import { Event } from '../../../../models/event.model';
       background: transparent;
       color: var(--color-lilac-deep);
     }
+    .calendar-demo-message {
+      width: 100%;
+      margin: 0;
+      color: var(--color-text-muted);
+      font-size: .72rem;
+      line-height: 1.35;
+      text-align: center;
+    }
     @media (max-width: 600px) {
       .event-facts { padding-block: 9px; }
       .event-fact { padding-inline: 6px; }
@@ -167,9 +175,11 @@ export class HeroComponent implements OnInit, OnDestroy {
   readonly brideParents = 'Ayşe & Mehmet';
   readonly groomParents = 'Zeynep & Ahmet';
   now = Date.now();
+  calendarDemoMessage = '';
 
   private readonly ceremonyLeadTimeMs = 30 * 60_000;
   private countdownTimer?: ReturnType<typeof setInterval>;
+  private calendarMessageTimer?: ReturnType<typeof setTimeout>;
 
   ngOnInit(): void {
     this.countdownTimer = setInterval(() => {
@@ -179,6 +189,7 @@ export class HeroComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     if (this.countdownTimer) clearInterval(this.countdownTimer);
+    if (this.calendarMessageTimer) clearTimeout(this.calendarMessageTimer);
   }
 
   get countdownParts(): { value: string; label: string }[] {
@@ -214,6 +225,14 @@ export class HeroComponent implements OnInit, OnDestroy {
 
   scrollToPhotos(): void {
     document.querySelector('#photos')?.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  showCalendarDemoMessage(): void {
+    this.calendarDemoMessage = 'Demo sayfada takvime ekleme yapılamaz.';
+    if (this.calendarMessageTimer) clearTimeout(this.calendarMessageTimer);
+    this.calendarMessageTimer = setTimeout(() => {
+      this.calendarDemoMessage = '';
+    }, 2800);
   }
 
   scrollToNextSection(): void {

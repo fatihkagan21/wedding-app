@@ -92,10 +92,14 @@
       </button>
       <button
         class="hero-action hero-action-primary"
-        type="button">
+        type="button"
+        (click)="showCalendarDemoMessage()">
         <span class="action-icon" aria-hidden="true">📅</span>
         <span>Takvime Ekle</span>
       </button>
+      @if (calendarDemoMessage) {
+        <p class="calendar-demo-message" role="status">{{ calendarDemoMessage }}</p>
+      }
     </div>
 
     <button
