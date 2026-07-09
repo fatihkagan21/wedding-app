@@ -105,10 +105,22 @@ import { Event } from '../../../../models/event.model';
       background: transparent;
       color: var(--color-lilac-deep);
     }
-    .calendar-demo-message {
+    .calendar-demo-action {
+      min-width: 132px;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 6px;
+    }
+    .calendar-demo-action .hero-action {
       width: 100%;
+    }
+    .calendar-demo-message {
       margin: 0;
-      color: var(--color-text-muted);
+      padding: 7px 8px;
+      border-radius: 6px;
+      background: #fff0f0;
+      color: #8a3333;
       font-size: .72rem;
       line-height: 1.35;
       text-align: center;
@@ -136,6 +148,14 @@ import { Event } from '../../../../models/event.model';
         padding: 8px 6px;
         font-size: .69rem;
         line-height: 1.15;
+      }
+      .calendar-demo-action {
+        min-width: 0;
+        width: 100%;
+      }
+      .calendar-demo-action .hero-action {
+        min-height: 38px;
+        height: auto;
       }
     }
     @media (max-width: 380px) {
