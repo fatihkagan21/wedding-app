@@ -327,6 +327,21 @@ h1 span:last-child {
     margin-bottom: clamp(21px, 3svh, 28px);
   }
 
+  .date-primary strong {
+    font-size: clamp(2.28rem, 9.8vw, 2.72rem);
+    font-weight: 600;
+  }
+
+  .date-primary span {
+    font-size: 0.94rem;
+    font-weight: 600;
+  }
+
+  .date-weekday {
+    font-size: 0.74rem;
+    font-weight: 600;
+  }
+
   .couple-block {
     width: fit-content;
     max-width: 100%;
@@ -334,7 +349,8 @@ h1 span:last-child {
 
   h1 {
     gap: 5px;
-    font-size: clamp(1.84rem, 7.7vw, 2.16rem);
+    font-size: clamp(1.98rem, 8.3vw, 2.34rem);
+    font-weight: 500;
     line-height: 1;
   }
 
@@ -349,13 +365,15 @@ h1 span:last-child {
   }
 
   .family strong {
-    font-size: clamp(0.7rem, 2.85vw, 0.82rem);
+    font-size: clamp(0.78rem, 3.16vw, 0.92rem);
+    font-weight: 600;
     line-height: 1.22;
   }
 
   .family span {
     margin-top: 3px;
-    font-size: clamp(0.52rem, 2.08vw, 0.6rem);
+    font-size: clamp(0.58rem, 2.28vw, 0.66rem);
+    font-weight: 600;
     letter-spacing: 0.055em;
   }
 
@@ -402,13 +420,25 @@ h1 span:last-child {
     padding-block: 6px;
   }
 
+  .date-primary strong {
+    font-size: clamp(2rem, 8.7vw, 2.38rem);
+  }
+
+  .date-primary span {
+    font-size: 0.82rem;
+  }
+
+  .date-weekday {
+    font-size: 0.66rem;
+  }
+
   .couple-block {
     width: fit-content;
   }
 
   h1 {
     gap: 4px;
-    font-size: clamp(1.72rem, 7.2vw, 1.98rem);
+    font-size: clamp(1.86rem, 7.8vw, 2.12rem);
   }
 
   .families {
@@ -422,13 +452,13 @@ h1 span:last-child {
   }
 
   .family strong {
-    font-size: clamp(0.62rem, 2.55vw, 0.72rem);
+    font-size: clamp(0.68rem, 2.78vw, 0.8rem);
     line-height: 1.18;
   }
 
   .family span {
     margin-top: 3px;
-    font-size: 0.49rem;
+    font-size: 0.54rem;
     letter-spacing: 0.04em;
   }
 
