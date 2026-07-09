@@ -350,7 +350,7 @@ h1 span:last-child {
   h1 {
     gap: 5px;
     font-size: clamp(2.14rem, 8.9vw, 2.52rem);
-    font-weight: 600;
+    font-weight: 500;
     line-height: 1;
   }
 
@@ -372,9 +372,10 @@ h1 span:last-child {
 
   .family span {
     margin-top: 3px;
-    font-size: clamp(0.63rem, 2.48vw, 0.72rem);
-    font-weight: 700;
+    font-size: clamp(0.66rem, 2.6vw, 0.76rem);
+    font-weight: 800;
     letter-spacing: 0.055em;
+    color: var(--color-lilac-deep);
   }
 
   .union-mark {
@@ -458,7 +459,7 @@ h1 span:last-child {
 
   .family span {
     margin-top: 3px;
-    font-size: 0.58rem;
+    font-size: 0.61rem;
     letter-spacing: 0.04em;
   }
 

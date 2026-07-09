@@ -38,8 +38,8 @@ import { Event } from '../../../../models/event.model';
       overflow-wrap: anywhere;
     }
     .event-fact .fact-time {
-      font-size: 1rem;
-      font-weight: 600;
+      font-size: 1.12rem;
+      font-weight: 700;
       color: var(--color-lilac-deep);
     }
     .schedule-fact { gap: 18px; }
@@ -110,7 +110,7 @@ import { Event } from '../../../../models/event.model';
       .event-facts { padding-block: 9px; }
       .event-fact { padding-inline: 6px; }
       .event-fact strong { font-size: .94rem; }
-      .event-fact .fact-time { font-size: .92rem; }
+      .event-fact .fact-time { font-size: 1.02rem; font-weight: 700; }
       .hero-actions {
         width: 100%;
         margin-top: clamp(16px, 3.5svh, 30px);
@@ -134,6 +134,7 @@ import { Event } from '../../../../models/event.model';
     @media (max-width: 380px) {
       .event-fact { padding-inline: 4px; }
       .event-fact strong { font-size: .8rem; }
+      .event-fact .fact-time { font-size: .92rem; }
       .event-fact > span:last-child { font-size: .66rem; }
       .hero-actions {
         gap: 4px;
