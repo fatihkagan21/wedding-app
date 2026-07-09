@@ -4,7 +4,7 @@ export const DEMO_EVENT: Event = {
   id: 'demo-event',
   title: 'Demo Düğün Davetiyesi',
   brideName: 'Elif',
-  groomName: 'Deniz',
+  groomName: 'Ahmet',
   description: 'Tanıtım ve ön izleme için hazırlanmış demo davetiye.',
   venueName: 'Lavanta Bahçesi',
   venueAddress: 'Örnek Mahallesi, Çiçek Sokak No: 12, İstanbul',
