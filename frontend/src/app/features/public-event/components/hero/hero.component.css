@@ -328,18 +328,18 @@ h1 span:last-child {
   }
 
   .date-primary strong {
-    font-size: clamp(2.28rem, 9.8vw, 2.72rem);
-    font-weight: 600;
+    font-size: clamp(2.46rem, 10.6vw, 2.94rem);
+    font-weight: 700;
   }
 
   .date-primary span {
-    font-size: 0.94rem;
-    font-weight: 600;
+    font-size: 1rem;
+    font-weight: 700;
   }
 
   .date-weekday {
-    font-size: 0.74rem;
-    font-weight: 600;
+    font-size: 0.78rem;
+    font-weight: 700;
   }
 
   .couple-block {
@@ -349,8 +349,8 @@ h1 span:last-child {
 
   h1 {
     gap: 5px;
-    font-size: clamp(1.98rem, 8.3vw, 2.34rem);
-    font-weight: 500;
+    font-size: clamp(2.14rem, 8.9vw, 2.52rem);
+    font-weight: 600;
     line-height: 1;
   }
 
@@ -365,15 +365,15 @@ h1 span:last-child {
   }
 
   .family strong {
-    font-size: clamp(0.78rem, 3.16vw, 0.92rem);
-    font-weight: 600;
+    font-size: clamp(0.86rem, 3.44vw, 1rem);
+    font-weight: 700;
     line-height: 1.22;
   }
 
   .family span {
     margin-top: 3px;
-    font-size: clamp(0.58rem, 2.28vw, 0.66rem);
-    font-weight: 600;
+    font-size: clamp(0.63rem, 2.48vw, 0.72rem);
+    font-weight: 700;
     letter-spacing: 0.055em;
   }
 
@@ -421,15 +421,15 @@ h1 span:last-child {
   }
 
   .date-primary strong {
-    font-size: clamp(2rem, 8.7vw, 2.38rem);
+    font-size: clamp(2.12rem, 9.2vw, 2.52rem);
   }
 
   .date-primary span {
-    font-size: 0.82rem;
+    font-size: 0.88rem;
   }
 
   .date-weekday {
-    font-size: 0.66rem;
+    font-size: 0.7rem;
   }
 
   .couple-block {
@@ -438,7 +438,7 @@ h1 span:last-child {
 
   h1 {
     gap: 4px;
-    font-size: clamp(1.86rem, 7.8vw, 2.12rem);
+    font-size: clamp(1.98rem, 8.3vw, 2.24rem);
   }
 
   .families {
@@ -452,13 +452,13 @@ h1 span:last-child {
   }
 
   .family strong {
-    font-size: clamp(0.68rem, 2.78vw, 0.8rem);
+    font-size: clamp(0.74rem, 3vw, 0.86rem);
     line-height: 1.18;
   }
 
   .family span {
     margin-top: 3px;
-    font-size: 0.54rem;
+    font-size: 0.58rem;
     letter-spacing: 0.04em;
   }
 
