@@ -136,14 +136,14 @@ import { Event } from '../../../../models/event.model';
         padding-top: 0;
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        grid-auto-rows: 1fr;
-        align-items: stretch;
+        grid-auto-rows: auto;
+        align-items: start;
         gap: 8px;
       }
       .hero-action {
         min-width: 0;
         min-height: 38px;
-        height: 100%;
+        height: 38px;
         width: 100%;
         padding: 8px 6px;
         font-size: .69rem;
@@ -155,7 +155,7 @@ import { Event } from '../../../../models/event.model';
       }
       .calendar-demo-action .hero-action {
         min-height: 38px;
-        height: auto;
+        height: 38px;
       }
     }
     @media (max-width: 380px) {
