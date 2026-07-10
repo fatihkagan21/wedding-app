@@ -5,6 +5,7 @@ import { requireAdmin } from "../../shared/middleware/admin-auth.middleware.js";
 const router = Router();
 
 router.post("/", controller.createRsvp);
+router.post("/check-name", controller.checkRsvpName);
 router.get("/event/:eventId", requireAdmin, controller.getRsvpByEvent);
 router.get("/:id", requireAdmin, controller.getRsvpById);
 router.delete("/:id", requireAdmin, controller.deleteRsvp);

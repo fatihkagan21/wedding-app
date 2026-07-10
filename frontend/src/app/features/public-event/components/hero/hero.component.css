@@ -148,17 +148,19 @@ h1 span:last-child {
 
 .family strong {
   min-height: 0;
-  font-size: 0.96rem;
-  font-weight: 500;
-  line-height: 1.28;
+  font-size: clamp(1.02rem, 1.8vw, 1.12rem);
+  font-weight: 700;
+  line-height: 1.24;
+  color: var(--color-lilac-deep);
   white-space: nowrap;
 }
 
 .family span {
-  margin-top: 4px;
-  font-size: 0.7rem;
-  letter-spacing: 0.09em;
-  color: var(--color-text-muted);
+  margin-top: 5px;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #7a5a30;
   white-space: nowrap;
 }
 
@@ -365,17 +367,16 @@ h1 span:last-child {
   }
 
   .family strong {
-    font-size: clamp(0.86rem, 3.44vw, 1rem);
-    font-weight: 700;
+    font-size: clamp(0.94rem, 3.58vw, 1.06rem);
     line-height: 1.22;
   }
 
   .family span {
     margin-top: 3px;
-    font-size: clamp(0.66rem, 2.6vw, 0.76rem);
+    font-size: clamp(0.68rem, 2.62vw, 0.78rem);
     font-weight: 800;
     letter-spacing: 0.055em;
-    color: var(--color-lilac-deep);
+    color: #7a5a30;
   }
 
   .union-mark {
@@ -453,13 +454,13 @@ h1 span:last-child {
   }
 
   .family strong {
-    font-size: clamp(0.74rem, 3vw, 0.86rem);
+    font-size: clamp(0.8rem, 3.08vw, 0.92rem);
     line-height: 1.18;
   }
 
   .family span {
     margin-top: 3px;
-    font-size: 0.61rem;
+    font-size: 0.64rem;
     letter-spacing: 0.04em;
   }
 
