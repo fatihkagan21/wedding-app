@@ -44,10 +44,26 @@
       </label>
       <label class="search-field">
         <span>Ara</span>
-        <input type="search" placeholder="İsim veya not" [(ngModel)]="searchTerm">
+        <input type="search" placeholder="İsim, misafir veya not" [(ngModel)]="searchTerm">
+      </label>
+      <label class="guest-limit-field">
+        <span>Misafir limiti</span>
+        <input
+          type="number"
+          min="0"
+          inputmode="numeric"
+          [(ngModel)]="guestLimit"
+          (ngModelChange)="saveGuestLimit()">
+      </label>
+      <label class="checkbox-field">
+        <input type="checkbox" [(ngModel)]="notesOnly">
+        <span>Notlular</span>
       </label>
       <button class="secondary-button refresh-button" type="button" (click)="loadRsvps()" [disabled]="loading">
         Yenile
+      </button>
+      <button class="secondary-button" type="button" (click)="exportRsvps()" [disabled]="loading || !rsvps.length">
+        CSV indir
       </button>
     </section>
 
@@ -56,6 +72,63 @@
       <article><span>Katılıyor</span><strong>{{ attendingResponses }}</strong></article>
       <article><span>Katılmıyor</span><strong>{{ declinedResponses }}</strong></article>
       <article><span>Toplam misafir</span><strong>{{ totalGuests }}</strong></article>
+      <article><span>Katılım oranı</span><strong>%{{ attendanceRate }}</strong></article>
+      <article><span>Notlu yanıt</span><strong>{{ responsesWithNotes }}</strong></article>
+    </section>
+
+    <section class="insights" aria-label="Katılım içgörüleri">
+      <article class="insight-panel">
+        <div class="panel-heading">
+          <h2>Günlük RSVP</h2>
+          <span>Son 7 aktif gün</span>
+        </div>
+        @if (dailyRsvpStats.length) {
+          <div class="bar-chart" aria-label="Günlük RSVP grafiği">
+            @for (day of dailyRsvpStats; track day.label) {
+              <div class="bar-item">
+                <strong>{{ day.count }}</strong>
+                <span class="bar-track">
+                  <span class="bar-fill" [style.height.%]="day.height"></span>
+                </span>
+                <small>{{ day.label }}</small>
+              </div>
+            }
+          </div>
+        } @else {
+          <p class="panel-empty">Henüz grafik oluşturacak yanıt yok.</p>
+        }
+      </article>
+
+      <article class="insight-panel limit-panel" [class.warning]="guestLimitState === 'warning'" [class.danger]="guestLimitState === 'danger'">
+        <div class="panel-heading">
+          <h2>Misafir Limiti</h2>
+          <span>{{ guestLimit ? '%' + guestLimitUsageRate : 'Pasif' }}</span>
+        </div>
+        <strong>{{ totalGuests }} / {{ guestLimit || '-' }}</strong>
+        <p>{{ guestLimitMessage }}</p>
+      </article>
+
+      <article class="insight-panel recent-panel">
+        <div class="panel-heading">
+          <h2>Son Yanıtlar</h2>
+          <span>{{ recentRsvps.length }} kayıt</span>
+        </div>
+        @if (recentRsvps.length) {
+          <ul>
+            @for (rsvp of recentRsvps; track rsvp.id) {
+              <li>
+                <span>
+                  <strong>{{ rsvp.contactFullName }}</strong>
+                  <small>{{ rsvp.createdAt | date:'dd.MM.yyyy HH:mm' }}</small>
+                </span>
+                <b [class.declined]="!rsvp.attending">{{ rsvp.attending ? 'Katılıyor' : 'Katılmıyor' }}</b>
+              </li>
+            }
+          </ul>
+        } @else {
+          <p class="panel-empty">Henüz yanıt yok.</p>
+        }
+      </article>
     </section>
 
     <nav class="filter-tabs" aria-label="Katılım filtresi">
