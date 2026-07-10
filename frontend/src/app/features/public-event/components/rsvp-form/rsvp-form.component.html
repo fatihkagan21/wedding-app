@@ -126,6 +126,9 @@
         <div class="success-icon">✦</div>
         <h2>Katılımınız alındı, teşekkürler!</h2>
         <p>Yanıtınız bize ulaştı. Bu güzel günü sizinle paylaşmayı sabırsızlıkla bekliyoruz.</p>
+        @if (duplicateWarningMessage) {
+          <p class="success-warning">{{ duplicateWarningMessage }}</p>
+        }
         <button class="submit-btn" type="button" (click)="submitted = false">
           Başka Bir Bildirim Gönder
         </button>

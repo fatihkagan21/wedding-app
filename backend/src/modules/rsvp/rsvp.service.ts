@@ -3,6 +3,29 @@ import * as eventRepo from "../event/event.repository.js";
 import * as repo from "./rsvp.repository.js";
 import { AppError } from "../../shared/errors/AppError.js";
 
+const normalizeGuestName = (name: string): string => {
+  return name.trim().replace(/\s+/g, " ").toLocaleLowerCase("tr-TR");
+};
+
+const getSubmittedGuestNames = (data: CreateRsvpDto): string[] => {
+  const names = data.attending && data.attendees?.length
+    ? data.attendees
+    : [data.contactFullName];
+
+  return names
+    .map(normalizeGuestName)
+    .filter(Boolean);
+};
+
+const getExistingGuestNames = (rsvp: Awaited<ReturnType<typeof repo.getRsvpByEvent>>[number]): string[] => {
+  const attendeeNames = Array.isArray(rsvp.attendees)
+    ? rsvp.attendees.filter((name): name is string => typeof name === "string")
+    : [];
+
+  return [rsvp.contactFullName, ...attendeeNames]
+    .map(normalizeGuestName)
+    .filter(Boolean);
+};
 
 export const createRsvp = async (data: CreateRsvpDto) => {
     const event  = await eventRepo.getEventById(data.eventId);    
@@ -31,7 +54,20 @@ export const createRsvp = async (data: CreateRsvpDto) => {
       }
     }
 
-    return repo.createRsvp(data);
+    const submittedNames = new Set(getSubmittedGuestNames(data));
+    const existingRsvps = await repo.getRsvpByEvent(data.eventId);
+    const duplicateName = existingRsvps
+      .flatMap(getExistingGuestNames)
+      .find((name) => submittedNames.has(name));
+
+    const rsvp = await repo.createRsvp(data);
+
+    return duplicateName
+      ? {
+        ...rsvp,
+        warning: "Bu isim katılımcı listesinde zaten görünüyor. Aynı isimli farklı bir misafirseniz kaydınız yine alınmıştır.",
+      }
+      : rsvp;
 }
 
 export const getRsvpByEvent = async (eventId: string) => { 

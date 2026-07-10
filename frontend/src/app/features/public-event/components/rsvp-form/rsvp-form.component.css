@@ -202,6 +202,15 @@ textarea {
   margin: 0 0 28px;
 }
 
+.success .success-warning {
+  padding: 10px 12px;
+  border: 1px solid #e0bf73;
+  border-radius: var(--radius-sm);
+  background: #fff8e8;
+  color: #7a5720;
+  font-size: 0.9rem;
+}
+
 @media (max-width: 600px) {
   .rsvp {
     min-height: 100svh;
