@@ -85,6 +85,9 @@
                       Bu katılımcının adını ve soyadını girin.
                     </p>
                   }
+                  @if (attendeeDuplicateWarningMessages[$index]) {
+                    <p class="field-warning" role="status">{{ attendeeDuplicateWarningMessages[$index] }}</p>
+                  }
                 </div>
               }
             </div>

@@ -6,10 +6,16 @@ import {
   ReactiveFormsModule,
   Validators
 } from '@angular/forms';
-import { Subject, catchError, debounceTime, distinctUntilChanged, map, of, switchMap, takeUntil } from 'rxjs';
+import { Subject, catchError, debounceTime, distinctUntilChanged, forkJoin, map, of, switchMap, takeUntil } from 'rxjs';
 
 import { RsvpService } from '../../../../core/services/rsvp.service';
-import { CreateRsvpPayload } from '../../../../models/rsvp.model';
+import { CheckRsvpNameResponse, CreateRsvpPayload } from '../../../../models/rsvp.model';
+
+interface NameCheckTarget {
+  type: 'contact' | 'attendee';
+  index?: number;
+  name: string;
+}
 
 @Component({
   selector: 'app-rsvp-form',
@@ -31,6 +37,7 @@ export class RsvpFormComponent implements OnInit, OnDestroy {
   errorMessage = '';
   validationMessage = '';
   duplicateWarningMessage = '';
+  attendeeDuplicateWarningMessages: string[] = [];
   checkingDuplicateName = false;
   private readonly destroy$ = new Subject<void>();
 
@@ -66,27 +73,39 @@ export class RsvpFormComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.form.controls.contactFullName.valueChanges.pipe(
+    this.form.valueChanges.pipe(
       debounceTime(450),
-      map(value => (value ?? '').trim()),
-      distinctUntilChanged(),
-      switchMap(name => {
-        this.duplicateWarningMessage = '';
+      map(() => this.getNameCheckTargets()),
+      distinctUntilChanged((previous, current) => JSON.stringify(previous) === JSON.stringify(current)),
+      switchMap(targets => {
+        this.clearDuplicateWarnings();
 
-        if (!this.eventId || name.length < 2) {
+        if (!this.eventId || !targets.length) {
           this.checkingDuplicateName = false;
           return of(null);
         }
 
         this.checkingDuplicateName = true;
-        return this.rsvpService.checkRsvpName(this.eventId, name).pipe(
-          catchError(() => of(null))
+        return forkJoin(
+          targets.map(target => this.rsvpService.checkRsvpName(this.eventId, target.name).pipe(
+            map(response => ({ target, response })),
+            catchError(() => of({ target, response: null as CheckRsvpNameResponse | null }))
+          ))
         );
       }),
       takeUntil(this.destroy$)
-    ).subscribe(response => {
+    ).subscribe(results => {
       this.checkingDuplicateName = false;
-      this.duplicateWarningMessage = response?.warning ?? '';
+      if (!results) return;
+
+      results.forEach(({ target, response }) => {
+        const warning = response?.warning ?? '';
+        if (target.type === 'contact') {
+          this.duplicateWarningMessage = warning;
+        } else if (typeof target.index === 'number') {
+          this.attendeeDuplicateWarningMessages[target.index] = warning;
+        }
+      });
     });
   }
 
@@ -105,6 +124,7 @@ export class RsvpFormComponent implements OnInit, OnDestroy {
       this.updateAttendeeInputs(count);
     } else {
       this.attendees.clear();
+      this.attendeeDuplicateWarningMessages = [];
       this.form.controls.attendeeCount.setValue(0, { emitEvent: false });
       this.form.controls.attendeeCount.disable({ emitEvent: false });
     }
@@ -120,6 +140,8 @@ export class RsvpFormComponent implements OnInit, OnDestroy {
     while (this.attendees.length > additionalAttendeeCount) {
       this.attendees.removeAt(this.attendees.length - 1);
     }
+
+    this.attendeeDuplicateWarningMessages = this.attendeeDuplicateWarningMessages.slice(0, additionalAttendeeCount);
   }
 
   selectAttendeeCount(event: Event): void {
@@ -170,7 +192,7 @@ export class RsvpFormComponent implements OnInit, OnDestroy {
       next: () => {
         this.submitted = true;
         this.submitting = false;
-        this.duplicateWarningMessage = '';
+        this.clearDuplicateWarnings();
         this.form.reset({
           contactFullName: '',
           attending: true,
@@ -195,5 +217,28 @@ export class RsvpFormComponent implements OnInit, OnDestroy {
   
   scrollToPhoto(): void {
     document.querySelector('#photos')?.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  private getNameCheckTargets(): NameCheckTarget[] {
+    const targets: NameCheckTarget[] = [];
+    const contactName = this.form.controls.contactFullName.value?.trim();
+
+    if (contactName && contactName.length >= 2) {
+      targets.push({ type: 'contact', name: contactName });
+    }
+
+    this.attendees.controls.forEach((control, index) => {
+      const name = control.value?.trim();
+      if (name && name.length >= 2) {
+        targets.push({ type: 'attendee', index, name });
+      }
+    });
+
+    return targets;
+  }
+
+  private clearDuplicateWarnings(): void {
+    this.duplicateWarningMessage = '';
+    this.attendeeDuplicateWarningMessages = [];
   }
 }
