@@ -1,6 +1,7 @@
 import * as service from "./rsvp.service.js";
 import { Request, Response } from "express";
 import { createRsvpSchema } from "./validation/create-rsvp.schema.js";
+import { checkRsvpNameSchema } from "./validation/check-rsvp-name.schema.js";
 import { AppError } from "../../shared/errors/AppError.js";
 import { z } from "zod";
 
@@ -26,6 +27,31 @@ export const createRsvp = async (req: Request, res: Response) => {
           return res.status(500).json({
             error: "Failed to create RSVP",
           });
+    }
+}
+
+export const checkRsvpName = async (req: Request, res: Response) => {
+    const result = checkRsvpNameSchema.safeParse(req.body);
+
+    if (!result.success) {
+      return res.status(400).json({
+        error: z.treeifyError(result.error),
+      });
+    }
+
+    try {
+        const duplicateResult = await service.checkRsvpName(result.data.eventId, result.data.name);
+        res.status(200).json(duplicateResult);
+    } catch (error: any) {
+        if (error instanceof AppError) {
+            return res.status(error.statusCode).json({
+              error: error.message,
+            });
+        }
+
+        return res.status(500).json({
+          error: "Failed to check RSVP name",
+        });
     }
 }
 

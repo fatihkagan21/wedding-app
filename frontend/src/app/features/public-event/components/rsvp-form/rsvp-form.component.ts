@@ -1,4 +1,4 @@
-import { Component, Input, inject, OnInit } from '@angular/core';
+import { Component, Input, inject, OnDestroy, OnInit } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -6,6 +6,7 @@ import {
   ReactiveFormsModule,
   Validators
 } from '@angular/forms';
+import { Subject, catchError, debounceTime, distinctUntilChanged, map, of, switchMap, takeUntil } from 'rxjs';
 
 import { RsvpService } from '../../../../core/services/rsvp.service';
 import { CreateRsvpPayload } from '../../../../models/rsvp.model';
@@ -17,7 +18,7 @@ import { CreateRsvpPayload } from '../../../../models/rsvp.model';
   templateUrl: './rsvp-form.component.html',
   styleUrl: './rsvp-form.component.css'
 })
-export class RsvpFormComponent implements OnInit {
+export class RsvpFormComponent implements OnInit, OnDestroy {
 
   @Input() eventId!: string;
   readonly maxAttendeeCount = 5;
@@ -30,6 +31,8 @@ export class RsvpFormComponent implements OnInit {
   errorMessage = '';
   validationMessage = '';
   duplicateWarningMessage = '';
+  checkingDuplicateName = false;
+  private readonly destroy$ = new Subject<void>();
 
   private readonly nameValidators = [
     Validators.required,
@@ -53,13 +56,43 @@ export class RsvpFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.form.controls.attendeeCount.valueChanges.subscribe(value => {
+    this.form.controls.attendeeCount.valueChanges.pipe(
+      takeUntil(this.destroy$)
+    ).subscribe(value => {
       const count = Number(value);
 
       if (this.isAttending && Number.isInteger(count) && count >= 1 && count <= this.maxAttendeeCount) {
         this.updateAttendeeInputs(count);
       }
     });
+
+    this.form.controls.contactFullName.valueChanges.pipe(
+      debounceTime(450),
+      map(value => (value ?? '').trim()),
+      distinctUntilChanged(),
+      switchMap(name => {
+        this.duplicateWarningMessage = '';
+
+        if (!this.eventId || name.length < 2) {
+          this.checkingDuplicateName = false;
+          return of(null);
+        }
+
+        this.checkingDuplicateName = true;
+        return this.rsvpService.checkRsvpName(this.eventId, name).pipe(
+          catchError(() => of(null))
+        );
+      }),
+      takeUntil(this.destroy$)
+    ).subscribe(response => {
+      this.checkingDuplicateName = false;
+      this.duplicateWarningMessage = response?.warning ?? '';
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   changeAttendance(value: boolean): void {
@@ -114,7 +147,6 @@ export class RsvpFormComponent implements OnInit {
     this.submitting = true;
     this.errorMessage = '';
     this.validationMessage = '';
-    this.duplicateWarningMessage = '';
 
     const formValue = this.form.value;
     const attending = formValue.attending === true;
@@ -135,10 +167,10 @@ export class RsvpFormComponent implements OnInit {
     };
 
     this.rsvpService.createRsvp(payload).subscribe({
-      next: (response) => {
+      next: () => {
         this.submitted = true;
         this.submitting = false;
-        this.duplicateWarningMessage = response.warning ?? '';
+        this.duplicateWarningMessage = '';
         this.form.reset({
           contactFullName: '',
           attending: true,

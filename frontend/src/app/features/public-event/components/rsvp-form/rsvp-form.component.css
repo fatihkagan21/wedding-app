@@ -137,6 +137,18 @@ textarea {
   line-height: 1.4;
 }
 
+.field-warning {
+  margin: 8px 0 0;
+  padding: 9px 10px;
+  border: 1px solid #e0bf73;
+  border-radius: var(--radius-sm);
+  background: #fff8e8;
+  color: #7a5720;
+  font-size: 0.82rem;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
 .form-message {
   color: #c0392b;
   font-size: 0.9rem;
@@ -200,15 +212,6 @@ textarea {
   color: var(--color-text-muted);
   line-height: 1.7;
   margin: 0 0 28px;
-}
-
-.success .success-warning {
-  padding: 10px 12px;
-  border: 1px solid #e0bf73;
-  border-radius: var(--radius-sm);
-  background: #fff8e8;
-  color: #7a5720;
-  font-size: 0.9rem;
 }
 
 @media (max-width: 600px) {

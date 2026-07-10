@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { ApiService } from './api.service';
-import { CreateRsvpPayload, CreateRsvpResponse, Rsvp } from '../../models/rsvp.model';
+import { CheckRsvpNameResponse, CreateRsvpPayload, CreateRsvpResponse, Rsvp } from '../../models/rsvp.model';
 
 @Injectable({
   providedIn: 'root',
@@ -11,6 +11,10 @@ export class RsvpService {
 
   createRsvp(data: CreateRsvpPayload) {
     return this.api.post<CreateRsvpResponse>('/rsvp', data);
+  }
+
+  checkRsvpName(eventId: string, name: string) {
+    return this.api.post<CheckRsvpNameResponse>('/rsvp/check-name', { eventId, name });
   }
 
   getRsvpsByEvent(eventId: string, adminKey: string) {

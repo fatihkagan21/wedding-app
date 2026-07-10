@@ -13,4 +13,9 @@ export type CreateRsvpResponse = Rsvp & {
   warning?: string;
 };
 
+export interface CheckRsvpNameResponse {
+  duplicate: boolean;
+  warning?: string;
+}
+
 export type CreateRsvpPayload = Omit<Rsvp, 'id' | 'createdAt'>;

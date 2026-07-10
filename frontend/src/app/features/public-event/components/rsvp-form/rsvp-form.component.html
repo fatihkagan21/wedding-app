@@ -21,6 +21,9 @@
             @if (form.controls.contactFullName.invalid && form.controls.contactFullName.touched) {
               <p id="contactFullNameError" class="field-error">Adınızı ve soyadınızı girin.</p>
             }
+            @if (duplicateWarningMessage) {
+              <p class="field-warning" role="status">{{ duplicateWarningMessage }}</p>
+            }
           </div>
 
           <div class="field">
@@ -126,9 +129,6 @@
         <div class="success-icon">✦</div>
         <h2>Katılımınız alındı, teşekkürler!</h2>
         <p>Yanıtınız bize ulaştı. Bu güzel günü sizinle paylaşmayı sabırsızlıkla bekliyoruz.</p>
-        @if (duplicateWarningMessage) {
-          <p class="success-warning">{{ duplicateWarningMessage }}</p>
-        }
         <button class="submit-btn" type="button" (click)="submitted = false">
           Başka Bir Bildirim Gönder
         </button>
