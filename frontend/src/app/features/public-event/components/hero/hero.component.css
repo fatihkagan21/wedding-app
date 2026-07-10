@@ -122,16 +122,15 @@ h1 span:last-child {
   max-width: 100%;
   margin-top: 15px;
   margin-inline: auto;
-  display: flex;
+  display: grid;
+  grid-template-columns: max-content 1fr max-content;
   align-items: flex-start;
-  justify-content: space-between;
-  gap: clamp(14px, 3vw, 24px);
+  column-gap: clamp(12px, 2.6vw, 22px);
 }
 
 .family {
-  flex: 0 1 auto;
   min-width: 0;
-  max-width: calc(50% - 18px);
+  max-width: 100%;
 }
 
 .family:first-child {
@@ -139,6 +138,7 @@ h1 span:last-child {
 }
 
 .family:last-child {
+  grid-column: 3;
   text-align: right;
 }
 
@@ -487,49 +487,5 @@ h1 span:last-child {
 @media (prefers-reduced-motion: reduce) {
   .scroll-cue b {
     animation: none;
-  }
-}
-
-@supports (grid-template-columns: subgrid) {
-  .couple-block {
-    display: inline-grid;
-    grid-template-columns: auto auto auto;
-    column-gap: var(--couple-column-gap);
-    width: auto;
-  }
-
-  h1,
-  .families {
-    grid-column: 1 / -1;
-    display: grid;
-    grid-template-columns: subgrid;
-    column-gap: var(--couple-column-gap);
-    width: auto;
-  }
-
-  h1 span:first-child,
-  .family:first-child {
-    grid-column: 1;
-    justify-self: start;
-  }
-
-  .ampersand {
-    grid-column: 2;
-    justify-self: center;
-  }
-
-  h1 span:last-child,
-  .family:last-child {
-    grid-column: 3;
-    justify-self: end;
-  }
-
-  .families {
-    justify-content: stretch;
-    gap: var(--couple-column-gap);
-  }
-
-  .family {
-    max-width: none;
   }
 }
