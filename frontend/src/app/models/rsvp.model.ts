@@ -9,4 +9,8 @@ export interface Rsvp {
   createdAt: string;
 }
 
+export type CreateRsvpResponse = Rsvp & {
+  warning?: string;
+};
+
 export type CreateRsvpPayload = Omit<Rsvp, 'id' | 'createdAt'>;

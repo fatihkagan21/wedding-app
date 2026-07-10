@@ -29,6 +29,7 @@ export class RsvpFormComponent implements OnInit {
   submitting = false;
   errorMessage = '';
   validationMessage = '';
+  duplicateWarningMessage = '';
 
   private readonly nameValidators = [
     Validators.required,
@@ -113,6 +114,7 @@ export class RsvpFormComponent implements OnInit {
     this.submitting = true;
     this.errorMessage = '';
     this.validationMessage = '';
+    this.duplicateWarningMessage = '';
 
     const formValue = this.form.value;
     const attending = formValue.attending === true;
@@ -133,9 +135,10 @@ export class RsvpFormComponent implements OnInit {
     };
 
     this.rsvpService.createRsvp(payload).subscribe({
-      next: () => {
+      next: (response) => {
         this.submitted = true;
         this.submitting = false;
+        this.duplicateWarningMessage = response.warning ?? '';
         this.form.reset({
           contactFullName: '',
           attending: true,
