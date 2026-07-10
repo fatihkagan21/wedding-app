@@ -5,6 +5,7 @@ import { Request, Router } from "express";
 import multer from "multer";
 import * as controller from "./photo.controller.js";
 import { requireMemoryUploadOpen } from "../../shared/middleware/memory-upload-gate.middleware.js";
+import { createRateLimit, getRateLimitConfig } from "../../shared/middleware/rate-limit.middleware.js";
 
 const MAX_FILE_SIZE = 500 * 1024 * 1024;
 const allowedMimeTypes = new Set([
@@ -82,8 +83,15 @@ const removeTemporaryFiles = async (req: Request): Promise<void> => {
 };
 
 const router = Router();
+const photoUploadRateLimit = createRateLimit({
+  ...getRateLimitConfig("PHOTO_UPLOAD_RATE_LIMIT", {
+    windowMs: 60 * 60 * 1000,
+    maxRequests: 20,
+  }),
+  message: "Çok fazla anı yükleme denemesi yapıldı. Lütfen biraz sonra tekrar deneyin.",
+});
 
-router.post("/upload", requireMemoryUploadOpen, (req, res) => {
+router.post("/upload", photoUploadRateLimit, requireMemoryUploadOpen, (req, res) => {
   const requestId = randomUUID();
   const startedAt = Date.now();
   res.setHeader("X-Request-ID", requestId);

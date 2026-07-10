@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "test": "npm run build && node --test dist/shared/middleware/admin-event-access.test.js dist/shared/middleware/memory-upload-gate.middleware.test.js",
+    "test": "npm run build && node --test dist/shared/middleware/admin-event-access.test.js dist/shared/middleware/memory-upload-gate.middleware.test.js dist/shared/middleware/rate-limit.middleware.test.js",
     "test:load": "node tests/load/event-api-load.mjs",
     "dev": "tsx watch src/server.ts",
     "seed:prod": "node prisma/seed.js",
