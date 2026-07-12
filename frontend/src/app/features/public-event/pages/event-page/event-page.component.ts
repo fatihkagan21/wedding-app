@@ -56,6 +56,9 @@ export class EventPageComponent implements OnInit, OnDestroy {
   private pageScrollListenerAttached = false;
   private lastPageScrollTop = 0;
   private lastScrollDirection: 'up' | 'down' = 'down';
+  private readonly rsvpBoundarySnapTravelRatio = 0.24;
+  private readonly rsvpBoundarySnapMinTravel = 150;
+  private readonly rsvpBoundarySnapMaxTravel = 240;
   private readonly pauseMusicForVoiceRecording = (): void => {
     const audio = this.bgMusic?.nativeElement;
     if (!audio || audio.paused) return;
@@ -318,12 +321,14 @@ export class EventPageComponent implements OnInit, OnDestroy {
     }
 
     const rootRect = root.getBoundingClientRect();
+    const distanceFromRsvpStart = root.scrollTop - this.getElementScrollTop(root, rsvpSection);
+    const minimumTravel = this.getRsvpBoundarySnapTravel(root, rsvpSection);
     const rsvpCardRect = rsvpCard.getBoundingClientRect();
     const scrollCueRect = scrollCue.getBoundingClientRect();
     const visualEndVisible = rsvpCardRect.bottom <= rootRect.bottom - 6
       && scrollCueRect.bottom <= rootRect.bottom - 6;
 
-    if (!visualEndVisible) {
+    if (!visualEndVisible || distanceFromRsvpStart < minimumTravel) {
       this.rsvpBoundarySnapLocked = false;
       return;
     }
@@ -344,6 +349,24 @@ export class EventPageComponent implements OnInit, OnDestroy {
   private isRsvpInputFocused(): boolean {
     const activeElement = document.activeElement;
     return activeElement instanceof HTMLElement && !!activeElement.closest('#rsvp');
+  }
+
+  private getRsvpBoundarySnapTravel(root: HTMLElement, rsvpSection: HTMLElement): number {
+    const viewportTravel = root.clientHeight * this.rsvpBoundarySnapTravelRatio;
+    const sectionTravelLimit = rsvpSection.offsetHeight * 0.45;
+    return Math.min(
+      sectionTravelLimit,
+      Math.max(
+        this.rsvpBoundarySnapMinTravel,
+        Math.min(viewportTravel, this.rsvpBoundarySnapMaxTravel)
+      )
+    );
+  }
+
+  private getElementScrollTop(root: HTMLElement, element: HTMLElement): number {
+    const rootRect = root.getBoundingClientRect();
+    const elementRect = element.getBoundingClientRect();
+    return root.scrollTop + elementRect.top - rootRect.top;
   }
 
   private clearRsvpBoundarySnapTimer(): void {
