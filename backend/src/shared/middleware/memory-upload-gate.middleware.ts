@@ -38,7 +38,7 @@ export const requireMemoryUploadOpen = (_req: Request, res: Response, next: Next
   }
 
   return res.status(403).json({
-    error: "Anı yükleme düğün başladıktan sonra açılacak.",
+    error: "Anı yükleme düğün günü nikah öncesi açılacak.",
     mode,
     openAt: openAt.toISOString(),
   });

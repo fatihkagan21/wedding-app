@@ -160,7 +160,7 @@ export class PhotoUploadComponent implements OnDestroy, OnInit {
 
   upload(input: HTMLInputElement): void {
     if (!this.memoryUploadOpen) {
-      this.errorMessage = 'Anı yükleme düğün başladıktan sonra açılacak.';
+      this.errorMessage = 'Anı yükleme düğün günü nikah öncesi açılacak.';
       return;
     }
 
@@ -188,7 +188,7 @@ export class PhotoUploadComponent implements OnDestroy, OnInit {
 
   async startRecording(): Promise<void> {
     if (!this.memoryUploadOpen) {
-      this.audioErrorMessage = 'Sesli anı bırakma düğün başladıktan sonra açılacak.';
+      this.audioErrorMessage = 'Sesli anı bırakma düğün günü nikah öncesi açılacak.';
       return;
     }
 
@@ -252,7 +252,7 @@ export class PhotoUploadComponent implements OnDestroy, OnInit {
 
   uploadRecording(): void {
     if (!this.memoryUploadOpen) {
-      this.audioErrorMessage = 'Sesli anı yükleme düğün başladıktan sonra açılacak.';
+      this.audioErrorMessage = 'Sesli anı yükleme düğün günü nikah öncesi açılacak.';
       return;
     }
 
