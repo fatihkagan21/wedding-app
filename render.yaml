@@ -62,3 +62,16 @@ services:
         value: scheduled
       - key: MEMORY_UPLOAD_OPEN_AT
         value: 2026-09-05T20:00:00+03:00
+
+  - type: web
+    runtime: static
+    name: wedding-demo
+    branch: feature/demo-site
+    rootDir: frontend
+    buildCommand: npm ci && npm run build -- --configuration=production
+    staticPublishPath: ./dist/frontend/browser
+    autoDeployTrigger: commit
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
