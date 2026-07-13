@@ -1,6 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { DatePipe, NgStyle } from '@angular/common';
 import { environment } from '../../../../../environments/environment';
+import { runtimeConfig } from '../../../../core/config/runtime-config';
 
 import { Event } from '../../../../models/event.model';
 
@@ -171,7 +172,7 @@ export class HeroComponent implements OnInit, OnDestroy {
   now = Date.now();
 
   get calendarUrl(): string {
-    const baseUrl = environment.apiUrl.replace(/\/$/, '');
+    const baseUrl = (runtimeConfig.apiUrl ?? environment.apiUrl).replace(/\/$/, '');
     return `${baseUrl}/events/${this.event.id}/calendar.ics`;
   }
 

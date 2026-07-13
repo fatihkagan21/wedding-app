@@ -1,13 +1,14 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { runtimeConfig } from '../config/runtime-config';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
 
-  private baseUrl = environment.apiUrl;
+  private baseUrl = runtimeConfig.apiUrl ?? environment.apiUrl;
   private http = inject(HttpClient);
 
   get<T>(url: string, options?: { headers?: Record<string, string> }) {

@@ -6,7 +6,15 @@ import cors from "cors";
 
 const app = express();
 
-app.use(cors());
+const configuredOrigins = process.env.CORS_ORIGINS?.split(",") ?? [];
+const renderFrontendOrigin = process.env.FRONTEND_HOST
+  ? `https://${process.env.FRONTEND_HOST}`
+  : undefined;
+const allowedOrigins = [...configuredOrigins, renderFrontendOrigin]
+  .filter((origin): origin is string => Boolean(origin))
+  .map(origin => origin.trim().replace(/\/$/, ""));
+
+app.use(cors(allowedOrigins?.length ? { origin: allowedOrigins } : undefined));
 app.use(express.json());
 
 app.get("/health", (_req, res) => {

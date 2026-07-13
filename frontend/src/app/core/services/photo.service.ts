@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { concatMap, from, last } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { runtimeConfig } from '../config/runtime-config';
 
 interface PhotoUploadResponse {
   message: string;
@@ -16,7 +17,8 @@ export class PhotoService {
       concatMap(file => {
         const formData = new FormData();
         formData.append('photos', file);
-        return this.http.post<PhotoUploadResponse>(environment.photoUploadUrl, formData);
+        const uploadUrl = runtimeConfig.photoUploadUrl ?? environment.photoUploadUrl;
+        return this.http.post<PhotoUploadResponse>(uploadUrl, formData);
       }),
       last()
     );
