@@ -4,7 +4,7 @@ Bu yapılandırma aynı repodan üç ayrı Render kaynağı yayınlar:
 
 - `wedding-api`: Docker tabanlı Web Service
 - `wedding-web`: Angular build çıktısını sunan Static Site
-- `wedding-demo`: `feature/demo-site` branch'inden yayınlanan bağımsız Static Site
+- `dugun`: `feature/demo-site` branch'inden yayınlanan bağımsız Static Site
 
 Frontend, Blueprint içindeki servis referansı sayesinde backend'in yeni workspace'te oluşan
 `onrender.com` hostname'ini build sırasında otomatik alır. API URL'sini elle kaynak koda
@@ -88,13 +88,13 @@ uyumsuz `AAAA` kayıtlarını kaldırın.
 
 ## 6. Demo Static Site
 
-Blueprint aynı workspace içinde `wedding-demo` adlı üçüncü bir kaynak oluşturur. Bu servis:
+Blueprint aynı workspace içinde `dugun` adlı üçüncü bir kaynak oluşturur. Bu servis:
 
 - Kaynak olarak `feature/demo-site` branch'ini izler.
 - Yalnızca `frontend` klasörünü build eder.
 - Backend ve veritabanı bağlantısı kullanmaz.
-- Custom domain kullanmadan Render'ın verdiği `wedding-demo` `onrender.com` adresinde yayınlanır.
+- Custom domain kullanmadan Render'ın verdiği `dugun` `onrender.com` adresinde yayınlanır.
 - `feature/demo-site` branch'ine gönderilen her yeni commit sonrasında otomatik deploy edilir.
 
-Blueprint ilk kez sync edildiğinde değişiklik listesinde `wedding-demo` Static Site kaynağının da
+Blueprint ilk kez sync edildiğinde değişiklik listesinde `dugun` Static Site kaynağının da
 göründüğünü kontrol edin. Demo için environment variable veya secret girmeniz gerekmez.

@@ -65,7 +65,7 @@ services:
 
   - type: web
     runtime: static
-    name: wedding-demo
+    name: dugun
     branch: feature/demo-site
     rootDir: frontend
     buildCommand: npm ci && npm run build -- --configuration=production
