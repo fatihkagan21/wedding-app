@@ -72,7 +72,7 @@ const foldICSLines = (lines: string[]): string => {
 
 export const createEventCalendarICS = (event: Event, publicUrl: string): string => {
   const eventDate = new Date(event.eventDate);
-  const start = addHours(eventDate, -0.5);
+  const start = addHours(eventDate, -0.75);
   const end = addHours(start, 4.5);
   const dtstamp = formatICSDateUtc(new Date());
   const dtstart = formatICSDate(start, ISTANBUL_TIME_ZONE);

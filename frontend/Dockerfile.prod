@@ -11,7 +11,7 @@ RUN npm run build -- --configuration=production
 FROM nginx:1.27-alpine
 ENV NGINX_ENVSUBST_FILTER="PORT|BACKEND_SCHEME|BACKEND_HOST|BACKEND_PORT"
 ENV MEMORY_UPLOAD_MODE=scheduled
-ENV MEMORY_UPLOAD_OPEN_AT=2026-09-05T20:00:00+03:00
+ENV MEMORY_UPLOAD_OPEN_AT=2026-09-05T17:00:00+03:00
 COPY nginx.conf.template /etc/nginx/templates/default.conf.template
 COPY docker-entrypoint.d/40-runtime-config.sh /docker-entrypoint.d/40-runtime-config.sh
 RUN chmod +x /docker-entrypoint.d/40-runtime-config.sh

@@ -5,6 +5,6 @@ export const environment = {
     photoUploadUrl: 'https://wedding-api-mzi5.onrender.com/photos/upload',
     memoryUpload: {
       mode: 'scheduled',
-      openAt: '2026-09-05T20:00:00+03:00'
+      openAt: '2026-09-05T17:00:00+03:00'
     }
   };
