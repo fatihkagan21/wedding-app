@@ -21,7 +21,7 @@ describe('HeroComponent', () => {
       groomName: 'Fatih Kağan',
       venueName: 'Yaka Davet Çiçekliköy',
       venueAddress: 'İzmir, Türkiye',
-      eventDate: '2026-09-05T17:00:00.000Z',
+      eventDate: '2026-09-05T16:30:00.000Z',
       createdAt: '2026-01-01T00:00:00.000Z'
     });
     fixture.detectChanges();
