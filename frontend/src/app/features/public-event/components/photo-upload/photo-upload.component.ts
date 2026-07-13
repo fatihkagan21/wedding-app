@@ -3,18 +3,10 @@ import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { finalize } from 'rxjs';
 import { PhotoService } from '../../../../core/services/photo.service';
 import { environment } from '../../../../../environments/environment';
+import { runtimeConfig } from '../../../../core/config/runtime-config';
 
 type RecorderState = 'idle' | 'requesting' | 'recording' | 'recorded';
 type MemoryUploadMode = 'open' | 'closed' | 'scheduled';
-
-declare global {
-  interface Window {
-    __WEDDING_APP_CONFIG__?: {
-      memoryUploadMode?: string;
-      memoryUploadOpenAt?: string;
-    };
-  }
-}
 
 @Component({
   selector: 'app-photo-upload',
@@ -291,7 +283,7 @@ export class PhotoUploadComponent implements OnDestroy, OnInit {
   }
 
   private getMemoryUploadMode(): MemoryUploadMode {
-    const configuredMode = window.__WEDDING_APP_CONFIG__?.memoryUploadMode
+    const configuredMode = runtimeConfig.memoryUploadMode
       ?? environment.memoryUpload.mode;
 
     if (configuredMode === 'open' || configuredMode === 'closed' || configuredMode === 'scheduled') {
@@ -302,7 +294,7 @@ export class PhotoUploadComponent implements OnDestroy, OnInit {
   }
 
   private getMemoryUploadOpenAt(): Date {
-    const configuredDate = window.__WEDDING_APP_CONFIG__?.memoryUploadOpenAt
+    const configuredDate = runtimeConfig.memoryUploadOpenAt
       ?? environment.memoryUpload.openAt;
     const openAt = new Date(configuredDate);
 

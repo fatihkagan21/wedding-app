@@ -27,33 +27,37 @@ services:
       - key: GOOGLE_DRIVE_FOLDER_ID
         sync: false
       - key: FRONTEND_PUBLIC_URL
-        value: https://ozgefatihdugun.tr
+        value: https://www.ozgefatihdugun.tr
+      - key: CORS_ORIGINS
+        value: https://www.ozgefatihdugun.tr,https://ozgefatihdugun.tr
+      - key: FRONTEND_HOST
+        fromService:
+          name: wedding-web
+          type: web
+          envVarKey: RENDER_EXTERNAL_HOSTNAME
       - key: MEMORY_UPLOAD_MODE
         value: scheduled
       - key: MEMORY_UPLOAD_OPEN_AT
         value: 2026-09-05T20:00:00+03:00
 
   - type: web
-    runtime: docker
+    runtime: static
     name: wedding-web
-    plan: free
-    region: frankfurt
-    dockerfilePath: ./frontend/Dockerfile.prod
-    dockerContext: ./frontend
-    healthCheckPath: /
+    buildCommand: npm ci --prefix frontend && npm run build:render --prefix frontend
+    staticPublishPath: ./frontend/dist/frontend/browser
     autoDeployTrigger: commit
     domains:
-      - ozgefatihdugun.tr
+      - www.ozgefatihdugun.tr
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
     envVars:
-      - key: BACKEND_SCHEME
-        value: https
-      - key: BACKEND_HOST
+      - key: API_HOST
         fromService:
           name: wedding-api
           type: web
           envVarKey: RENDER_EXTERNAL_HOSTNAME
-      - key: BACKEND_PORT
-        value: 443
       - key: MEMORY_UPLOAD_MODE
         value: scheduled
       - key: MEMORY_UPLOAD_OPEN_AT

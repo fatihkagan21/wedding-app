@@ -1,5 +1,8 @@
 # Deployment
 
+Render'da backend'i Web Service, frontend'i Static Site olarak yeni bir workspace'e kurmak için
+[RENDER_SPLIT_DEPLOYMENT.md](./RENDER_SPLIT_DEPLOYMENT.md) rehberini kullanın.
+
 ## Development
 
 ```powershell
