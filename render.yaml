@@ -1,60 +1,13 @@
 services:
   - type: web
-    runtime: docker
-    name: wedding-api
-    plan: free
-    region: frankfurt
-    dockerfilePath: ./backend/Dockerfile.prod
-    dockerContext: ./backend
-    dockerCommand: npm run start:prod
-    healthCheckPath: /health
+    runtime: static
+    name: wedding-demo
+    branch: feature/demo-site
+    rootDir: frontend
+    buildCommand: npm ci && npm run build -- --configuration=production
+    staticPublishPath: ./dist/frontend/browser
     autoDeployTrigger: commit
-    envVars:
-      - key: NODE_ENV
-        value: production
-      - key: DATABASE_URL
-        sync: false
-      - key: DIRECT_URL
-        sync: false
-      - key: ADMIN_API_KEY
-        sync: false
-      - key: GOOGLE_CLIENT_ID
-        sync: false
-      - key: GOOGLE_CLIENT_SECRET
-        sync: false
-      - key: GOOGLE_REFRESH_TOKEN
-        sync: false
-      - key: GOOGLE_DRIVE_FOLDER_ID
-        sync: false
-      - key: FRONTEND_PUBLIC_URL
-        value: https://ozgefatihdugun.tr
-      - key: MEMORY_UPLOAD_MODE
-        value: scheduled
-      - key: MEMORY_UPLOAD_OPEN_AT
-        value: 2026-09-05T20:00:00+03:00
-
-  - type: web
-    runtime: docker
-    name: wedding-web
-    plan: free
-    region: frankfurt
-    dockerfilePath: ./frontend/Dockerfile.prod
-    dockerContext: ./frontend
-    healthCheckPath: /
-    autoDeployTrigger: commit
-    domains:
-      - ozgefatihdugun.tr
-    envVars:
-      - key: BACKEND_SCHEME
-        value: https
-      - key: BACKEND_HOST
-        fromService:
-          name: wedding-api
-          type: web
-          envVarKey: RENDER_EXTERNAL_HOSTNAME
-      - key: BACKEND_PORT
-        value: 443
-      - key: MEMORY_UPLOAD_MODE
-        value: scheduled
-      - key: MEMORY_UPLOAD_OPEN_AT
-        value: 2026-09-05T20:00:00+03:00
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
