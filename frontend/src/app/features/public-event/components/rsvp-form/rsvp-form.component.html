@@ -14,6 +14,8 @@
             <input
               id="contactFullName"
               formControlName="contactFullName"
+              autocapitalize="words"
+              (input)="capitalizeNameWords(form.controls.contactFullName)"
               placeholder="Adınız ve soyadınız"
               autocomplete="name"
               [attr.aria-invalid]="form.controls.contactFullName.invalid && form.controls.contactFullName.touched"
@@ -76,6 +78,8 @@
                   <input
                     [id]="'attendee-' + $index"
                     [formControl]="$any(control)"
+                    autocapitalize="words"
+                    (input)="capitalizeNameWords(control)"
                     placeholder="Adı ve soyadı"
                     autocomplete="off"
                     [attr.aria-invalid]="control.invalid && control.touched"

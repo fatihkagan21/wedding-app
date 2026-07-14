@@ -159,6 +159,20 @@ export class RsvpFormComponent implements OnInit, OnDestroy {
     this.form.controls.attendeeCount.setValue(normalizedValue);
   }
 
+  capitalizeNameWords(control: FormControl<string | null>): void {
+    const value = control.value;
+    if (!value) return;
+
+    const capitalizedValue = value.replace(
+      /(^|\s)(\p{L})/gu,
+      (_match, prefix: string, letter: string) => `${prefix}${letter.toLocaleUpperCase('tr-TR')}`
+    );
+
+    if (capitalizedValue !== value) {
+      control.setValue(capitalizedValue);
+    }
+  }
+
   submit(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
