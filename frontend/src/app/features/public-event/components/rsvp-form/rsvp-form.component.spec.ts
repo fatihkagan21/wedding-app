@@ -10,7 +10,8 @@ describe('RsvpFormComponent', () => {
   let rsvpService: jasmine.SpyObj<RsvpService>;
 
   beforeEach(async () => {
-    rsvpService = jasmine.createSpyObj<RsvpService>('RsvpService', ['createRsvp']);
+    rsvpService = jasmine.createSpyObj<RsvpService>('RsvpService', ['createRsvp', 'checkRsvpName']);
+    rsvpService.checkRsvpName.and.returnValue(of({ duplicate: false, warning: '' }));
     rsvpService.createRsvp.and.returnValue(of({
       id: 'rsvp-1',
       eventId: 'event-1',
@@ -88,5 +89,23 @@ describe('RsvpFormComponent', () => {
     component.selectAttendeeCount({ target: input } as unknown as Event);
 
     expect(selectSpy).toHaveBeenCalled();
+  });
+
+  it('capitalizes every word in contact names with Turkish casing', () => {
+    component.form.controls.contactFullName.setValue('irem ışık');
+
+    component.capitalizeNameWords(component.form.controls.contactFullName);
+
+    expect(component.form.controls.contactFullName.value).toBe('İrem Işık');
+  });
+
+  it('capitalizes attendee names after spaces', () => {
+    component.form.controls.attendeeCount.setValue(2);
+    const attendee = component.attendees.at(0);
+    attendee.setValue('ali  veli');
+
+    component.capitalizeNameWords(attendee);
+
+    expect(attendee.value).toBe('Ali  Veli');
   });
 });
