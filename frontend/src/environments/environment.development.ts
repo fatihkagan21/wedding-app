@@ -4,6 +4,6 @@ export const environment = {
     photoUploadUrl: 'http://localhost:3000/photos/upload',
     memoryUpload: {
       mode: 'open',
-      openAt: '2026-09-05T17:00:00+03:00'
+      openAt: '2026-09-05T12:00:00+03:00'
     }
   };

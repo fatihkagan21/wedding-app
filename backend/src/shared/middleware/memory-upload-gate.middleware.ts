@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 
 type MemoryUploadMode = "open" | "closed" | "scheduled";
 
-const DEFAULT_OPEN_AT = "2026-09-05T17:00:00+03:00";
+const DEFAULT_OPEN_AT = "2026-09-05T12:00:00+03:00";
 
 const getMode = (): MemoryUploadMode => {
   const mode = process.env.MEMORY_UPLOAD_MODE?.toLowerCase();

@@ -176,7 +176,7 @@ export class HeroComponent implements OnInit, OnDestroy {
     return `${baseUrl}/events/${this.event.id}/calendar.ics`;
   }
 
-  private readonly ceremonyLeadTimeMs = 45 * 60_000;
+  private readonly ceremonyLeadTimeMs = 30 * 60_000;
   private countdownTimer?: ReturnType<typeof setInterval>;
 
   ngOnInit(): void {

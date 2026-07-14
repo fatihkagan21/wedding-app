@@ -299,7 +299,7 @@ export class PhotoUploadComponent implements OnDestroy, OnInit {
     const openAt = new Date(configuredDate);
 
     return Number.isNaN(openAt.getTime())
-      ? new Date('2026-09-05T17:00:00+03:00')
+      ? new Date('2026-09-05T12:00:00+03:00')
       : openAt;
   }
 

@@ -14,7 +14,7 @@ const config = {
   apiUrl,
   photoUploadUrl: `${apiUrl}/photos/upload`,
   memoryUploadMode: process.env.MEMORY_UPLOAD_MODE ?? 'scheduled',
-  memoryUploadOpenAt: process.env.MEMORY_UPLOAD_OPEN_AT ?? '2026-09-05T17:00:00+03:00'
+  memoryUploadOpenAt: process.env.MEMORY_UPLOAD_OPEN_AT ?? '2026-09-05T12:00:00+03:00'
 };
 
 const outputDirectory = resolve('dist/frontend/browser');
