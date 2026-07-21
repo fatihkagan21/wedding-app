@@ -6,7 +6,10 @@ export const createRsvp = (data: CreateRsvpDto) => {
 };
 
 export const getRsvpByEvent = (eventId: string) => {
-    return prisma.rsvp.findMany({ where: { eventId } });
+    return prisma.rsvp.findMany({
+        where: { eventId },
+        orderBy: { createdAt: "desc" },
+    });
 };
 
 export const getRsvpById = (id: string) => {

@@ -30,6 +30,8 @@ export class DashboardComponent implements OnInit {
   deletingId = '';
   errorMessage = '';
   authenticated = false;
+  readonly pageSize = 20;
+  currentPage = 1;
 
   ngOnInit(): void {
     const savedKey = sessionStorage.getItem('wedding-admin-key');
@@ -54,7 +56,33 @@ export class DashboardComponent implements OnInit {
       ].join(' ').toLocaleLowerCase('tr-TR');
 
       return matchesAttendance && matchesNotes && (!search || searchableText.includes(search));
-    });
+    }).sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  }
+
+  get paginatedRsvps(): Rsvp[] {
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    return this.filteredRsvps.slice(startIndex, startIndex + this.pageSize);
+  }
+
+  get totalPages(): number {
+    return Math.max(1, Math.ceil(this.filteredRsvps.length / this.pageSize));
+  }
+
+  get pageStart(): number {
+    return this.filteredRsvps.length ? (this.currentPage - 1) * this.pageSize + 1 : 0;
+  }
+
+  get pageEnd(): number {
+    return Math.min(this.currentPage * this.pageSize, this.filteredRsvps.length);
+  }
+
+  resetPagination(): void {
+    this.currentPage = 1;
+  }
+
+  changePage(page: number): void {
+    if (page < 1 || page > this.totalPages) return;
+    this.currentPage = page;
   }
 
   get attendingResponses(): number {
@@ -180,6 +208,7 @@ export class DashboardComponent implements OnInit {
     if (!this.selectedEventId) return;
 
     this.loadGuestLimit();
+    this.resetPagination();
     this.loading = true;
     this.errorMessage = '';
     this.rsvpService.getRsvpsByEvent(this.selectedEventId, this.adminKey).subscribe({
@@ -267,6 +296,9 @@ export class DashboardComponent implements OnInit {
     this.rsvpService.deleteRsvp(rsvp.id, this.adminKey).subscribe({
       next: () => {
         this.rsvps = this.rsvps.filter((item) => item.id !== rsvp.id);
+        if (this.currentPage > this.totalPages) {
+          this.currentPage = this.totalPages;
+        }
         this.deletingId = '';
       },
       error: () => {
