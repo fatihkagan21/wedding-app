@@ -30,7 +30,7 @@ export class DashboardComponent implements OnInit {
   deletingId = '';
   errorMessage = '';
   authenticated = false;
-  readonly pageSize = 20;
+  readonly pageSize = 10;
   currentPage = 1;
 
   ngOnInit(): void {
