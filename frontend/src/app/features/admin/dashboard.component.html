@@ -44,7 +44,7 @@
       </label>
       <label class="search-field">
         <span>Ara</span>
-        <input type="search" placeholder="İsim, misafir veya not" [(ngModel)]="searchTerm">
+        <input type="search" placeholder="İsim, misafir veya not" [(ngModel)]="searchTerm" (ngModelChange)="resetPagination()">
       </label>
       <label class="guest-limit-field">
         <span>Misafir limiti</span>
@@ -56,7 +56,7 @@
           (ngModelChange)="saveGuestLimit()">
       </label>
       <label class="checkbox-field">
-        <input type="checkbox" [(ngModel)]="notesOnly">
+        <input type="checkbox" [(ngModel)]="notesOnly" (ngModelChange)="resetPagination()">
         <span>Notlular</span>
       </label>
       <button class="secondary-button refresh-button" type="button" (click)="loadRsvps()" [disabled]="loading">
@@ -132,9 +132,9 @@
     </section>
 
     <nav class="filter-tabs" aria-label="Katılım filtresi">
-      <button type="button" [class.active]="attendanceFilter === 'all'" (click)="attendanceFilter = 'all'">Tümü</button>
-      <button type="button" [class.active]="attendanceFilter === 'attending'" (click)="attendanceFilter = 'attending'">Katılıyor</button>
-      <button type="button" [class.active]="attendanceFilter === 'declined'" (click)="attendanceFilter = 'declined'">Katılmıyor</button>
+      <button type="button" [class.active]="attendanceFilter === 'all'" (click)="attendanceFilter = 'all'; resetPagination()">Tümü</button>
+      <button type="button" [class.active]="attendanceFilter === 'attending'" (click)="attendanceFilter = 'attending'; resetPagination()">Katılıyor</button>
+      <button type="button" [class.active]="attendanceFilter === 'declined'" (click)="attendanceFilter = 'declined'; resetPagination()">Katılmıyor</button>
     </nav>
 
     @if (errorMessage) {
@@ -160,7 +160,7 @@
               </tr>
             </thead>
             <tbody>
-              @for (rsvp of filteredRsvps; track rsvp.id) {
+              @for (rsvp of paginatedRsvps; track rsvp.id) {
                 <tr>
                   <td data-label="İletişim"><strong>{{ rsvp.contactFullName }}</strong></td>
                   <td data-label="Durum">
@@ -190,6 +190,16 @@
             </tbody>
           </table>
         </div>
+        @if (filteredRsvps.length > pageSize) {
+          <nav class="pagination" aria-label="Katılımcı listesi sayfaları">
+            <span>{{ pageStart }}-{{ pageEnd }} / {{ filteredRsvps.length }} kayıt</span>
+            <div>
+              <button type="button" (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">Önceki</button>
+              <strong>{{ currentPage }} / {{ totalPages }}</strong>
+              <button type="button" (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages">Sonraki</button>
+            </div>
+          </nav>
+        }
       }
     </section>
   </main>

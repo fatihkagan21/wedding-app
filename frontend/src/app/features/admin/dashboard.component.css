@@ -366,6 +366,32 @@ select:focus {
   background: #fff;
 }
 
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 12px;
+  color: #6c656e;
+  font-size: 0.86rem;
+}
+
+.pagination div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pagination button {
+  min-height: 38px;
+  padding: 7px 12px;
+  border: 1px solid #cfc6d1;
+  border-radius: 6px;
+  background: #fff;
+  color: #514a53;
+  cursor: pointer;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
@@ -536,5 +562,14 @@ button:disabled {
 
   .delete-button {
     width: 100%;
+  }
+
+  .pagination {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .pagination div {
+    justify-content: space-between;
   }
 }
