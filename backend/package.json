@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "test": "npm run build && node --test dist/shared/middleware/admin-event-access.test.js dist/shared/middleware/memory-upload-gate.middleware.test.js",
+    "test": "npm run build && node --test dist/shared/middleware/admin-event-access.test.js dist/shared/middleware/memory-upload-gate.middleware.test.js dist/modules/rsvp/rsvp-notification.service.test.js",
     "test:load": "node tests/load/event-api-load.mjs",
     "dev": "tsx watch src/server.ts",
     "seed:prod": "node prisma/seed.js",
@@ -23,6 +23,7 @@
     "@types/express": "^5.0.6",
     "@types/multer": "^2.2.0",
     "@types/node": "^25.9.1",
+    "@types/nodemailer": "^8.0.1",
     "@types/pg": "^8.15.6",
     "tsx": "^4.20.6",
     "typescript": "^6.0.3"
@@ -35,6 +36,7 @@
     "express": "^5.2.1",
     "googleapis": "^173.0.0",
     "multer": "^2.2.0",
+    "nodemailer": "^9.0.3",
     "pg": "^8.16.3",
     "prisma": "^7.0.0",
     "zod": "^4.4.3"
