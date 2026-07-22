@@ -17,6 +17,11 @@ const escapeHtml = (value: string): string => value
 
 const optionalText = (value?: string): string => value?.trim() || "Belirtilmedi";
 
+const getPositiveIntegerEnv = (key: string, fallback: number): number => {
+  const value = Number(process.env[key]);
+  return Number.isInteger(value) && value > 0 ? value : fallback;
+};
+
 const maskEmail = (email: string): string => {
   const trimmed = email.trim();
   const [localPart, domain] = trimmed.split("@");
@@ -112,6 +117,9 @@ export const sendRsvpNotification = async (data: CreateRsvpDto, event: EventDeta
     host: SMTP_HOST,
     port,
     secure,
+    connectionTimeout: getPositiveIntegerEnv("SMTP_CONNECTION_TIMEOUT_MS", 10000),
+    greetingTimeout: getPositiveIntegerEnv("SMTP_GREETING_TIMEOUT_MS", 10000),
+    socketTimeout: getPositiveIntegerEnv("SMTP_SOCKET_TIMEOUT_MS", 15000),
     auth: { user: SMTP_USER, pass: SMTP_PASS },
   });
   const content = buildRsvpNotification(data, event);

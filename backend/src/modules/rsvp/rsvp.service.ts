@@ -6,8 +6,6 @@ import { sendRsvpNotification } from "./rsvp-notification.service.js";
 
 const duplicateGuestWarning = "Bu isim katılımcı listesinde zaten görünüyor. Aynı isimli farklı bir misafirseniz kaydınızı yine gönderebilirsiniz.";
 
-const rsvpNotificationWarning = "Katılım bildiriminiz alındı ancak bildirim e-postası gönderilemedi. Lütfen daha sonra kontrol ediniz.";
-
 const normalizeGuestName = (name: string): string => {
   return name.trim().replace(/\s+/g, " ").toLocaleLowerCase("tr-TR");
 };
@@ -47,6 +45,20 @@ const findDuplicateGuestName = async (eventId: string, names: string[]): Promise
     .find((name) => submittedNames.has(name));
 };
 
+const scheduleRsvpNotification = (data: CreateRsvpDto, event: NonNullable<Awaited<ReturnType<typeof eventRepo.getEventById>>>): void => {
+  void sendRsvpNotification(data, event)
+    .then((sent) => {
+      if (!sent) {
+        console.warn("RSVP email notification was not sent", {
+          eventId: data.eventId,
+        });
+      }
+    })
+    .catch((error) => {
+      console.error("Failed to send RSVP email notification", error);
+    });
+};
+
 export const createRsvp = async (data: CreateRsvpDto) => {
   const event = await eventRepo.getEventById(data.eventId);
   if (!event) {
@@ -74,22 +86,11 @@ export const createRsvp = async (data: CreateRsvpDto) => {
 
   const duplicateName = await findDuplicateGuestName(data.eventId, getSubmittedGuestNames(data));
   const rsvp = await repo.createRsvp(data);
-  let notificationWarning: string | undefined;
-
-  try {
-    const notificationSent = await sendRsvpNotification(data, event);
-    if (!notificationSent) {
-      notificationWarning = rsvpNotificationWarning;
-    }
-  } catch (error) {
-    console.error("Failed to send RSVP email notification", error);
-    notificationWarning = rsvpNotificationWarning;
-  }
+  scheduleRsvpNotification(data, event);
 
   return {
     ...rsvp,
     ...(duplicateName ? { warning: duplicateGuestWarning } : {}),
-    ...(notificationWarning ? { notificationWarning } : {}),
   };
 };
 
