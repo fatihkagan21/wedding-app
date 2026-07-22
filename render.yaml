@@ -40,6 +40,8 @@ services:
         sync: false
       - key: BREVO_FROM
         sync: false
+      - key: BREVO_REPLY_TO
+        sync: false
       - key: BREVO_SENDER_NAME
         value: RSVP Bildirimi
       - key: GOOGLE_CLIENT_ID
