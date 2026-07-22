@@ -11,6 +11,7 @@ export interface Rsvp {
 
 export type CreateRsvpResponse = Rsvp & {
   warning?: string;
+  notificationWarning?: string;
 };
 
 export interface CheckRsvpNameResponse {

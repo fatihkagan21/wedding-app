@@ -17,6 +17,23 @@ const escapeHtml = (value: string): string => value
 
 const optionalText = (value?: string): string => value?.trim() || "Belirtilmedi";
 
+const maskEmail = (email: string): string => {
+  const trimmed = email.trim();
+  const [localPart, domain] = trimmed.split("@");
+
+  if (!localPart || !domain) {
+    return trimmed ? "[invalid-email]" : "[empty-email]";
+  }
+
+  const visiblePrefix = localPart.slice(0, Math.min(2, localPart.length));
+  return `${visiblePrefix}***@${domain}`;
+};
+
+const maskEmailList = (emails: string): string => emails
+  .split(",")
+  .map(maskEmail)
+  .join(",");
+
 export const buildRsvpNotification = (data: CreateRsvpDto, event: EventDetails) => {
   const attendanceLabel = data.attending ? "Katılıyor" : "Katılmıyor";
   const attendeeNames = data.attending && data.attendees?.length
@@ -65,28 +82,63 @@ export const buildRsvpNotification = (data: CreateRsvpDto, event: EventDetails) 
 export const sendRsvpNotification = async (data: CreateRsvpDto, event: EventDetails): Promise<boolean> => {
   const { SMTP_HOST, SMTP_USER, SMTP_PASS, RSVP_NOTIFICATION_EMAIL } = process.env;
   if (!SMTP_HOST || !SMTP_USER || !SMTP_PASS || !RSVP_NOTIFICATION_EMAIL) {
-    console.warn("RSVP email notification skipped: SMTP configuration is incomplete");
+    const missingKeys = [
+      ["SMTP_HOST", SMTP_HOST],
+      ["SMTP_USER", SMTP_USER],
+      ["SMTP_PASS", SMTP_PASS],
+      ["RSVP_NOTIFICATION_EMAIL", RSVP_NOTIFICATION_EMAIL],
+    ]
+      .filter(([, value]) => !value)
+      .map(([key]) => key);
+
+    console.warn("RSVP email notification skipped: SMTP configuration is incomplete", {
+      missingKeys,
+      eventId: data.eventId,
+    });
     return false;
   }
 
   const port = Number(process.env.SMTP_PORT || 587);
   if (!Number.isInteger(port) || port <= 0) {
-    console.error("RSVP email notification skipped: SMTP_PORT is invalid");
+    console.error("RSVP email notification skipped: SMTP_PORT is invalid", {
+      smtpPort: process.env.SMTP_PORT,
+      eventId: data.eventId,
+    });
     return false;
   }
 
+  const secure = process.env.SMTP_SECURE === "true" || port === 465;
   const transporter = nodemailer.createTransport({
     host: SMTP_HOST,
     port,
-    secure: process.env.SMTP_SECURE === "true" || port === 465,
+    secure,
     auth: { user: SMTP_USER, pass: SMTP_PASS },
   });
   const content = buildRsvpNotification(data, event);
+  const from = process.env.SMTP_FROM || SMTP_USER;
 
-  await transporter.sendMail({
-    from: process.env.SMTP_FROM || SMTP_USER,
+  console.info("Sending RSVP email notification", {
+    eventId: data.eventId,
+    attending: data.attending,
+    attendeeCount: data.attending ? data.attendeeCount ?? 0 : 0,
+    smtpHost: SMTP_HOST,
+    smtpPort: port,
+    smtpSecure: secure,
+    from: maskEmail(from),
+    to: maskEmailList(RSVP_NOTIFICATION_EMAIL),
+  });
+
+  const info = await transporter.sendMail({
+    from,
     to: RSVP_NOTIFICATION_EMAIL,
     ...content,
+  });
+
+  console.info("RSVP email notification sent", {
+    eventId: data.eventId,
+    messageId: info.messageId,
+    acceptedCount: Array.isArray(info.accepted) ? info.accepted.length : undefined,
+    rejectedCount: Array.isArray(info.rejected) ? info.rejected.length : undefined,
   });
   return true;
 };

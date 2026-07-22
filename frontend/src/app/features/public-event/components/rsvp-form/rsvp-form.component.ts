@@ -9,7 +9,7 @@ import {
 import { Subject, catchError, debounceTime, distinctUntilChanged, forkJoin, map, of, switchMap, takeUntil } from 'rxjs';
 
 import { RsvpService } from '../../../../core/services/rsvp.service';
-import { CheckRsvpNameResponse, CreateRsvpPayload } from '../../../../models/rsvp.model';
+import { CheckRsvpNameResponse, CreateRsvpPayload, CreateRsvpResponse } from '../../../../models/rsvp.model';
 
 interface NameCheckTarget {
   type: 'contact' | 'attendee';
@@ -37,6 +37,7 @@ export class RsvpFormComponent implements OnInit, OnDestroy {
   errorMessage = '';
   validationMessage = '';
   duplicateWarningMessage = '';
+  notificationWarningMessage = '';
   attendeeDuplicateWarningMessages: string[] = [];
   checkingDuplicateName = false;
   private readonly destroy$ = new Subject<void>();
@@ -183,6 +184,7 @@ export class RsvpFormComponent implements OnInit, OnDestroy {
     this.submitting = true;
     this.errorMessage = '';
     this.validationMessage = '';
+    this.notificationWarningMessage = '';
 
     const formValue = this.form.value;
     const attending = formValue.attending === true;
@@ -203,9 +205,10 @@ export class RsvpFormComponent implements OnInit, OnDestroy {
     };
 
     this.rsvpService.createRsvp(payload).subscribe({
-      next: () => {
+      next: (response: CreateRsvpResponse) => {
         this.submitted = true;
         this.submitting = false;
+        this.notificationWarningMessage = response.notificationWarning ?? '';
         this.clearDuplicateWarnings();
         this.form.reset({
           contactFullName: '',
