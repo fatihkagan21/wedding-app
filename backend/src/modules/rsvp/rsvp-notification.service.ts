@@ -140,6 +140,7 @@ const sendBrevoNotification = async (params: {
 
   const senderEmail = process.env.BREVO_FROM || params.from;
   const senderName = process.env.BREVO_SENDER_NAME || "RSVP Bildirimi";
+  const replyToEmail = process.env.BREVO_REPLY_TO || params.from;
   const response = await fetch("https://api.brevo.com/v3/smtp/email", {
     method: "POST",
     headers: {
@@ -151,6 +152,9 @@ const sendBrevoNotification = async (params: {
       sender: {
         email: senderEmail,
         name: senderName,
+      },
+      replyTo: {
+        email: replyToEmail,
       },
       to: recipients,
       subject: params.content.subject,
@@ -168,6 +172,7 @@ const sendBrevoNotification = async (params: {
     eventId: params.eventId,
     response: responseBody,
     from: maskEmail(senderEmail),
+    replyTo: maskEmail(replyToEmail),
     to: maskEmailList(params.to),
   });
   return true;
