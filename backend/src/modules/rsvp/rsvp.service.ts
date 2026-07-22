@@ -6,6 +6,8 @@ import { sendRsvpNotification } from "./rsvp-notification.service.js";
 
 const duplicateGuestWarning = "Bu isim katılımcı listesinde zaten görünüyor. Aynı isimli farklı bir misafirseniz kaydınızı yine gönderebilirsiniz.";
 
+const rsvpNotificationWarning = "Katılım bildiriminiz alındı ancak bildirim e-postası gönderilemedi. Lütfen daha sonra kontrol ediniz.";
+
 const normalizeGuestName = (name: string): string => {
   return name.trim().replace(/\s+/g, " ").toLocaleLowerCase("tr-TR");
 };
@@ -72,19 +74,23 @@ export const createRsvp = async (data: CreateRsvpDto) => {
 
   const duplicateName = await findDuplicateGuestName(data.eventId, getSubmittedGuestNames(data));
   const rsvp = await repo.createRsvp(data);
+  let notificationWarning: string | undefined;
 
   try {
-    await sendRsvpNotification(data, event);
+    const notificationSent = await sendRsvpNotification(data, event);
+    if (!notificationSent) {
+      notificationWarning = rsvpNotificationWarning;
+    }
   } catch (error) {
     console.error("Failed to send RSVP email notification", error);
+    notificationWarning = rsvpNotificationWarning;
   }
 
-  return duplicateName
-    ? {
-      ...rsvp,
-      warning: duplicateGuestWarning,
-    }
-    : rsvp;
+  return {
+    ...rsvp,
+    ...(duplicateName ? { warning: duplicateGuestWarning } : {}),
+    ...(notificationWarning ? { notificationWarning } : {}),
+  };
 };
 
 export const checkRsvpName = async (eventId: string, name: string) => {
