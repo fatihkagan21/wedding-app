@@ -10,6 +10,12 @@ type EventDetails = {
   eventDate: Date;
 };
 
+type EmailContent = {
+  subject: string;
+  text: string;
+  html: string;
+};
+
 const escapeHtml = (value: string): string => value
   .replaceAll("&", "&amp;")
   .replaceAll("<", "&lt;")
@@ -63,6 +69,11 @@ const maskEmailList = (emails: string): string => emails
   .map(maskEmail)
   .join(",");
 
+const parseEmailList = (emails: string): string[] => emails
+  .split(",")
+  .map(email => email.trim())
+  .filter(Boolean);
+
 export const buildRsvpNotification = (data: CreateRsvpDto, event: EventDetails) => {
   const attendanceLabel = data.attending ? "Katılıyor" : "Katılmıyor";
   const attendeeNames = data.attending && data.attendees?.length
@@ -108,8 +119,74 @@ export const buildRsvpNotification = (data: CreateRsvpDto, event: EventDetails) 
   };
 };
 
+const sendBrevoNotification = async (params: {
+  content: EmailContent;
+  eventId: string;
+  from: string;
+  to: string;
+}): Promise<boolean> => {
+  const { BREVO_API_KEY } = process.env;
+  if (!BREVO_API_KEY) {
+    return false;
+  }
+
+  const recipients = parseEmailList(params.to).map(email => ({ email }));
+  if (!recipients.length) {
+    console.error("RSVP email notification skipped: recipient list is empty", {
+      eventId: params.eventId,
+    });
+    return false;
+  }
+
+  const senderEmail = process.env.BREVO_FROM || params.from;
+  const senderName = process.env.BREVO_SENDER_NAME || "RSVP Bildirimi";
+  const response = await fetch("https://api.brevo.com/v3/smtp/email", {
+    method: "POST",
+    headers: {
+      accept: "application/json",
+      "api-key": BREVO_API_KEY,
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({
+      sender: {
+        email: senderEmail,
+        name: senderName,
+      },
+      to: recipients,
+      subject: params.content.subject,
+      htmlContent: params.content.html,
+    }),
+    signal: AbortSignal.timeout(getPositiveIntegerEnv("EMAIL_API_TIMEOUT_MS", 10000)),
+  });
+
+  const responseBody = await response.text();
+  if (!response.ok) {
+    throw new Error(`Brevo email API failed with ${response.status}: ${responseBody}`);
+  }
+
+  console.info("RSVP email notification sent via Brevo", {
+    eventId: params.eventId,
+    response: responseBody,
+    from: maskEmail(senderEmail),
+    to: maskEmailList(params.to),
+  });
+  return true;
+};
+
 export const sendRsvpNotification = async (data: CreateRsvpDto, event: EventDetails): Promise<boolean> => {
   const { SMTP_HOST, SMTP_USER, SMTP_PASS, RSVP_NOTIFICATION_EMAIL } = process.env;
+  const content = buildRsvpNotification(data, event);
+  const from = process.env.SMTP_FROM || SMTP_USER;
+
+  if (process.env.BREVO_API_KEY && RSVP_NOTIFICATION_EMAIL && from) {
+    return sendBrevoNotification({
+      content,
+      eventId: data.eventId,
+      from,
+      to: RSVP_NOTIFICATION_EMAIL,
+    });
+  }
+
   if (!SMTP_HOST || !SMTP_USER || !SMTP_PASS || !RSVP_NOTIFICATION_EMAIL) {
     const missingKeys = [
       ["SMTP_HOST", SMTP_HOST],
@@ -127,6 +204,7 @@ export const sendRsvpNotification = async (data: CreateRsvpDto, event: EventDeta
     return false;
   }
 
+  const smtpFrom = from || SMTP_USER;
   const port = Number(process.env.SMTP_PORT || 587);
   if (!Number.isInteger(port) || port <= 0) {
     console.error("RSVP email notification skipped: SMTP_PORT is invalid", {
@@ -149,8 +227,6 @@ export const sendRsvpNotification = async (data: CreateRsvpDto, event: EventDeta
     tls: smtpTarget.servername ? { servername: smtpTarget.servername } : undefined,
     auth: { user: SMTP_USER, pass: SMTP_PASS },
   });
-  const content = buildRsvpNotification(data, event);
-  const from = process.env.SMTP_FROM || SMTP_USER;
 
   console.info("Sending RSVP email notification", {
     eventId: data.eventId,
@@ -160,12 +236,12 @@ export const sendRsvpNotification = async (data: CreateRsvpDto, event: EventDeta
     smtpPort: port,
     smtpSecure: secure,
     smtpAddressFamily: smtpTarget.family,
-    from: maskEmail(from),
+    from: maskEmail(smtpFrom),
     to: maskEmailList(RSVP_NOTIFICATION_EMAIL),
   });
 
   const info = await transporter.sendMail({
-    from,
+    from: smtpFrom,
     to: RSVP_NOTIFICATION_EMAIL,
     ...content,
   });
