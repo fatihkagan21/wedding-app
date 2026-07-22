@@ -2,6 +2,7 @@ import { CreateRsvpDto } from "./dto/create-rsvp.dto.js";
 import * as eventRepo from "../event/event.repository.js";
 import * as repo from "./rsvp.repository.js";
 import { AppError } from "../../shared/errors/AppError.js";
+import { sendRsvpNotification } from "./rsvp-notification.service.js";
 
 const duplicateGuestWarning = "Bu isim katılımcı listesinde zaten görünüyor. Aynı isimli farklı bir misafirseniz kaydınızı yine gönderebilirsiniz.";
 
@@ -71,6 +72,12 @@ export const createRsvp = async (data: CreateRsvpDto) => {
 
   const duplicateName = await findDuplicateGuestName(data.eventId, getSubmittedGuestNames(data));
   const rsvp = await repo.createRsvp(data);
+
+  try {
+    await sendRsvpNotification(data, event);
+  } catch (error) {
+    console.error("Failed to send RSVP email notification", error);
+  }
 
   return duplicateName
     ? {
