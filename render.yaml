@@ -12,6 +12,8 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
+      - key: PORT
+        value: 3000
       - key: DATABASE_URL
         sync: false
       - key: DIRECT_URL
@@ -23,6 +25,8 @@ services:
       - key: SMTP_PORT
         value: 465
       - key: SMTP_SECURE
+        value: true
+      - key: SMTP_FORCE_IPV4
         value: true
       - key: SMTP_USER
         sync: false

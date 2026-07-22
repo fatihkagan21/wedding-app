@@ -1,3 +1,5 @@
+import { resolve4 } from "node:dns/promises";
+import { isIP } from "node:net";
 import nodemailer from "nodemailer";
 import { CreateRsvpDto } from "./dto/create-rsvp.dto.js";
 
@@ -20,6 +22,28 @@ const optionalText = (value?: string): string => value?.trim() || "Belirtilmedi"
 const getPositiveIntegerEnv = (key: string, fallback: number): number => {
   const value = Number(process.env[key]);
   return Number.isInteger(value) && value > 0 ? value : fallback;
+};
+
+const shouldForceIpv4 = (): boolean => process.env.SMTP_FORCE_IPV4 !== "false";
+
+const resolveSmtpHost = async (host: string): Promise<{ host: string; servername?: string; family: "ipv4" | "default" }> => {
+  if (!shouldForceIpv4() || isIP(host)) {
+    return { host, family: "default" };
+  }
+
+  try {
+    const [address] = await resolve4(host);
+    if (address) {
+      return { host: address, servername: host, family: "ipv4" };
+    }
+  } catch (error) {
+    console.warn("SMTP IPv4 resolution failed, falling back to hostname", {
+      smtpHost: host,
+      error,
+    });
+  }
+
+  return { host, family: "default" };
 };
 
 const maskEmail = (email: string): string => {
@@ -113,13 +137,16 @@ export const sendRsvpNotification = async (data: CreateRsvpDto, event: EventDeta
   }
 
   const secure = process.env.SMTP_SECURE === "true" || port === 465;
+  const smtpTarget = await resolveSmtpHost(SMTP_HOST);
   const transporter = nodemailer.createTransport({
-    host: SMTP_HOST,
+    host: smtpTarget.host,
     port,
     secure,
     connectionTimeout: getPositiveIntegerEnv("SMTP_CONNECTION_TIMEOUT_MS", 10000),
     greetingTimeout: getPositiveIntegerEnv("SMTP_GREETING_TIMEOUT_MS", 10000),
     socketTimeout: getPositiveIntegerEnv("SMTP_SOCKET_TIMEOUT_MS", 15000),
+    dnsTimeout: getPositiveIntegerEnv("SMTP_DNS_TIMEOUT_MS", 10000),
+    tls: smtpTarget.servername ? { servername: smtpTarget.servername } : undefined,
     auth: { user: SMTP_USER, pass: SMTP_PASS },
   });
   const content = buildRsvpNotification(data, event);
@@ -132,6 +159,7 @@ export const sendRsvpNotification = async (data: CreateRsvpDto, event: EventDeta
     smtpHost: SMTP_HOST,
     smtpPort: port,
     smtpSecure: secure,
+    smtpAddressFamily: smtpTarget.family,
     from: maskEmail(from),
     to: maskEmailList(RSVP_NOTIFICATION_EMAIL),
   });
